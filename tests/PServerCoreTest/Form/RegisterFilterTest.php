@@ -49,16 +49,6 @@ class RegisterFilterTest extends TestBase
         $class->__construct($this->serviceManager);
 
         $class->setData([
-            'username' => 'fodfgo',
-            'email' => 'fodfgo@example.com',
-            'emailVerify' => 'fodfgo@example.com',
-            'password' => 'fodfgo',
-            'passwordVerify' => 'fodfgo',
-        ]);
-
-        $this->assertTrue($class->isValid());
-
-        $class->setData([
             'username' => 'fo dfgo',
             'email' => 'fodfgo@example.com',
             'emailVerify' => 'fodfgo@example.com',
