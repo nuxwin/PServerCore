@@ -1,0 +1,7 @@
+<?php
+    foreach($this->newsList as $news):
+    /** @var $news \PServerCore\Entity\News */
+?>
+    <?= $news->getTitle() ?>,
+
+<?php endforeach; ?>

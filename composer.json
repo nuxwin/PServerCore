@@ -1,0 +1,62 @@
+{
+  "name": "kokspflanze/p-server-core",
+  "description": "Zendframework 2 Module for pServer ",
+  "keywords": [
+    "framework",
+    "zf2",
+    "game backend",
+    "p-server-cms"
+  ],
+  "homepage": "https://github.com/kokspflanze/PServerCore",
+  "autoload": {
+    "psr-0": {
+      "PServerCore\\": "src/",
+      "PServerCoreTest\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Oliver",
+      "email": "kokspflanze@gmx.de"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "ext-intl" : "*",
+    "ext-gd" : "*",
+    "ext-curl" : "*",
+    "ext-json" : "*",
+    "twig/twig": "1.*",
+    "zendframework/zend-modulemanager": "~2.5",
+    "zendframework/zend-servicemanager": "~2.5",
+    "zendframework/zend-mvc": "~2.5",
+    "zendframework/zend-loader": "~2.5",
+    "zendframework/zend-config": "~2.5",
+    "zendframework/zend-view": "~2.5",
+    "zendframework/zend-serializer": "~2.5",
+    "zendframework/zend-log": "~2.5",
+    "zendframework/zend-i18n": "~2.5",
+    "zendframework/zend-session": "~2.5",
+    "zendframework/zend-cache": "~2.5",
+    "zendframework/zend-stdlib": "~2.5",
+    "zendframework/zend-form": "~2.5",
+    "zendframework/zend-inputfilter": "~2.5",
+    "zendframework/zend-validator": "~2.5",
+    "zendframework/zend-mail": "~2.5",
+    "zendframework/zend-mime": "~2.5",
+    "zendframework/zend-captcha": "~2.5",
+    "doctrine/doctrine-orm-module": "~0.1",
+    "mabuzagu/pdo-dblib-module": "dev-master",
+    "kokspflanze/small-user": "~0.1",
+    "kokspflanze/game-backend": "~0.1",
+    "kokspflanze/payment-api": "~0.1",
+    "kokspflanze/zfc-ticket-system": "~0.1",
+    "kokspflanze/zfc-bbcode": "~1.0",
+    "zf-commons/zfc-twig": "dev-master",
+    "san/san-captcha": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4|~5",
+    "satooshi/php-coveralls": "dev-master"
+  }
+}
