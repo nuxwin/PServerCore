@@ -1,4 +1,4 @@
-# PSeverCore Module for Zend Framework 2
+# PServerCore Module for Zend Framework 2
 
 ## SYSTEM REQUIREMENTS
 
