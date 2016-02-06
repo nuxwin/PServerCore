@@ -170,8 +170,6 @@ return [
             'helper/formNoLabelWidget' => __DIR__ . '/../view/helper/form-no-label.phtml',
             'helper/newsWidget' => __DIR__ . '/../view/helper/news-widget.phtml',
             'helper/sidebarTimerWidget' => __DIR__ . '/../view/helper/timer.phtml',
-            'helper/topCharacterWidget' => __DIR__ . '/../view/helper/top-character.phtml',
-            'helper/topGuildWidget' => __DIR__ . '/../view/helper/top-guild.phtml',
             'helper/playerHistory' => __DIR__ . '/../view/helper/player-history.phtml',
             'helper/sidebarLoginWidget' => __DIR__ . '/../view/helper/login-widget.phtml',
             'zfc-ticket-system/new' => __DIR__ . '/../view/zfc-ticket-system/ticket-system/new.twig',
