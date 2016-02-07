@@ -92,7 +92,12 @@ class AddEmail extends InvokableBase
         $userExtension = new $userExtensionName;
         /** @var \PServerCore\Entity\Repository\UserExtension $extensionRepository */
         $extensionRepository = $entityManager->getRepository($userExtensionName);
-        $userExtension = $extensionRepository->findOneBy(['key' => $userExtension::KEY_ADD_EMAIL]);
+        $userExtension = $extensionRepository->findOneBy(
+            [
+                'key' => $userExtension::KEY_ADD_EMAIL,
+                'user' => $user
+            ]
+        );
 
         $user->setEmail($userExtension->getValue());
         $entityManager->persist($user);
