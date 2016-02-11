@@ -93,6 +93,9 @@ class Module
                 'timerWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
                     return new View\Helper\TimerWidget($pluginManager->getServiceLocator());
                 },
+                'coinsWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
+                    return new View\Helper\CoinsWidget($pluginManager->getServiceLocator());
+                },
             ]
         ];
     }
