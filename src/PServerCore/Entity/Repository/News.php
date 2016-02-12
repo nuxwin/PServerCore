@@ -13,6 +13,7 @@ class News extends EntityRepository
      * @param $limit
      *
      * @return \PServerCore\Entity\News[]
+     * @deprecated remove in 1.0
      */
     public function getActiveNews($limit = null)
     {

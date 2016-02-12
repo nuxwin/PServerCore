@@ -9,11 +9,26 @@ return [
                     'route' => '/',
                     'defaults' => [
                         'controller' => 'PServerCore\Controller\Index',
-                        'action' => 'index'
+                        'action' => 'index',
+                        'page' => 1
                     ],
                 ],
                 'may_terminate' => true,
                 'child_routes' => [
+                    'site-news' => [
+                        'type' => 'segment',
+                        'options' => [
+                            'route' => 'news-[:page].html',
+                            'constraints' => [
+                                'page' => '[0-9]+',
+                            ],
+                            'defaults' => [
+                                'controller' => 'PServerCore\Controller\Index',
+                                'action' => 'index',
+                                'page' => 1
+                            ],
+                        ],
+                    ],
                     'site-detail' => [
                         'type' => 'segment',
                         'options' => [

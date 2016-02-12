@@ -12,8 +12,14 @@ class IndexController extends AbstractActionController
 
 	public function indexAction()
     {
+		$pageNumber = (int)$this->params()->fromRoute('page');
+
+		$newsList = $this->getNewsService()->getActiveNews($pageNumber);
+
+		// @deprecated sNews remove in 1.0
 		return [
-			'aNews' => $this->getNewsService()->getActiveNews()
+			'aNews' => $newsList,
+			'newsList' => $newsList
 		];
 	}
 

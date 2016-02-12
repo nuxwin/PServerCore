@@ -10,7 +10,6 @@ use PServerCore\Service\ServiceManager;
  * NEWS
  * @ORM\Table(name="news", indexes={@ORM\Index(name="fk_news_users1_idx", columns={"users_usrId"})})
  * @ORM\Entity(repositoryClass="PServerCore\Entity\Repository\News")
- * @ORM\HasLifecycleCallbacks
  */
 class News
 {
@@ -56,15 +55,8 @@ class News
     private $user;
 
     /**
-     * @ORM\PreFlush()
+     * News constructor.
      */
-    public function preFlush()
-    {
-        /** @var \PServerCore\Service\CachingHelper $cachingHelperService */
-        $cachingHelperService = ServiceManager::getInstance()->get('pserver_cachinghelper_service');
-        $cachingHelperService->delItem(Caching::NEWS);
-    }
-
     public function __construct()
     {
         $this->created = new \DateTime();
@@ -81,7 +73,7 @@ class News
 
     /**
      * @param $id
-     * @return News
+     * @return self
      */
     public function setId($id)
     {
@@ -93,7 +85,7 @@ class News
     /**
      * Set title
      * @param string $title
-     * @return News
+     * @return self
      */
     public function setTitle($title)
     {
@@ -114,7 +106,7 @@ class News
     /**
      * Set memo
      * @param string $memo
-     * @return News
+     * @return self
      */
     public function setMemo($memo)
     {
@@ -135,7 +127,7 @@ class News
     /**
      * Set active
      * @param string $active
-     * @return News
+     * @return self
      */
     public function setActive($active)
     {
@@ -156,7 +148,7 @@ class News
     /**
      * Set created
      * @param \DateTime $created
-     * @return News
+     * @return self
      */
     public function setCreated($created)
     {
@@ -177,7 +169,7 @@ class News
     /**
      * Set user
      * @param UserInterface $user
-     * @return News
+     * @return self
      */
     public function setUser(UserInterface $user = null)
     {

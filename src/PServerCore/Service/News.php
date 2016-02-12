@@ -2,25 +2,29 @@
 
 namespace PServerCore\Service;
 
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use PServerAdmin\Mapper\HydratorNews;
 use PServerCore\Entity\UserInterface;
-use PServerCore\Keys\Caching;
+use Zend\Paginator\Paginator;
 
 class News extends InvokableBase
 {
     /**
-     * @return \PServerCore\Entity\News[]
+     * @return \PServerCore\Entity\News[]|Paginator
      */
-    public function getActiveNews()
+    public function getActiveNews($page = 1)
     {
-        $limit = $this->getConfigService()->get('pserver.news.limit', 5);
-        $newsInfo = $this->getCachingHelperService()->getItem(Caching::NEWS, function () use ($limit) {
-            /** @var \PServerCore\Entity\Repository\News $repository */
-            $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getNews());
-            return $repository->getActiveNews($limit);
-        });
+        $queryBuilder = $this->getNewsQueryBuilder();
+        $queryBuilder->where('p.active = :active')
+            ->setParameter('active', 1);
 
-        return $newsInfo;
+        $adapter = new DoctrineAdapter(new ORMPaginator($queryBuilder));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage($this->getConfigService()->get('pserver.news.limit', 5));
+        $paginator->setCurrentPageNumber($page);
+
+        return $paginator;
     }
 
     /**
