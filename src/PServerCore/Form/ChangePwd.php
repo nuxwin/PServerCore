@@ -19,6 +19,9 @@ class ChangePwd extends ProvidesEventsForm
 
         $this->add([
             'name' => 'currentPassword',
+            'options' => [
+                'label' => 'Current Web Password',
+            ],
             'attributes' => [
                 'class' => 'form-control',
                 'type' => 'password',
@@ -29,6 +32,9 @@ class ChangePwd extends ProvidesEventsForm
 
         $this->add([
             'name' => 'password',
+            'options' => [
+                'label' => 'New Password',
+            ],
             'attributes' => [
                 'class' => 'form-control',
                 'type' => 'password',
@@ -39,6 +45,9 @@ class ChangePwd extends ProvidesEventsForm
 
         $this->add([
             'name' => 'passwordVerify',
+            'options' => [
+                'label' => 'Confirm new Password',
+            ],
             'attributes' => [
                 'class' => 'form-control',
                 'type' => 'password',
@@ -49,7 +58,7 @@ class ChangePwd extends ProvidesEventsForm
 
         $submitElement = new Element\Button('submit');
         $submitElement
-            ->setLabel('Save')
+            ->setLabel('Change Password')
             ->setAttributes([
                 'class' => 'btn btn-primary',
                 'type' => 'submit',
