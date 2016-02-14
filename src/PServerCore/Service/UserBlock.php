@@ -3,7 +3,7 @@
 namespace PServerCore\Service;
 
 
-use PServerAdmin\Mapper\HydratorUserBlock;
+use PServerCore\Mapper\HydratorUserBlock;
 use PServerCore\Entity\Userblock as UserBlockEntity;
 use PServerCore\Entity\UserInterface;
 

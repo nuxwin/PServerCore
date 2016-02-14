@@ -2,7 +2,7 @@
 
 namespace PServerCore\Service;
 
-use PServerAdmin\Mapper\HydratorSecretQuestion;
+use PServerCore\Mapper\HydratorSecretQuestion;
 use PServerCore\Entity\SecretQuestion as Entity;
 use PServerCore\Entity\UserInterface;
 

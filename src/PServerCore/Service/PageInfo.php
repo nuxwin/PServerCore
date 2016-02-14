@@ -2,7 +2,7 @@
 
 namespace PServerCore\Service;
 
-use PServerAdmin\Mapper\HydratorPageInfo;
+use PServerCore\Mapper\HydratorPageInfo;
 use PServerCore\Keys\Caching;
 
 class PageInfo extends InvokableBase

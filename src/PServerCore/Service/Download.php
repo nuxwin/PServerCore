@@ -2,7 +2,7 @@
 
 namespace PServerCore\Service;
 
-use PServerAdmin\Mapper\HydratorDownload;
+use PServerCore\Mapper\HydratorDownload;
 use PServerCore\Entity\DownloadList;
 use PServerCore\Keys\Caching;
 

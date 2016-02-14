@@ -4,7 +4,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
-use PServerAdmin\Mapper\HydratorNews;
+use PServerCore\Mapper\HydratorNews;
 use PServerCore\Entity\UserInterface;
 use Zend\Paginator\Paginator;
 
