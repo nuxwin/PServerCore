@@ -3,7 +3,12 @@
 
 namespace PServerCore\Helper;
 
-
+/**
+ * Class HelperService
+ * @package PServerCore\Helper
+ *
+ * @TODO rename with trait for 1.0
+ */
 trait HelperService
 {
 

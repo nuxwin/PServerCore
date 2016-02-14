@@ -5,6 +5,12 @@ namespace PServerCore\Helper;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Class HelperBasic
+ * @package PServerCore\Helper
+ *
+ * @TODO rename with trait for 1.0
+ */
 trait HelperBasic
 {
     /** @var  array */
