@@ -168,14 +168,6 @@ trait HelperService
     }
 
     /**
-     * @return \PServerCore\Service\UserPanel
-     */
-    protected function getUserPanelService()
-    {
-        return $this->getService('pserver_user_panel_service');
-    }
-
-    /**
      * @return \PServerCore\Service\LoginHistory
      */
     protected function getLoginHistoryService()

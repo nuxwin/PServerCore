@@ -132,7 +132,6 @@ return [
             'pserver_user_block_service' => 'PServerCore\Service\UserBlock',
             'pserver_secret_question' => 'PServerCore\Service\SecretQuestion',
             'pserver_log_service' => 'PServerCore\Service\Logs',
-            'pserver_user_panel_service' => 'PServerCore\Service\UserPanel',
             'pserver_user_role_service' => 'PServerCore\Service\UserRole',
             'pserver_login_history_service' => 'PServerCore\Service\LoginHistory',
             'pserver_coin_service' => 'PServerCore\Service\Coin',
