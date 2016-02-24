@@ -42,10 +42,19 @@ class UserBlock
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId")
+     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId", nullable=false)
      * })
      */
     private $user;
+
+    /**
+     * @var UserInterface
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="creator_usrId", referencedColumnName="usrId")
+     * })
+     */
+    private $creator;
 
     /**
      * Constructor
@@ -152,4 +161,24 @@ class UserBlock
     {
         return $this->user;
     }
+
+    /**
+     * @return UserInterface
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+    /**
+     * @param UserInterface $creator
+     * @return self
+     */
+    public function setCreator($creator)
+    {
+        $this->creator = $creator;
+        return $this;
+    }
+
+
 }

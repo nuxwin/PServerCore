@@ -35,7 +35,7 @@ class LoginHistory
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId")
+     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId", nullable=false)
      * })
      */
     private $user;

@@ -16,7 +16,7 @@ class UserBlock extends InvokableBase
      * @param $userId
      * @return \PServerCore\Entity\UserInterface
      */
-    public function blockForm($data, $userId)
+    public function blockForm($data, $userId, $creator = null)
     {
         $class = $this->getEntityOptions()->getUserBlock();
         /** @var UserBlockEntity $userBlock */
@@ -35,6 +35,7 @@ class UserBlock extends InvokableBase
 
         if ($user) {
             $userBlockEntity->setUser($user);
+            $userBlockEntity->setCreator($creator);
             $this->blockUserWithEntity($userBlockEntity);
         }
 
@@ -45,27 +46,29 @@ class UserBlock extends InvokableBase
      * We want to block a user
      *
      * @param UserInterface $user
-     * @param       $expire
-     * @param       $reason
-     * @return bool
+     * @param $expire
+     * @param $reason
+     * @param null|UserInterface $creator
      */
-    public function blockUser(UserInterface $user, $expire, $reason)
+    public function blockUser(UserInterface $user, $expire, $reason, $creator = null)
     {
         $class = $this->getEntityOptions()->getUserBlock();
         /** @var UserBlockEntity $userBlock */
         $userBlock = new $class;
         $userBlock->setUser($user);
+        $userBlock->setCreator($creator);
         $userBlock->setReason($reason);
         $userBlock->setExpire($expire);
 
-        return $this->blockUserWithEntity($userBlock);
+        $this->blockUserWithEntity($userBlock);
     }
 
     /**
      * @param UserInterface|int $user
-     * @return boolean
+     * @param null|UserInterface $creator
+     * @return bool
      */
-    public function removeBlock($user)
+    public function removeBlock($user, $creator = null)
     {
         if (!$user instanceof UserInterface) {
             $user = $this->getUser4Id($user);
@@ -75,25 +78,26 @@ class UserBlock extends InvokableBase
             }
         }
 
-        /** @var \PServerCore\Entity\Repository\USerBlock $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getUserBlock());
-        $repository->removeBlock($user);
-
-        $this->getGameBackendService()->removeBlockUser($user);
+        $this->blockUser(
+            $user,
+            new \DateTime(),
+            '',
+            $creator
+        );
 
         return true;
     }
 
     /**
      * @param UserInterface $user
-     * @return null|UserBlockEntity
+     * @return null|\PServerCore\Entity\UserBlock
      */
     public function isUserBlocked(UserInterface $user)
     {
         $entityManager = $this->getEntityManager();
         /** @var \PServerCore\Entity\Repository\UserBlock $repositoryUserBlock */
         $repositoryUserBlock = $entityManager->getRepository($this->getEntityOptions()->getUserBlock());
-        return $repositoryUserBlock->isUserAllowed($user);
+        return $repositoryUserBlock->isUserBlocked($user);
     }
 
     /**
@@ -102,20 +106,18 @@ class UserBlock extends InvokableBase
      */
     protected function blockUserWithEntity(UserBlockEntity $userBlock)
     {
-        // delete all old blocks
-        $this->removeBlock($userBlock->getUser());
-        $result = false;
+        $this->getGameBackendService()->removeBlockUser($userBlock->getUser());
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($userBlock);
+        $entityManager->flush();
 
         if ($userBlock->getExpire() > new \DateTime) {
-            $entityManager = $this->getEntityManager();
-            $entityManager->persist($userBlock);
-            $entityManager->flush();
-            $result = true;
-
-            $this->getGameBackendService()->blockUser($userBlock->getUser(), $userBlock->getExpire(),
-                $userBlock->getReason());
+            $this->getGameBackendService()->blockUser(
+                $userBlock->getUser(),
+                $userBlock->getExpire(),
+                $userBlock->getReason()
+            );
         }
-
-        return $result;
     }
 } 

@@ -49,7 +49,7 @@ class UserCodes
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="PServerCore\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId")
+     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId", nullable=false)
      * })
      */
     private $user;

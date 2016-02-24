@@ -23,7 +23,7 @@ class SecretAnswer
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="PServerCore\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user", referencedColumnName="usrId")
+     *   @ORM\JoinColumn(name="user", referencedColumnName="usrId", nullable=false)
      * })
      */
     private $user;
@@ -32,7 +32,7 @@ class SecretAnswer
      * @var SecretQuestion
      * @ORM\ManyToOne(targetEntity="PServerCore\Entity\SecretQuestion")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="question", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="question", referencedColumnName="id", nullable=false)
      * })
      */
     private $question;

@@ -24,7 +24,7 @@ class UserExtension
     /**
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="User", inversedBy="userExtension")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="usrId")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="usrId", nullable=false)
      */
     private $user;
 

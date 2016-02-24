@@ -12,11 +12,11 @@ class UserBlock extends EntityRepository
 {
     /**
      * @param UserInterface $user
-     * @param null $expireTime
+     * @param null|\DateTime $expireTime
      * @return null|\PServerCore\Entity\UserBlock
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function isUserAllowed(UserInterface $user, $expireTime = null)
+    public function isUserBlocked(UserInterface $user, $expireTime = null)
     {
         if (!$expireTime) {
             $expireTime = new \DateTime();
@@ -26,34 +26,18 @@ class UserBlock extends EntityRepository
             ->select('p')
             ->where('p.user = :user')
             ->setParameter('user', $user)
-            ->andWhere('p.expire >= :expireTime')
-            ->setParameter('expireTime', $expireTime)
-            ->orderBy('p.expire', 'desc')
+            ->orderBy('p.id', 'desc')
             ->setMaxResults(1)
             ->getQuery();
 
-        return $query->getOneOrNullResult();
-    }
+        /** @var null|\PServerCore\Entity\UserBlock $blockEntity */
+        $blockEntity = $query->getOneOrNullResult();
 
-    /**
-     * @param UserInterface $user
-     * @param \DateTime|null $dateTime
-     * @return mixed
-     */
-    public function removeBlock(UserInterface $user, $dateTime = null)
-    {
-        if (!$dateTime) {
-            $dateTime = new \DateTime();
+        $result = null;
+        if ($blockEntity && $blockEntity->getExpire() > $expireTime) {
+            $result = $blockEntity;
         }
 
-        $query = $this->createQueryBuilder('p')
-            ->delete('PServerCore\Entity\UserBlock', 'p')
-            ->where('p.user = :user')
-            ->setParameter('user', $user)
-            ->andWhere('p.expire >= :dateTime')
-            ->setParameter('dateTime', $dateTime)
-            ->getQuery();
-
-        return $query->execute();
+        return $result;
     }
 }
