@@ -17,7 +17,7 @@ class TicketEntryFilter extends \ZfcTicketSystem\Form\TicketEntryFilter
 
         $memo = $this->get('memo');
         $validatorChain = $memo->getValidatorChain();
-        $validatorChain->attach(new BBCodeValid($sm));
+        $validatorChain->attach(new BBCodeValid($sm->get('zfc-bbcode_parser')));
 
         $memo->setValidatorChain($validatorChain);
     }
