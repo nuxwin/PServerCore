@@ -1,7 +1,7 @@
 <phpunit
         bootstrap="./Bootstrap.php"
         colors="true"
-        convertErrorsToExceptions="true"
+        convertErrorsToExceptions="false"
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
         verbose="true"

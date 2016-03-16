@@ -118,7 +118,12 @@ return [
                 return $cache;
             },
         ],
+        'aliases' => [
+            'translator' => 'MvcTranslator',
+            'payment_api_log_service' => 'PServerCore\Service\PaymentNotify',
+        ],
         'invokables' => [
+            'PServerCore\Service\PaymentNotify' => 'PServerCore\Service\PaymentNotify',
             'pserver_mail_service' => 'PServerCore\Service\Mail',
             'pserver_download_service' => 'PServerCore\Service\Download',
             'pserver_server_info_service' => 'PServerCore\Service\ServerInfo',
@@ -139,13 +144,9 @@ return [
             'pserver_add_email_service' => 'PServerCore\Service\AddEmail',
             'pserver_format_service' => 'PServerCore\Service\Format',
             'small_user_service' => 'PServerCore\Service\User',
-            'payment_api_log_service' => 'PServerCore\Service\PaymentNotify',
             'payment_api_ip_service' => 'PServerCore\Service\Ip',
             'payment_api_validation' => 'PServerCore\Service\PaymentValidation',
             'zfcticketsystem_ticketsystem_service' => 'PServerCore\Service\TicketSystem',
-        ],
-        'aliases' => [
-            'translator' => 'MvcTranslator',
         ],
     ],
     'controllers' => [

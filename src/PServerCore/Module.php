@@ -190,8 +190,21 @@ class Module
                 },
                 'zfcticketsystem_ticketsystem_new_form' => function ($sm) {
                     /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                    $form = new \ZfcTicketSystem\Form\TicketSystem($sm);
-                    $form->setInputFilter(new Form\TicketSystemFilter($sm));
+                    /** @noinspection PhpParamsInspection */
+                    $form = new \ZfcTicketSystem\Form\TicketSystem(
+                        $sm->get('Doctrine\ORM\EntityManager'),
+                        $sm->get('zfcticketsystem_entry_options')
+                    );
+
+                    /** @noinspection PhpParamsInspection */
+                    $form->setInputFilter(
+                        new Form\TicketSystemFilter(
+                            $sm->get('Doctrine\ORM\EntityManager'),
+                            $sm->get('zfcticketsystem_entry_options'),
+                            $sm->get('zfc-bbcode_parser')
+                        )
+                    );
+
                     return $form;
                 },
                 'zfcticketsystem_ticketsystem_entry_form' => function ($sm) {

@@ -74,7 +74,7 @@ class DonateLog
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId", nullable=false)
+     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId", nullable=true)
      * })
      */
     private $user;
