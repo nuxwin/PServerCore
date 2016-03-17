@@ -1,8 +1,8 @@
 # PServerCore Module for Zend Framework 2
 
 Master
-[![Build Status](https://travis-ci.org/kokspflanze/PaymentAPI.svg?branch=master)](https://travis-ci.org/kokspflanze/PServerCore)
-[![Coverage Status](https://coveralls.io/repos/kokspflanze/PaymentAPI/badge.svg?branch=master)](https://coveralls.io/r/kokspflanze/PServerCore)
+[![Build Status](https://travis-ci.org/kokspflanze/PServerCore.svg?branch=master)](https://travis-ci.org/kokspflanze/PServerCore)
+[![Coverage Status](https://coveralls.io/repos/kokspflanze/PServerCore/badge.svg?branch=master)](https://coveralls.io/r/kokspflanze/PServerCore)
 
 ## SYSTEM REQUIREMENTS
 
