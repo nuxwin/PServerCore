@@ -1,5 +1,7 @@
 <?php
 
+use PServerCore\Service;
+
 return [
     'router' => [
         'routes' => [
@@ -120,10 +122,10 @@ return [
         ],
         'aliases' => [
             'translator' => 'MvcTranslator',
-            'payment_api_log_service' => 'PServerCore\Service\PaymentNotify',
+            'payment_api_log_service' => Service\PaymentNotify::class,
         ],
         'invokables' => [
-            'PServerCore\Service\PaymentNotify' => 'PServerCore\Service\PaymentNotify',
+            Service\PaymentNotify::class => Service\PaymentNotify::class,
             'pserver_mail_service' => 'PServerCore\Service\Mail',
             'pserver_download_service' => 'PServerCore\Service\Download',
             'pserver_server_info_service' => 'PServerCore\Service\ServerInfo',
