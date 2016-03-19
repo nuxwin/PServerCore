@@ -1,6 +1,8 @@
 <?php
 
 use PServerCore\Service;
+use PServerCore\Options;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -103,6 +105,16 @@ return [
             'Zend\Log\LoggerAbstractServiceFactory',
         ],
         'factories' => [
+            'aliases' => [
+                'translator' => 'MvcTranslator',
+                'payment_api_log_service' => Service\PaymentNotify::class,
+                'zfcticketsystem_ticketsystem_service' => Service\TicketSystem::class,
+                'payment_api_ip_service' => Service\Ip::class,
+                'payment_api_validation' => Service\PaymentValidation::class,
+                'pserver_options_collection' => Options\Collection::class,
+                'pserver_usercodes_service' => Service\UserCodes::class,
+                'pserver_timer_service' => Service\Timer::class,
+            ],
             'pserver_caching_service' => function () {
                 $cache = \Zend\Cache\StorageFactory::factory([
                     'adapter' => 'filesystem',
@@ -148,13 +160,18 @@ return [
                     $sm->get('small_user_service')
                 );
             },
-        ],
-        'aliases' => [
-            'translator' => 'MvcTranslator',
-            'payment_api_log_service' => Service\PaymentNotify::class,
-            'zfcticketsystem_ticketsystem_service' => Service\TicketSystem::class,
-            'payment_api_ip_service' => Service\Ip::class,
-            'payment_api_validation' => Service\PaymentValidation::class,
+            Options\Collection::class => Options\CollectionFactory::class,
+            Service\Timer::class => InvokableFactory::class,
+            Service\Ip::class => InvokableFactory::class,
+            Service\UserCodes::class => function ($sm) {
+                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
+                /** @noinspection PhpParamsInspection */
+                return new Service\UserCodes(
+                    $sm->get('Doctrine\ORM\EntityManager'),
+                    $sm->get('pserver_format_service'),
+                    $sm->get(Options\Collection::class)
+                );
+            },
         ],
         'invokables' => [
             Service\PaymentNotify::class => Service\PaymentNotify::class,
@@ -178,7 +195,6 @@ return [
             'pserver_add_email_service' => 'PServerCore\Service\AddEmail',
             'pserver_format_service' => 'PServerCore\Service\Format',
             'small_user_service' => 'PServerCore\Service\User',
-            Service\Ip::class => Service\Ip::class,
         ],
     ],
     'controllers' => [

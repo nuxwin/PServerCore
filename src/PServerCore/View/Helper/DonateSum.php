@@ -4,14 +4,29 @@
 namespace PServerCore\View\Helper;
 
 
-class DonateSum extends InvokerBase
+use PServerCore\Service\Donate;
+use Zend\View\Helper\AbstractHelper;
+
+class DonateSum extends AbstractHelper
 {
+    /** @var  Donate */
+    protected $donateService;
+
+    /**
+     * DonateSum constructor.
+     * @param Donate $donateService
+     */
+    public function __construct(Donate $donateService)
+    {
+        $this->donateService = $donateService;
+    }
+
     /**
      * @return int
      */
     public function __invoke()
     {
-        return $this->getDonateService()->getSumOfDonations();
+        return $this->donateService->getSumOfDonations();
     }
 
 }

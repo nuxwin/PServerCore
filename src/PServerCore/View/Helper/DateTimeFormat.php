@@ -4,13 +4,29 @@
 namespace PServerCore\View\Helper;
 
 
-class DateTimeFormat extends InvokerBase
+use DateTime;
+use PServerCore\Options\GeneralOptions;
+use Zend\View\Helper\AbstractHelper;
+
+class DateTimeFormat extends AbstractHelper
 {
+    /** @var  GeneralOptions */
+    protected $generalOptions;
+
     /**
-     * @param \DateTime $dateTime
+     * DateTimeFormat constructor.
+     * @param GeneralOptions $generalOptions
+     */
+    public function __construct(GeneralOptions $generalOptions)
+    {
+        $this->generalOptions = $generalOptions;
+    }
+
+    /**
+     * @param DateTime $dateTime
      * @return string
      */
-    public function __invoke(\DateTime $dateTime)
+    public function __invoke(DateTime $dateTime)
     {
         return $dateTime->format($this->getConfigFormat());
     }
@@ -20,6 +36,6 @@ class DateTimeFormat extends InvokerBase
      */
     public function getConfigFormat()
     {
-        return $this->getGeneralOptions()->getDatetime()['format']['time'];
+        return $this->generalOptions->getDatetime()['format']['time'];
     }
 }

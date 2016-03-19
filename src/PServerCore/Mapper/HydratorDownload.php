@@ -2,7 +2,8 @@
 
 namespace PServerCore\Mapper;
 
-use PServerCore\Entity\Downloadlist;
+use Exception;
+use PServerCore\Entity\DownloadList;
 use Zend\Hydrator\ClassMethods;
 
 class HydratorDownload extends ClassMethods
@@ -13,14 +14,14 @@ class HydratorDownload extends ClassMethods
      * @param  object $object
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function extract($object)
     {
-        if (!$object instanceof Downloadlist) {
-            throw new \Exception('$object must be an instance of Downloadlist');
+        if (!$object instanceof DownloadList) {
+            throw new Exception('$object must be an instance of Downloadlist');
         }
-        /* @var $object Downloadlist */
+        /* @var $object DownloadList */
         $data = parent::extract($object);
 
         return $data;
@@ -32,13 +33,13 @@ class HydratorDownload extends ClassMethods
      * @param  array $data
      * @param  object $object
      *
-     * @return Downloadlist
-     * @throws \Exception
+     * @return DownloadList
+     * @throws Exception
      */
     public function hydrate(array $data, $object)
     {
-        if (!$object instanceof Downloadlist) {
-            throw new \Exception('$object must be an instance of Downloadlist');
+        if (!$object instanceof DownloadList) {
+            throw new Exception('$object must be an instance of Downloadlist');
         }
 
         return parent::hydrate($data, $object);

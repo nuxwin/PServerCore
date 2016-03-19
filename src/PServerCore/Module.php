@@ -6,6 +6,7 @@ use PServerCore\Service\ServiceManager;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 class Module
 {
@@ -49,52 +50,92 @@ class Module
     public function getViewHelperConfig()
     {
         return [
-            'invokables' => [
-                'pserverformerrors' => 'PServerCore\View\Helper\FormError',
-                'formlabel' => 'PServerCore\View\Helper\FormLabel',
+            'aliases' => [
+                'pserverformerrors' => View\Helper\FormError::class,
+                'formlabel' => View\Helper\FormLabel::class,
+                'formWidget' => View\Helper\FormWidget::class,
+                'sidebarWidget' => View\Helper\SideBarWidget::class,
             ],
             'factories' => [
-                'sidebarWidget' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\SideBarWidget($pluginManager->getServiceLocator());
-                },
-                'formWidget' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\FormWidget($pluginManager->getServiceLocator());
-                },
+                View\Helper\FormError::class => InvokableFactory::class,
+                View\Helper\FormLabel::class => InvokableFactory::class,
+                View\Helper\FormWidget::class => InvokableFactory::class,
+                View\Helper\SideBarWidget::class => InvokableFactory::class,
                 'playerHistory' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\PlayerHistory($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\PlayerHistory(
+                        $pluginManager->getServiceLocator()->get('pserver_playerhistory_service'),
+                        $pluginManager->getServiceLocator()->get('pserver_general_options')
+
+                    );
                 },
                 'active' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\Active($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\Active(
+                        $pluginManager->getServiceLocator()->get('router'),
+                        $pluginManager->getServiceLocator()->get('request')
+                    );
                 },
                 'donateSum' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\DonateSum($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\DonateSum(
+                        $pluginManager->getServiceLocator()->get('pserver_donate_service')
+                    );
                 },
                 'donateCounter' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\DonateCounter($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\DonateCounter(
+                        $pluginManager->getServiceLocator()->get('pserver_donate_service')
+                    );
                 },
                 'navigationWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\NavigationWidget($pluginManager->getServiceLocator());
+                    return new View\Helper\NavigationWidget(
+                        $pluginManager->getServiceLocator()->get('Config')['pserver']
+                    );
                 },
                 'dateTimeFormatTime' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\DateTimeFormat($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\DateTimeFormat(
+                        $pluginManager->getServiceLocator()->get('pserver_general_options')
+                    );
                 },
                 'newsWidget' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\NewsWidget($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\NewsWidget(
+                        $pluginManager->getServiceLocator()->get('pserver_news_service')
+                    );
                 },
                 'loggedInWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\LoggedInWidget($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\LoggedInWidget(
+                        $pluginManager->getServiceLocator()->get('small_user_auth_service'),
+                        $pluginManager->getServiceLocator()->get('Config')['pserver'],
+                        $pluginManager->getServiceLocator()->get('gamebackend_dataservice')
+                    );
                 },
                 'loginWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\LoginWidget($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\LoginWidget($pluginManager->getServiceLocator()->get('small_user_service'));
                 },
                 'serverInfoWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\ServerInfoWidget($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\ServerInfoWidget(
+                        $pluginManager->getServiceLocator()->get('pserver_server_info_service')
+                    );
                 },
                 'timerWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\TimerWidget($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\TimerWidget(
+                        $pluginManager->getServiceLocator()->get('Config')['pserver'],
+                        $pluginManager->getServiceLocator()->get(Service\Timer::class)
+                    );
                 },
                 'coinsWidgetPServerCore' => function (AbstractPluginManager $pluginManager) {
-                    return new View\Helper\CoinsWidget($pluginManager->getServiceLocator());
+                    /** @noinspection PhpParamsInspection */
+                    return new View\Helper\CoinsWidget(
+                        $pluginManager->getServiceLocator()->get('small_user_auth_service'),
+                        $pluginManager->getServiceLocator()->get('pserver_coin_service')
+                    );
                 },
             ]
         ];

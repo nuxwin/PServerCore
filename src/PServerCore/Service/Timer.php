@@ -4,7 +4,7 @@
 namespace PServerCore\Service;
 
 
-class Timer extends InvokableBase
+class Timer
 {
 
     /**

@@ -2,9 +2,10 @@
 
 namespace PServerCore\View\Helper;
 
+use Zend\View\Helper\AbstractHelper;
 use Zend\View\Model\ViewModel;
 
-class FormWidget extends InvokerBase
+class FormWidget extends AbstractHelper
 {
     /**
      * @param $form

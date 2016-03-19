@@ -3,10 +3,22 @@
 
 namespace PServerCore\View\Helper;
 
+use Zend\View\Helper\AbstractHelper;
 use Zend\View\Model\ViewModel;
 
-class NavigationWidget extends InvokerBase
+class NavigationWidget extends AbstractHelper
 {
+    /** @var  array*/
+    protected $config;
+
+    /**
+     * NavigationWidget constructor.
+     * @param array $config
+     */
+    public function __construct(array $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * @return string
@@ -14,7 +26,7 @@ class NavigationWidget extends InvokerBase
     public function __invoke()
     {
         $viewModel = new ViewModel([
-            'navigation' => $this->getConfig()['pserver']['navigation']
+            'navigation' => $this->config['navigation']
         ]);
         $viewModel->setTemplate('p-server-core/navigation');
 

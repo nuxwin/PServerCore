@@ -8,6 +8,7 @@ use Zend\Stdlib\AbstractOptions;
 class ValidationOptions extends AbstractOptions
 {
     protected $__strictMode__ = false;
+    
     /**
      * @var array
      */

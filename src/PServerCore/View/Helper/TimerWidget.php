@@ -3,12 +3,31 @@
 
 namespace PServerCore\View\Helper;
 
+use PServerCore\Service\Timer;
+use Zend\View\Helper\AbstractHelper;
 use Zend\View\Model\ViewModel;
 
-class TimerWidget extends InvokerBase
+class TimerWidget extends AbstractHelper
 {
     /** @var array */
-    protected $timerService;
+    protected $timeCache;
+
+    /** @var  array */
+    protected $config;
+
+    /** @var  Timer */
+    protected $timeService;
+
+    /**
+     * TimerWidget constructor.
+     * @param array $config
+     * @param Timer $timeService
+     */
+    public function __construct(array $config, Timer $timeService)
+    {
+        $this->config = $config;
+        $this->timeService = $timeService;
+    }
 
     /**
      * @return string
@@ -28,9 +47,8 @@ class TimerWidget extends InvokerBase
      */
     protected function getTimer()
     {
-        if (!$this->timerService) {
-            $config = $this->getConfig();
-            $timerConfig = isset($config['pserver']['timer']) ? $config['pserver']['timer'] : [];
+        if (!$this->timeCache) {
+            $timerConfig = isset($this->config['timer']) ? $this->config['timer'] : [];
 
             if ($timerConfig) {
                 foreach ($timerConfig as $data) {
@@ -39,16 +57,16 @@ class TimerWidget extends InvokerBase
 
                     if (!isset($data['type'])) {
                         if (isset($data['days'])) {
-                            $time = $this->getTimerService()->getNextTimeDay($data['days'], $data['hour'],
+                            $time = $this->timeService->getNextTimeDay($data['days'], $data['hour'],
                                 $data['min']);
                         } else {
-                            $time = $this->getTimerService()->getNextTime($data['hours'], $data['min']);
+                            $time = $this->timeService->getNextTime($data['hours'], $data['min']);
                         }
                     } else {
                         $text = $data['time'];
                     }
 
-                    $this->timerService[] = [
+                    $this->timeCache[] = [
                         'time' => $time,
                         'text' => $text,
                         'name' => $data['name'],
@@ -58,6 +76,6 @@ class TimerWidget extends InvokerBase
             }
         }
 
-        return $this->timerService;
+        return $this->timeCache;
     }
 }

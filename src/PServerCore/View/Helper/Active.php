@@ -2,8 +2,28 @@
 
 namespace PServerCore\View\Helper;
 
-class Active extends InvokerBase
+use Zend\Stdlib\RequestInterface;
+use Zend\Mvc\Router\RouteInterface;
+use Zend\View\Helper\AbstractHelper;
+
+class Active extends AbstractHelper
 {
+    /** @var  RouteInterface */
+    protected $router;
+
+    /** @var  RequestInterface */
+    protected $request;
+
+    /**
+     * Active constructor.
+     * @param RouteInterface $router
+     * @param RequestInterface $request
+     */
+    public function __construct(RouteInterface $router, RequestInterface $request)
+    {
+        $this->router = $router;
+        $this->request = $request;
+    }
 
     /**
      * @param       $routeKey
@@ -13,8 +33,8 @@ class Active extends InvokerBase
      */
     public function __invoke($routeKey, $params = [])
     {
-        $router = $this->getRouterService();
-        $request = $this->getRequestService();
+        $router = $this->router;
+        $request = $this->request;
 
         $routeMatch = $router->match($request);
 
@@ -36,4 +56,6 @@ class Active extends InvokerBase
 
         return true;
     }
+
+
 }

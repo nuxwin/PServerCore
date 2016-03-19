@@ -2,9 +2,10 @@
 
 namespace PServerCore\View\Helper;
 
+use Zend\View\Helper\AbstractHelper;
 use Zend\View\Model\ViewModel;
 
-class SideBarWidget extends InvokerBase
+class SideBarWidget extends AbstractHelper
 {
     /**
      * @return string

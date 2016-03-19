@@ -2,15 +2,41 @@
 
 namespace PServerCore\Service;
 
+use DateTime;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserCodes as Entity;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Options\Collection;
 
-class UserCodes extends InvokableBase
+class UserCodes
 {
     /**
-     * @var \Doctrine\Common\Persistence\ObjectRepository
+     * @var ObjectRepository
      */
     protected $repositoryManager;
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  Format */
+    protected $formatService;
+
+    /** @var  Collection */
+    protected $collectionOptions;
+
+    /**
+     * UserCodes constructor.
+     * @param EntityManager $entityManager
+     * @param Format $formatService
+     * @param Collection $collectionOptions
+     */
+    public function __construct(EntityManager $entityManager, Format $formatService, Collection $collectionOptions)
+    {
+        $this->entityManager = $entityManager;
+        $this->formatService = $formatService;
+        $this->collectionOptions = $collectionOptions;
+    }
 
     /**
      * @param UserInterface $userEntity
@@ -21,13 +47,13 @@ class UserCodes extends InvokableBase
      */
     public function setCode4User(UserInterface $userEntity, $type, $expire = null)
     {
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
 
         $this->getRepositoryManager()->deleteCodes4User($userEntity->getId(), $type);
 
         do {
             $found = false;
-            $code = $this->getFormatService()->getCode();
+            $code = $this->formatService->getCode();
             if ($this->getRepositoryManager()->getCode($code)) {
                 $found = true;
             }
@@ -39,7 +65,7 @@ class UserCodes extends InvokableBase
             ->setType($type);
 
         if (!$expire) {
-            $expireOption = $this->getUserCodeOptions()->getExpire();
+            $expireOption = $this->collectionOptions->getUserCodesOptions()->getExpire();
             if (isset($expireOption[$type])) {
                 $expire = $expireOption[$type];
             } else {
@@ -48,7 +74,7 @@ class UserCodes extends InvokableBase
         }
 
         if ($expire) {
-            $dateTime = new \DateTime();
+            $dateTime = new DateTime();
             $userCodesEntity->setExpire($dateTime->setTimestamp(time() + $expire));
         }
 
@@ -65,7 +91,7 @@ class UserCodes extends InvokableBase
      */
     public function deleteCode(Entity $userCode)
     {
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
         $entityManager->remove($userCode);
         $entityManager->flush();
     }
@@ -94,7 +120,7 @@ class UserCodes extends InvokableBase
     protected function cleanExpireCodes4List(array $codeList)
     {
         $i = 0;
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
 
         foreach ($codeList as $code) {
             try {
@@ -103,17 +129,23 @@ class UserCodes extends InvokableBase
                 if ($code->getType() == $code::TYPE_REGISTER) {
                     $user = $code->getUser();
                     /** @var \PServerCore\Entity\Repository\Logs $logRepository */
-                    $logRepository = $entityManager->getRepository($this->getEntityOptions()->getLogs());
+                    $logRepository = $entityManager->getRepository(
+                        $this->collectionOptions->getEntityOptions()->getLogs()
+                    );
                     $logRepository->setLogsNull4User($user);
 
                     /** @var \PServerCore\Entity\Repository\UserExtension $extensionRepository */
-                    $extensionRepository = $entityManager->getRepository($this->getEntityOptions()->getUserExtension());
+                    $extensionRepository = $entityManager->getRepository(
+                        $this->collectionOptions->getEntityOptions()->getUserExtension()
+                    );
                     $extensionRepository->deleteExtension($user);
 
                     // secret question
-                    if ($this->getPasswordOptions()->isSecretQuestion()) {
+                    if ($this->collectionOptions->getPasswordOptions()->isSecretQuestion()) {
                         /** @var \PServerCore\Entity\Repository\SecretAnswer $answerRepository */
-                        $answerRepository = $entityManager->getRepository($this->getEntityOptions()->getSecretAnswer());
+                        $answerRepository = $entityManager->getRepository(
+                            $this->collectionOptions->getEntityOptions()->getSecretAnswer()
+                        );
                         $answerRepository->deleteAnswer4User($user);
                     }
 
@@ -131,12 +163,14 @@ class UserCodes extends InvokableBase
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository|\PServerCore\Entity\Repository\UserCodes
+     * @return ObjectRepository|\PServerCore\Entity\Repository\UserCodes
      */
     protected function getRepositoryManager()
     {
         if (!$this->repositoryManager) {
-            $this->repositoryManager = $this->getEntityManager()->getRepository($this->getEntityOptions()->getUserCodes());
+            $this->repositoryManager = $this->entityManager->getRepository(
+                $this->collectionOptions->getEntityOptions()->getUserCodes()
+            );
         }
 
         return $this->repositoryManager;

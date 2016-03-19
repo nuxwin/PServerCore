@@ -5,6 +5,7 @@ namespace PServerCore\Service;
 
 
 use PServerCore\Entity\UserInterface;
+use Zend\Form\Form;
 
 class UserRole extends InvokableBase
 {
@@ -17,6 +18,7 @@ class UserRole extends InvokableBase
      */
     public function addRoleForm($data, $userId)
     {
+        /** @var Form $form */
         $form = $this->getAdminUserRoleForm();
         $form->setData($data);
 
