@@ -7,6 +7,17 @@ use PaymentAPI\Service\Validation;
 
 class PaymentValidation extends Validation
 {
+    /** @var  User */
+    protected $userService;
+
+    /**
+     * PaymentValidation constructor.
+     * @param User $userService
+     */
+    public function __construct(User $userService)
+    {
+        $this->userService = $userService;
+    }
 
     /**
      * @param $userId
@@ -14,16 +25,8 @@ class PaymentValidation extends Validation
      */
     public function userExists($userId)
     {
-        $user = $this->getUserService()->getUser4Id($userId);
+        $user = $this->userService->getUser4Id($userId);
         return (bool) $user;
-    }
-
-    /**
-     * @return User
-     */
-    protected function getUserService()
-    {
-        return $this->getServiceManager()->get('small_user_service');
     }
 
 }

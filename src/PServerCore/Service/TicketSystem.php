@@ -3,16 +3,19 @@
 
 namespace PServerCore\Service;
 
-
-use PServerCore\Helper\HelperBasic;
-use PServerCore\Helper\HelperService;
+use PServerCore\Options\GeneralOptions;
 use SmallUser\Entity\UserInterface;
 use ZfcTicketSystem\Entity\TicketSubject;
 use PServerCore\Entity\TicketSystem\TicketSubject as PServerTicketSubject;
+use ZfcTicketSystem\Service\TicketSystem as ZfcTicketSystem;
 
-class TicketSystem extends \ZfcTicketSystem\Service\TicketSystem
+class TicketSystem extends ZfcTicketSystem
 {
-    use HelperBasic, HelperService;
+    /** @var  Mail */
+    protected $mailService;
+
+    /** @var  GeneralOptions */
+    protected $generalOptions;
 
     /**
      * @param array $data
@@ -53,11 +56,40 @@ class TicketSystem extends \ZfcTicketSystem\Service\TicketSystem
     }
 
     /**
-     * @return \PServerCore\Options\GeneralOptions
+     * @return Mail
      */
-    protected function getGeneralOptions()
+    public function getMailService()
     {
-        return $this->getService('pserver_general_options');
+        return $this->mailService;
     }
+
+    /**
+     * @param Mail $mailService
+     * @return self
+     */
+    public function setMailService($mailService)
+    {
+        $this->mailService = $mailService;
+        return $this;
+    }
+
+    /**
+     * @return GeneralOptions
+     */
+    public function getGeneralOptions()
+    {
+        return $this->generalOptions;
+    }
+
+    /**
+     * @param GeneralOptions $generalOptions
+     * @return self
+     */
+    public function setGeneralOptions($generalOptions)
+    {
+        $this->generalOptions = $generalOptions;
+        return $this;
+    }
+
 
 }

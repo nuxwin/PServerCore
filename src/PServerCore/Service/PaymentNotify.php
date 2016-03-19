@@ -2,6 +2,7 @@
 
 namespace PServerCore\Service;
 
+use Exception;
 use PaymentAPI\Provider\Request;
 use PaymentAPI\Service\AlreadyAddedException;
 use PaymentAPI\Service\LogInterface;
@@ -59,10 +60,10 @@ class PaymentNotify extends InvokableBase implements LogInterface
      * Method to log the error
      *
      * @param Request $request
-     * @param \Exception $e
+     * @param Exception $e
      * @return bool
      */
-    public function error(Request $request, \Exception $e)
+    public function error(Request $request, Exception $e)
     {
         $user = $this->getUser4Id($request->getUserId());
 

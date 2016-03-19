@@ -49,12 +49,12 @@ class AccountController extends AbstractActionController
                 'changeWebPwdForm' => $formChangeWebPwd,
                 'changeIngamePwdForm' => $formChangeIngamePwd,
                 'addEmailForm' => $addEmailForm,
-                'messagesWeb' => $this->flashmessenger()->getMessagesFromNamespace(self::SUCCESS_NAME_SPACE . 'Web'),
-                'messagesInGame' => $this->flashmessenger()->getMessagesFromNamespace(self::SUCCESS_NAME_SPACE . 'InGame'),
-                'messagesAddEmail' => $this->flashmessenger()->getMessagesFromNamespace(self::SUCCESS_NAME_SPACE . 'AddEmail'),
-                'errorsWeb' => $this->flashmessenger()->getMessagesFromNamespace(self::ERROR_NAME_SPACE . 'Web'),
-                'errorsInGame' => $this->flashmessenger()->getMessagesFromNamespace(self::ERROR_NAME_SPACE . 'InGame'),
-                'errorsAddEmail' => $this->flashmessenger()->getMessagesFromNamespace(self::ERROR_NAME_SPACE . 'AddEmail'),
+                'messagesWeb' => $this->flashMessenger()->getMessagesFromNamespace(self::SUCCESS_NAME_SPACE . 'Web'),
+                'messagesInGame' => $this->flashMessenger()->getMessagesFromNamespace(self::SUCCESS_NAME_SPACE . 'InGame'),
+                'messagesAddEmail' => $this->flashMessenger()->getMessagesFromNamespace(self::SUCCESS_NAME_SPACE . 'AddEmail'),
+                'errorsWeb' => $this->flashMessenger()->getMessagesFromNamespace(self::ERROR_NAME_SPACE . 'Web'),
+                'errorsInGame' => $this->flashMessenger()->getMessagesFromNamespace(self::ERROR_NAME_SPACE . 'InGame'),
+                'errorsAddEmail' => $this->flashMessenger()->getMessagesFromNamespace(self::ERROR_NAME_SPACE . 'AddEmail'),
             ];
 
         }

@@ -119,10 +119,42 @@ return [
                 ]);
                 return $cache;
             },
+            Service\PaymentValidation::class => function($sm) {
+                /** @var $sm \Zend\Mvc\Controller\ControllerManager */
+                /** @noinspection PhpParamsInspection */
+                return new Service\PaymentValidation($sm->get('small_user_service'));
+            },
+            Service\TicketSystem::class => function ($sm) {
+                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
+                /** @noinspection PhpParamsInspection */
+                $ticketSystem = new Service\TicketSystem(
+                    $sm->get('Doctrine\ORM\EntityManager'),
+                    $sm->get('zfcticketsystem_ticketsystem_new_form'),
+                    $sm->get('zfcticketsystem_ticketsystem_entry_form'),
+                    $sm->get('zfcticketsystem_entry_options')
+                );
+
+                /** @noinspection PhpParamsInspection */
+                $ticketSystem->setMailService($sm->get('pserver_mail_service'));
+                /** @noinspection PhpParamsInspection */
+                $ticketSystem->setGeneralOptions($sm->get('pserver_general_options'));
+
+                return $ticketSystem;
+            },
+            Service\PaymentValidation::class => function ($sm) {
+                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
+                /** @noinspection PhpParamsInspection */
+                return new Service\PaymentValidation(
+                    $sm->get('small_user_service')
+                );
+            },
         ],
         'aliases' => [
             'translator' => 'MvcTranslator',
             'payment_api_log_service' => Service\PaymentNotify::class,
+            'zfcticketsystem_ticketsystem_service' => Service\TicketSystem::class,
+            'payment_api_ip_service' => Service\Ip::class,
+            'payment_api_validation' => Service\PaymentValidation::class,
         ],
         'invokables' => [
             Service\PaymentNotify::class => Service\PaymentNotify::class,
@@ -146,9 +178,7 @@ return [
             'pserver_add_email_service' => 'PServerCore\Service\AddEmail',
             'pserver_format_service' => 'PServerCore\Service\Format',
             'small_user_service' => 'PServerCore\Service\User',
-            'payment_api_ip_service' => 'PServerCore\Service\Ip',
-            'payment_api_validation' => 'PServerCore\Service\PaymentValidation',
-            'zfcticketsystem_ticketsystem_service' => 'PServerCore\Service\TicketSystem',
+            Service\Ip::class => Service\Ip::class,
         ],
     ],
     'controllers' => [
