@@ -3,13 +3,48 @@
 namespace PServerCore\Service;
 
 
-use PServerCore\Mapper\HydratorUserBlock;
-use PServerCore\Entity\Userblock as UserBlockEntity;
+use Doctrine\ORM\EntityManager;
+use GameBackend\DataService\DataServiceInterface;
+use PServerCore\Entity\UserBlock as UserBlockEntity;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Mapper\HydratorUserBlock;
+use PServerCore\Options\EntityOptions;
+use Zend\Form\Form;
 
-class UserBlock extends InvokableBase
+class UserBlock
 {
-    const ErrorNameSpace = 'p-server-admin-user-panel';
+    const ERROR_NAME_SPACE = 'p-server-admin-user-panel';
+
+    /** @var  EntityOptions */
+    protected $entityOptions;
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  Form */
+    protected $adminUserBlockForm;
+
+    /** @var  DataServiceInterface */
+    protected $gameBackendService;
+
+    /**
+     * UserBlock constructor.
+     * @param EntityOptions $entityOptions
+     * @param EntityManager $entityManager
+     * @param Form $adminUserBlockForm
+     * @param DataServiceInterface $gameBackendService
+     */
+    public function __construct(
+        EntityOptions $entityOptions,
+        EntityManager $entityManager,
+        Form $adminUserBlockForm,
+        DataServiceInterface $gameBackendService
+    ) {
+        $this->entityOptions = $entityOptions;
+        $this->entityManager = $entityManager;
+        $this->adminUserBlockForm = $adminUserBlockForm;
+        $this->gameBackendService = $gameBackendService;
+    }
 
     /**
      * @param $data
@@ -18,10 +53,10 @@ class UserBlock extends InvokableBase
      */
     public function blockForm($data, $userId, $creator = null)
     {
-        $class = $this->getEntityOptions()->getUserBlock();
+        $class = $this->entityOptions->getUserBlock();
         /** @var UserBlockEntity $userBlock */
 
-        $form = $this->getAdminUserBlockForm();
+        $form = $this->adminUserBlockForm;
         $form->setHydrator(new HydratorUserBlock());
         $form->bind(new $class);
         $form->setData($data);
@@ -52,7 +87,7 @@ class UserBlock extends InvokableBase
      */
     public function blockUser(UserInterface $user, $expire, $reason, $creator = null)
     {
-        $class = $this->getEntityOptions()->getUserBlock();
+        $class = $this->entityOptions->getUserBlock();
         /** @var UserBlockEntity $userBlock */
         $userBlock = new $class;
         $userBlock->setUser($user);
@@ -94,9 +129,9 @@ class UserBlock extends InvokableBase
      */
     public function isUserBlocked(UserInterface $user)
     {
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
         /** @var \PServerCore\Entity\Repository\UserBlock $repositoryUserBlock */
-        $repositoryUserBlock = $entityManager->getRepository($this->getEntityOptions()->getUserBlock());
+        $repositoryUserBlock = $entityManager->getRepository($this->entityOptions->getUserBlock());
         return $repositoryUserBlock->isUserBlocked($user);
     }
 
@@ -106,18 +141,31 @@ class UserBlock extends InvokableBase
      */
     protected function blockUserWithEntity(UserBlockEntity $userBlock)
     {
-        $this->getGameBackendService()->removeBlockUser($userBlock->getUser());
+        $this->gameBackendService->removeBlockUser($userBlock->getUser());
 
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
         $entityManager->merge($userBlock);
         $entityManager->flush();
 
         if ($userBlock->getExpire() > new \DateTime) {
-            $this->getGameBackendService()->blockUser(
+            $this->gameBackendService->blockUser(
                 $userBlock->getUser(),
                 $userBlock->getExpire(),
                 $userBlock->getReason()
             );
         }
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return null|\PServerCore\Entity\UserInterface
+     */
+    protected function getUser4Id($userId)
+    {
+        /** @var \PServerCore\Entity\Repository\User $userRepository */
+        $userRepository = $this->entityManager->getRepository($this->entityOptions->getUser());
+
+        return $userRepository->getUser4Id($userId);
     }
 } 

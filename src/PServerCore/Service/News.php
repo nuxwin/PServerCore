@@ -2,16 +2,42 @@
 
 namespace PServerCore\Service;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
-use PServerCore\Mapper\HydratorNews;
+use PServerCore\Entity\News as NewsEntity;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Mapper\HydratorNews;
+use PServerCore\Options\Collection;
+use Zend\Form\Form;
 use Zend\Paginator\Paginator;
 
-class News extends InvokableBase
+class News
 {
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  Collection */
+    protected $collectionOptions;
+
+    /** @var  Form */
+    protected $adminNewsForm;
+
     /**
-     * @return \PServerCore\Entity\News[]|Paginator
+     * News constructor.
+     * @param EntityManager $entityManager
+     * @param Collection $collectionOptions
+     * @param Form $adminNewsForm
+     */
+    public function __construct(EntityManager $entityManager, Collection $collectionOptions, Form $adminNewsForm)
+    {
+        $this->entityManager = $entityManager;
+        $this->collectionOptions = $collectionOptions;
+        $this->adminNewsForm = $adminNewsForm;
+    }
+
+    /**
+     * @return NewsEntity[]|Paginator
      */
     public function getActiveNews($page = 1)
     {
@@ -21,19 +47,19 @@ class News extends InvokableBase
 
         $adapter = new DoctrineAdapter(new ORMPaginator($queryBuilder));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage($this->getConfigService()->get('pserver.news.limit', 5));
+        $paginator->setDefaultItemCountPerPage($this->collectionOptions->getConfig()['news']['limit']);
         $paginator->setCurrentPageNumber($page);
 
         return $paginator;
     }
 
     /**
-     * @return null|\PServerCore\Entity\News[]
+     * @return null|NewsEntity[]
      */
     public function getNews()
     {
         /** @var \PServerCore\Entity\Repository\News $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getNews());
+        $repository = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getNews());
         return $repository->getNews();
     }
 
@@ -43,19 +69,19 @@ class News extends InvokableBase
     public function getNewsQueryBuilder()
     {
         /** @var \PServerCore\Entity\Repository\News $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getNews());
+        $repository = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getNews());
         return $repository->getQueryBuilder();
     }
 
     /**
      * @param $newsId
      *
-     * @return null|\PServerCore\Entity\News
+     * @return null|NewsEntity
      */
     public function getNews4Id($newsId)
     {
         /** @var \PServerCore\Entity\Repository\News $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getNews());
+        $repository = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getNews());
         return $repository->getNews4Id($newsId);
     }
 
@@ -63,32 +89,30 @@ class News extends InvokableBase
      * @param array $data
      * @param UserInterface $user
      * @param null $currentNews
-     * @return bool|\PServerCore\Entity\News
+     * @return bool|NewsEntity
      */
     public function news(array $data, UserInterface $user, $currentNews = null)
     {
         if (!$currentNews) {
-            $currentNews = new \PServerCore\Entity\News();
+            $currentNews = new NewsEntity();
         }
 
-        $form = $this->getAdminNewsForm();
+        $form = $this->adminNewsForm;
         $form->setHydrator(new HydratorNews());
         $form->bind($currentNews);
         $form->setData($data);
+
         if (!$form->isValid()) {
             return false;
         }
 
-        /** @var \PServerCore\Entity\News $news */
+        /** @var NewsEntity $news */
         $news = $form->getData();
-        $news->setUser($this->getUser4Id($user->getId()));
+        $news->setUser($this->entityManager->merge($user));
 
-        //\Zend\Debug\Debug::dump($user);die();
-
-        $entity = $this->getEntityManager();
-        $entity->persist($news);
+        $this->entityManager->persist($news);
         //$entity->persist($user);
-        $entity->flush();
+        $this->entityManager->flush();
 
         return $news;
     }

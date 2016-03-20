@@ -20,7 +20,7 @@ class DateTimeFormatTest extends TestBase
         ];
 
         $this->mockedConstructorArgList = [(new GeneralOptions($config))->setDatetime($config)];
-        
+
         /** @var \PServerCore\View\Helper\DateTimeFormat $class */
         $class = $this->getClass();
 

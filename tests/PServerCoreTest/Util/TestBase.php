@@ -9,7 +9,7 @@ class TestBase extends TestCase
 {
     /** @var  string */
     protected $className;
-    /** @var array|null  */
+    /** @var array|null */
     protected $mockedMethodList = null;
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $class;
@@ -25,7 +25,8 @@ class TestBase extends TestCase
      * @param $methodName
      * @return \ReflectionMethod
      */
-    protected function getMethod($methodName) {
+    protected function getMethod($methodName)
+    {
         $reflection = new \ReflectionClass($this->getClass());
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);

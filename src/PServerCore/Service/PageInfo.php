@@ -2,11 +2,45 @@
 
 namespace PServerCore\Service;
 
-use PServerCore\Mapper\HydratorPageInfo;
+use Doctrine\ORM\EntityManager;
 use PServerCore\Keys\Caching;
+use PServerCore\Mapper\HydratorPageInfo;
+use PServerCore\Options\Collection;
+use Zend\Form\Form;
 
-class PageInfo extends InvokableBase
+class PageInfo
 {
+    /** @var  CachingHelper */
+    protected $cachingHelperService;
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  Collection */
+    protected $collectionOptions;
+
+    /** @var  Form */
+    protected $adminPageInfoForm;
+
+    /**
+     * PageInfo constructor.
+     * @param CachingHelper $cachingHelperService
+     * @param EntityManager $entityManager
+     * @param Collection $collectionOptions
+     * @param Form $adminPageInfoForm
+     */
+    public function __construct(
+        CachingHelper $cachingHelperService,
+        EntityManager $entityManager,
+        Collection $collectionOptions,
+        Form $adminPageInfoForm
+    ) {
+        $this->cachingHelperService = $cachingHelperService;
+        $this->entityManager = $entityManager;
+        $this->collectionOptions = $collectionOptions;
+        $this->adminPageInfoForm = $adminPageInfoForm;
+    }
+
     /**
      * @param $type
      *
@@ -16,9 +50,11 @@ class PageInfo extends InvokableBase
     {
         $cachingKey = Caching::PAGE_INFO . '_' . $type;
 
-        $pageInfo = $this->getCachingHelperService()->getItem($cachingKey, function () use ($type) {
+        $pageInfo = $this->cachingHelperService->getItem($cachingKey, function () use ($type) {
             /** @var \PServerCore\Entity\Repository\PageInfo $repository */
-            $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getPageInfo());
+            $repository = $this->entityManager->getRepository(
+                $this->collectionOptions->getEntityOptions()->getPageInfo()
+            );
             return $repository->getPageData4Type($type);
         });
 
@@ -33,9 +69,9 @@ class PageInfo extends InvokableBase
      */
     public function pageInfo(array $data, $type)
     {
-        $form = $this->getAdminPageInfoForm();
+        $form = $this->adminPageInfoForm;
         $form->setHydrator(new HydratorPageInfo());
-        $class = $this->getEntityOptions()->getPageInfo();
+        $class = $this->collectionOptions->getEntityOptions()->getPageInfo();
         $form->bind(new $class());
         $form->setData($data);
         if (!$form->isValid()) {
@@ -46,19 +82,18 @@ class PageInfo extends InvokableBase
         $pageInfo = $form->getData();
         $pageInfo->setType($type);
 
-        $entity = $this->getEntityManager();
-        $entity->persist($pageInfo);
-        $entity->flush();
+        $this->entityManager->persist($pageInfo);
+        $this->entityManager->flush();
 
         return $pageInfo;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getPossiblePageInfoTypes()
     {
-        return $this->getConfigService()->get('pserver.pageinfotype', []);
+        return $this->collectionOptions->getConfig()['pageinfotype'];
     }
 
 } 

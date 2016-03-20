@@ -4,10 +4,28 @@
 namespace PServerCore\Service;
 
 
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Options\EntityOptions;
 
-class LoginHistory extends InvokableBase
+class LoginHistory
 {
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  EntityOptions */
+    protected $entityOptions;
+
+    /**
+     * LoginHistory constructor.
+     * @param EntityManager $entityManager
+     * @param EntityOptions $entityOptions
+     */
+    public function __construct(EntityManager $entityManager, EntityOptions $entityOptions)
+    {
+        $this->entityManager = $entityManager;
+        $this->entityOptions = $entityOptions;
+    }
 
     /**
      * @param UserInterface $user
@@ -16,7 +34,7 @@ class LoginHistory extends InvokableBase
     public function getHistoryList4User(UserInterface $user)
     {
         /** @var \PServerCore\Entity\Repository\LoginHistory $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getLoginHistory());
+        $repository = $this->entityManager->getRepository($this->entityOptions->getLoginHistory());
         return $repository->getLastLoginList4User($user);
     }
 

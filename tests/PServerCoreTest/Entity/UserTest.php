@@ -24,7 +24,7 @@ class UserTest extends TestBase
     public function testUserId()
     {
         $entity = new User();
-        $usrId = rand(0,99999);
+        $usrId = rand(0, 99999);
         $result = $entity->setId($usrId);
 
         $this->assertEquals($entity, $result);
@@ -34,7 +34,7 @@ class UserTest extends TestBase
     public function testUsername()
     {
         $entity = new User();
-        $username = rand(0,99999);
+        $username = rand(0, 99999);
         $result = $entity->setUsername($username);
 
         $this->assertEquals($entity, $result);
@@ -44,7 +44,7 @@ class UserTest extends TestBase
     public function testBackendId()
     {
         $entity = new User();
-        $backendId = rand(0,99999);
+        $backendId = rand(0, 99999);
         $result = $entity->setBackendId($backendId);
 
         $this->assertEquals($entity, $result);
@@ -54,7 +54,7 @@ class UserTest extends TestBase
     public function testPassword()
     {
         $entity = new User();
-        $password = rand(0,99999);
+        $password = rand(0, 99999);
         $result = $entity->setPassword($password);
 
         $this->assertEquals($entity, $result);
@@ -162,7 +162,7 @@ class UserTest extends TestBase
         $password = 'foobar';
         $bCrypt = new Bcrypt();
 
-        $entity->setPassword($bCrypt->create( $password ));
+        $entity->setPassword($bCrypt->create($password));
         $result = User::hashPassword($entity, $password);
 
         $this->assertTrue($result);
@@ -202,7 +202,7 @@ class UserTest extends TestBase
         $password = 'foobar';
         $bCrypt = new Bcrypt();
 
-        $entity->setPassword($bCrypt->create( $password ));
+        $entity->setPassword($bCrypt->create($password));
         $result = User::hashPassword($entity, $password);
 
         $this->assertFalse($result);

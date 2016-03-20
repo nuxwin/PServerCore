@@ -4,12 +4,48 @@
 namespace PServerCore\Service;
 
 
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Options\EntityOptions;
 use Zend\Form\Form;
+use Zend\Form\FormInterface;
+use Zend\Mvc\Controller\PluginManager;
 
-class UserRole extends InvokableBase
+class UserRole
 {
-    const ErrorNameSpace = 'p-server-admin-user-panel';
+    const ERROR_NAME_SPACE = 'p-server-admin-user-panel';
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  FormInterface */
+    protected $adminUserRoleForm;
+
+    /** @var  EntityOptions */
+    protected $entityOptions;
+
+    /** @var  PluginManager */
+    protected $controllerPluginManager;
+
+    /**
+     * UserRole constructor.
+     * @param EntityManager $entityManager
+     * @param FormInterface $adminUserRoleForm
+     * @param EntityOptions $entityOptions
+     * @param PluginManager $controllerPluginManager
+     */
+    public function __construct(
+        EntityManager $entityManager,
+        FormInterface $adminUserRoleForm,
+        EntityOptions $entityOptions,
+        PluginManager $controllerPluginManager
+    ) {
+        $this->entityManager = $entityManager;
+        $this->adminUserRoleForm = $adminUserRoleForm;
+        $this->entityOptions = $entityOptions;
+        $this->controllerPluginManager = $controllerPluginManager;
+    }
+
 
     /**
      * @param $data
@@ -19,11 +55,11 @@ class UserRole extends InvokableBase
     public function addRoleForm($data, $userId)
     {
         /** @var Form $form */
-        $form = $this->getAdminUserRoleForm();
+        $form = $this->adminUserRoleForm;
         $form->setData($data);
 
         if (!$form->isValid()) {
-            $this->addFormMessagesInFlashMessenger($form, self::ErrorNameSpace);
+            $this->addFormMessagesInFlashMessenger($form, $this::ERROR_NAME_SPACE);
 
             return false;
         }
@@ -64,9 +100,9 @@ class UserRole extends InvokableBase
 
         $user->removeUserRole($role);
         $role->removeUser($user);
-        $this->getEntityManager()->persist($role);
-        $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush();
+        $this->entityManager->persist($role);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         return true;
     }
@@ -84,9 +120,9 @@ class UserRole extends InvokableBase
             $role = $this->getRoleEntity4Id($roleId);
             $role->addUser($user);
             $user->addUserRole($role);
-            $this->getEntityManager()->persist($role);
-            $this->getEntityManager()->persist($user);
-            $this->getEntityManager()->flush();
+            $this->entityManager->persist($role);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
             $result = true;
         }
 
@@ -100,7 +136,7 @@ class UserRole extends InvokableBase
     protected function getRoleEntity4Id($roleId)
     {
         /** @var \PServerCore\Entity\Repository\UserRole $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getUserRole());
+        $repository = $this->entityManager->getRepository($this->entityOptions->getUserRole());
         return $repository->getRole4Id($roleId);
     }
 
@@ -120,5 +156,40 @@ class UserRole extends InvokableBase
         }
 
         return $result;
+    }
+
+    /**
+     * @return \Zend\Mvc\Controller\Plugin\FlashMessenger
+     */
+    protected function getFlashMessenger()
+    {
+        return $this->controllerPluginManager->get('flashMessenger');
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param $namespace
+     */
+    protected function addFormMessagesInFlashMessenger(FormInterface $form, $namespace)
+    {
+        $messages = $form->getMessages();
+        foreach ($messages as $elementMessages) {
+            foreach ($elementMessages as $message) {
+                $this->getFlashMessenger()->setNamespace($namespace)->addMessage($message);
+            }
+        }
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return null|\PServerCore\Entity\UserInterface
+     */
+    protected function getUser4Id($userId)
+    {
+        /** @var \PServerCore\Entity\Repository\User $userRepository */
+        $userRepository = $this->entityManager->getRepository($this->entityOptions->getUser());
+
+        return $userRepository->getUser4Id($userId);
     }
 }

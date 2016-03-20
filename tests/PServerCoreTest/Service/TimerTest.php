@@ -30,7 +30,8 @@ class TimerTest extends TestBase
             ->willReturn(1437082616);
 
         $hourList = [
-            23, 2
+            23,
+            2
         ];
 
         $minute = 10;
@@ -53,7 +54,8 @@ class TimerTest extends TestBase
             ->willReturn(1437082616);
 
         $hourList = [
-            21, 14
+            21,
+            14
         ];
 
         $minute = 10;
@@ -76,7 +78,8 @@ class TimerTest extends TestBase
             ->willReturn(1438373400);
 
         $hourList = [
-            22 ,15
+            22,
+            15
         ];
 
         $minute = 10;
@@ -99,7 +102,8 @@ class TimerTest extends TestBase
             ->willReturn(1437082616);
 
         $dayList = [
-            'Wednesday', 'Monday'
+            'Wednesday',
+            'Monday'
         ];
 
         $hour = 3;

@@ -2,6 +2,8 @@
 
 namespace PServerCore\Helper;
 
+use DateTime;
+
 /**
  * Class DateTimer
  * @package PServerCore\Helper
@@ -11,11 +13,11 @@ class DateTimer
     /**
      * @param $timestamp
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public static function getDateTime4TimeStamp($timestamp)
     {
-        $dateTime = new \DateTime();
+        $dateTime = new DateTime();
         $dateTime->setTimestamp($timestamp);
 
         return $dateTime;
@@ -32,12 +34,12 @@ class DateTimer
     }
 
     /**
-     * @param \DateTime $beginDate
-     * @param \DateTime $endDate
+     * @param DateTime $beginDate
+     * @param DateTime $endDate
      *
-     * @return \DateTime[]
+     * @return DateTime[]
      */
-    public static function getDateRange4Period(\DateTime $beginDate, \DateTime $endDate)
+    public static function getDateRange4Period(DateTime $beginDate, DateTime $endDate)
     {
         $result = [];
         if ($beginDate < $endDate) {

@@ -2,11 +2,30 @@
 
 namespace PServerCore\Service;
 
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Helper\DateTimer;
+use PServerCore\Options\EntityOptions;
 
-class Donate extends InvokableBase
+class Donate
 {
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  EntityOptions */
+    protected $entityOptions;
+
+    /**
+     * Donate constructor.
+     * @param EntityManager $entityManager
+     * @param EntityOptions $entityOptions
+     */
+    public function __construct(EntityManager $entityManager, EntityOptions $entityOptions)
+    {
+        $this->entityManager = $entityManager;
+        $this->entityOptions = $entityOptions;
+    }
+
     /**
      * @param int $lastDays
      *
@@ -71,7 +90,7 @@ class Donate extends InvokableBase
     public function getDonateQueryBuilder()
     {
         /** @var \PServerCore\Entity\Repository\DonateLog $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getDonateLog());
+        $repository = $this->entityManager->getRepository($this->entityOptions->getDonateLog());
         return $repository->getDonateQueryBuilder();
     }
 
@@ -82,7 +101,7 @@ class Donate extends InvokableBase
     public function getDonateHistory4User(UserInterface $user)
     {
         /** @var \PServerCore\Entity\Repository\DonateLog $repository */
-        $repository = $this->getEntityManager()->getRepository($this->getEntityOptions()->getDonateLog());
+        $repository = $this->entityManager->getRepository($this->entityOptions->getDonateLog());
         return $repository->getDonateHistory4User($user);
     }
 
@@ -105,7 +124,7 @@ class Donate extends InvokableBase
      */
     protected function getDonateLogEntity()
     {
-        return $this->getEntityManager()->getRepository($this->getEntityOptions()->getDonateLog());
+        return $this->entityManager->getRepository($this->entityOptions->getDonateLog());
     }
 
 } 

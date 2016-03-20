@@ -3,10 +3,10 @@
 
 namespace PServerCore\Service;
 
+use PServerCore\Entity\TicketSystem\TicketSubject as PServerTicketSubject;
 use PServerCore\Options\GeneralOptions;
 use SmallUser\Entity\UserInterface;
 use ZfcTicketSystem\Entity\TicketSubject;
-use PServerCore\Entity\TicketSystem\TicketSubject as PServerTicketSubject;
 use ZfcTicketSystem\Service\TicketSystem as ZfcTicketSystem;
 
 class TicketSystem extends ZfcTicketSystem

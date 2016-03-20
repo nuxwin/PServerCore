@@ -4,13 +4,70 @@
 namespace PServerCore\Service;
 
 
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserCodes;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Options\Collection;
+use PServerCore\Service\UserCodes as UserCodesService;
+use Zend\Authentication\AuthenticationService;
+use Zend\Form\Form;
+use Zend\Mvc\Controller\Plugin\FlashMessenger;
+use Zend\Mvc\Controller\PluginManager;
 
-class AddEmail extends InvokableBase
+class AddEmail
 {
     const ERROR_NAMESPACE = 'pserver-user-account-errorAddEmail';
     const SUCCESS_NAMESPACE = 'pserver-user-account-successAddEmail';
+
+    /** @var PluginManager */
+    protected $controllerPluginManager;
+
+    /** @var  Collection */
+    protected $collectionOptions;
+
+    /** @var  Form */
+    protected $addEmailForm;
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  Mail */
+    protected $mailService;
+
+    /** @var  UserCodesService */
+    protected $userCodeService;
+
+    /** @var  AuthenticationService */
+    protected $authService;
+
+    /**
+     * AddEmail constructor.
+     * @param AuthenticationService $authService
+     * @param PluginManager $controllerPluginManager
+     * @param Collection $collectionOptions
+     * @param Form $addEmailForm
+     * @param EntityManager $entityManager
+     * @param Mail $mailService
+     * @param UserCodesService $userCodeService
+     */
+    public function __construct(
+        AuthenticationService $authService,
+        PluginManager $controllerPluginManager,
+        Collection $collectionOptions,
+        Form $addEmailForm,
+        EntityManager $entityManager,
+        Mail $mailService,
+        UserCodesService $userCodeService
+    ) {
+        $this->authService = $authService;
+        $this->controllerPluginManager = $controllerPluginManager;
+        $this->collectionOptions = $collectionOptions;
+        $this->addEmailForm = $addEmailForm;
+        $this->entityManager = $entityManager;
+        $this->mailService = $mailService;
+        $this->userCodeService = $userCodeService;
+    }
+
 
     /**
      * @param $data
@@ -25,9 +82,9 @@ class AddEmail extends InvokableBase
             foreach ($form->getElements() as $messages) {
                 /** @var \Zend\Form\ElementInterface $messages */
                 foreach ($messages->getMessages() as $message) {
-                $this->getFlashMessenger()
-                    ->setNamespace(self::ERROR_NAMESPACE)
-                    ->addMessage($message);
+                    $this->getFlashMessenger()
+                        ->setNamespace(self::ERROR_NAMESPACE)
+                        ->addMessage($message);
                 }
             }
 
@@ -43,10 +100,10 @@ class AddEmail extends InvokableBase
         }
 
         $data = $form->getData();
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
 
-        if ($this->getRegisterOptions()->isMailConfirmation()) {
-            $userExtensionName = $this->getEntityOptions()->getUserExtension();
+        if ($this->collectionOptions->getRegisterOptions()->isMailConfirmation()) {
+            $userExtensionName = $this->collectionOptions->getEntityOptions()->getUserExtension();
             /** @var \PServerCore\Entity\UserExtension $userExtension */
             $userExtension = new $userExtensionName;
 
@@ -61,10 +118,10 @@ class AddEmail extends InvokableBase
             $entityManager->persist($userExtension);
             $entityManager->flush();
 
-            $code = $this->getUserCodesService()->setCode4User($user, UserCodes::TYPE_ADD_EMAIL);
+            $code = $this->userCodeService->setCode4User($user, UserCodes::TYPE_ADD_EMAIL);
             $user->setEmail($data['email']);
 
-            $this->getMailService()->addEmail($user, $code);
+            $this->mailService->addEmail($user, $code);
 
             $this->getFlashMessenger()
                 ->setNamespace(self::SUCCESS_NAMESPACE)
@@ -74,7 +131,7 @@ class AddEmail extends InvokableBase
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->getAuthService()->getStorage()->write($user);
+            $this->authService->getStorage()->write($user);
         }
 
         return true;
@@ -86,8 +143,8 @@ class AddEmail extends InvokableBase
      */
     public function changeMail(UserInterface $user)
     {
-        $entityManager = $this->getEntityManager();
-        $userExtensionName = $this->getEntityOptions()->getUserExtension();
+        $entityManager = $this->entityManager;
+        $userExtensionName = $this->collectionOptions->getEntityOptions()->getUserExtension();
         /** @var \PServerCore\Entity\UserExtension $userExtension */
         $userExtension = new $userExtensionName;
         /** @var \PServerCore\Entity\Repository\UserExtension $extensionRepository */
@@ -109,11 +166,31 @@ class AddEmail extends InvokableBase
     }
 
     /**
-     * @return \PServerCore\Form\AddEmail
+     * @return Form
      */
     public function getAddEmailForm()
     {
-        return parent::getAddEmailForm();
+        return $this->addEmailForm;
     }
 
+    /**
+     * @return FlashMessenger
+     */
+    protected function getFlashMessenger()
+    {
+        return $this->controllerPluginManager->get('flashMessenger');
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return null|\PServerCore\Entity\UserInterface
+     */
+    protected function getUser4Id($userId)
+    {
+        /** @var \PServerCore\Entity\Repository\User $userRepository */
+        $userRepository = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getUser());
+
+        return $userRepository->getUser4Id($userId);
+    }
 }

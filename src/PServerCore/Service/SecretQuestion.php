@@ -2,12 +2,39 @@
 
 namespace PServerCore\Service;
 
-use PServerCore\Mapper\HydratorSecretQuestion;
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\SecretQuestion as Entity;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Mapper\HydratorSecretQuestion;
+use PServerCore\Options\EntityOptions;
+use Zend\Form\Form;
 
-class SecretQuestion extends InvokableBase
+class SecretQuestion
 {
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  EntityOptions */
+    protected $entityOptions;
+
+    /** @var  Form */
+    protected $adminSecretQuestionForm;
+
+    /**
+     * SecretQuestion constructor.
+     * @param EntityManager $entityManager
+     * @param EntityOptions $entityOptions
+     * @param Form $adminSecretQuestionForm
+     */
+    public function __construct(
+        EntityManager $entityManager,
+        EntityOptions $entityOptions,
+        Form $adminSecretQuestionForm
+    ) {
+        $this->entityManager = $entityManager;
+        $this->entityOptions = $entityOptions;
+        $this->adminSecretQuestionForm = $adminSecretQuestionForm;
+    }
 
     /**
      * @param UserInterface $user
@@ -18,7 +45,7 @@ class SecretQuestion extends InvokableBase
      */
     public function setSecretAnswer(UserInterface $user, $questionId, $answer)
     {
-        $class = $this->getEntityOptions()->getSecretAnswer();
+        $class = $this->entityOptions->getSecretAnswer();
         /** @var \PServerCore\Entity\SecretAnswer $secretAnswer */
         $secretAnswer = new $class;
 
@@ -26,9 +53,8 @@ class SecretQuestion extends InvokableBase
             ->setAnswer(trim($answer))
             ->setQuestion($this->getQuestion4Id($questionId));
 
-        $entity = $this->getEntityManager();
-        $entity->persist($secretAnswer);
-        $entity->flush();
+        $this->entityManager->persist($secretAnswer);
+        $this->entityManager->flush();
 
         return $secretAnswer;
     }
@@ -71,12 +97,12 @@ class SecretQuestion extends InvokableBase
     public function secretQuestion(array $data, $currentSecretQuestion = null)
     {
         if ($currentSecretQuestion == null) {
-            $class = $this->getEntityOptions()->getSecretQuestion();
+            $class = $this->entityOptions->getSecretQuestion();
             /** @var Entity $currentSecretQuestion */
             $currentSecretQuestion = new $class;
         }
 
-        $form = $this->getAdminSecretQuestionForm();
+        $form = $this->adminSecretQuestionForm;
         $form->setData($data);
         $form->setHydrator(new HydratorSecretQuestion());
         $form->bind($currentSecretQuestion);
@@ -87,9 +113,8 @@ class SecretQuestion extends InvokableBase
         /** @var Entity $secretQuestion */
         $secretQuestion = $form->getData();
 
-        $entity = $this->getEntityManager();
-        $entity->persist($secretQuestion);
-        $entity->flush();
+        $this->entityManager->persist($secretQuestion);
+        $this->entityManager->flush();
 
         return $secretQuestion;
     }
@@ -109,7 +134,7 @@ class SecretQuestion extends InvokableBase
      */
     protected function getEntityManagerAnswer()
     {
-        return $this->getEntityManager()->getRepository($this->getEntityOptions()->getSecretAnswer());
+        return $this->entityManager->getRepository($this->entityOptions->getSecretAnswer());
     }
 
     /**
@@ -117,7 +142,7 @@ class SecretQuestion extends InvokableBase
      */
     protected function getQuestionRepository()
     {
-        return $this->getEntityManager()->getRepository($this->getEntityOptions()->getSecretQuestion());
+        return $this->entityManager->getRepository($this->entityOptions->getSecretQuestion());
     }
 
 } 

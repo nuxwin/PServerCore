@@ -26,7 +26,7 @@ class PaymentValidation extends Validation
     public function userExists($userId)
     {
         $user = $this->userService->getUser4Id($userId);
-        return (bool) $user;
+        return (bool)$user;
     }
 
 }

@@ -4,7 +4,7 @@
 namespace PServerCore\Service;
 
 
-class Format extends InvokableBase
+class Format
 {
     /**
      * @param int $length

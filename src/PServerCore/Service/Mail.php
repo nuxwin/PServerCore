@@ -3,17 +3,21 @@
 namespace PServerCore\Service;
 
 
+use Doctrine\ORM\EntityManager;
+use Exception;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Options\Collection;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp;
 use Zend\Mail\Transport\SmtpOptions;
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Part;
 use Zend\View\Model\ViewModel;
+use Zend\View\Renderer\RendererInterface;
 use ZfcTicketSystem\Entity\TicketEntry;
 use ZfcTicketSystem\Entity\TicketSubject;
 
-class Mail extends InvokableBase
+class Mail
 {
     const SUBJECT_KEY_REGISTER = 'register';
     const SUBJECT_KEY_PASSWORD_LOST = 'password';
@@ -22,10 +26,33 @@ class Mail extends InvokableBase
     const SUBJECT_KEY_TICKET_ANSWER = 'ticketAnswer';
     const SUBJECT_KEY_ADD_EMAIL = 'addEmail';
 
-    /**
-     * @var SmtpOptions
-     */
+    /** @var  RendererInterface */
+    protected $viewRenderer;
+
+    /** @var  Collection */
+    protected $collectionOptions;
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var SmtpOptions */
     protected $mailSMTPOptions;
+
+    /**
+     * Mail constructor.
+     * @param RendererInterface $viewRenderer
+     * @param Collection $collectionOptions
+     * @param EntityManager $entityManager
+     */
+    public function __construct(
+        RendererInterface $viewRenderer,
+        Collection $collectionOptions,
+        EntityManager $entityManager
+    ) {
+        $this->viewRenderer = $viewRenderer;
+        $this->collectionOptions = $collectionOptions;
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * RegisterMail
@@ -40,7 +67,7 @@ class Mail extends InvokableBase
             'code' => $code
         ];
 
-        $this->send(self::SUBJECT_KEY_REGISTER, $user, $params);
+        $this->send($this::SUBJECT_KEY_REGISTER, $user, $params);
     }
 
     /**
@@ -54,7 +81,7 @@ class Mail extends InvokableBase
             'code' => $code
         ];
 
-        $this->send(self::SUBJECT_KEY_PASSWORD_LOST, $user, $params);
+        $this->send($this::SUBJECT_KEY_PASSWORD_LOST, $user, $params);
     }
 
     /**
@@ -68,7 +95,7 @@ class Mail extends InvokableBase
             'code' => $code
         ];
 
-        $this->send(self::SUBJECT_KEY_CONFIRM_COUNTRY, $user, $params);
+        $this->send($this::SUBJECT_KEY_CONFIRM_COUNTRY, $user, $params);
     }
 
     /**
@@ -82,7 +109,7 @@ class Mail extends InvokableBase
             'code' => $code
         ];
 
-        $this->send(self::SUBJECT_KEY_SECRET_LOGIN, $user, $params);
+        $this->send($this::SUBJECT_KEY_SECRET_LOGIN, $user, $params);
     }
 
     /**
@@ -98,7 +125,7 @@ class Mail extends InvokableBase
             'ticketEntry' => $ticketEntry,
         ];
 
-        $this->send(self::SUBJECT_KEY_TICKET_ANSWER, $user, $params);
+        $this->send($this::SUBJECT_KEY_TICKET_ANSWER, $user, $params);
     }
 
     /**
@@ -112,7 +139,7 @@ class Mail extends InvokableBase
             'code' => $code
         ];
 
-        $this->send(self::SUBJECT_KEY_ADD_EMAIL, $user, $params);
+        $this->send($this::SUBJECT_KEY_ADD_EMAIL, $user, $params);
     }
 
     /**
@@ -128,7 +155,7 @@ class Mail extends InvokableBase
         }
 
         // TODO TwigTemplateEngine
-        $renderer = $this->getViewRenderer();
+        $renderer = $this->viewRenderer;
         //$oResolver = $this->getServiceManager()->get('ZfcTwig\View\TwigResolver');
         //$oResolver->resolve(__DIR__ . '/../../../view');
         //$oRenderer->setResolver($oResolver);
@@ -151,33 +178,24 @@ class Mail extends InvokableBase
 
             $mail = new Message();
             $mail->setBody($body);
-            $mailOptions = $this->getMailOptions();
+            $mailOptions = $this->collectionOptions->getMailOptions();
             $mail->setFrom($mailOptions->getFrom(), $mailOptions->getFromName());
             $mail->setTo($user->getEmail());
             $mail->setSubject($subject);
 
             $transport = new Smtp($this->getSMTPOptions());
             $transport->send($mail);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Logging if smth wrong in Configuration or SMTP Offline =)
-            $entityManager = $this->getEntityManager();
-            $class = $this->getEntityOptions()->getLogs();
+            $class = $this->collectionOptions->getEntityOptions()->getLogs();
             /** @var \PServerCore\Entity\Logs $logEntity */
             $logEntity = new $class();
             $logEntity->setTopic('mail_faild');
             $logEntity->setMemo($e->getMessage());
             $logEntity->setUser($user);
-            $entityManager->persist($logEntity);
-            $entityManager->flush();
+            $this->entityManager->persist($logEntity);
+            $this->entityManager->flush();
         }
-    }
-
-    /**
-     * @return \Zend\View\Renderer\PhpRenderer
-     */
-    public function getViewRenderer()
-    {
-        return $this->getService('ViewRenderer');
     }
 
     /**
@@ -186,7 +204,7 @@ class Mail extends InvokableBase
     public function getSMTPOptions()
     {
         if (!$this->mailSMTPOptions) {
-            $this->mailSMTPOptions = new SmtpOptions($this->getMailOptions()->getBasic());
+            $this->mailSMTPOptions = new SmtpOptions($this->collectionOptions->getMailOptions()->getBasic());
         }
 
         return $this->mailSMTPOptions;
@@ -199,7 +217,7 @@ class Mail extends InvokableBase
      */
     public function getSubject4Key($key)
     {
-        $subjectList = $this->getMailOptions()->getSubject();
+        $subjectList = $this->collectionOptions->getMailOptions()->getSubject();
         // added fallback if the key not exists, in the config
         return isset($subjectList[$key]) ? $subjectList[$key] : $key;
     }

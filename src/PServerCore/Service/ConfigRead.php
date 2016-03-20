@@ -2,13 +2,25 @@
 
 namespace PServerCore\Service;
 
-class ConfigRead extends InvokableBase
+class ConfigRead
 {
+    /** @var  array */
+    protected $config;
+
     /**
      * Caching the Config String
      * @var array
      */
     private $cache = [];
+
+    /**
+     * ConfigRead constructor.
+     * @param array $config
+     */
+    public function __construct(array $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * @param $configString
@@ -24,7 +36,7 @@ class ConfigRead extends InvokableBase
         }
 
         $valueList = explode('.', $configString);
-        $config = $this->getServiceManager()->get('Config');
+        $config = $this->config;
         foreach ($valueList as $value) {
             if (!isset($config[$value])) {
                 $config = $default;

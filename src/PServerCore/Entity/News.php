@@ -3,8 +3,6 @@
 namespace PServerCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PServerCore\Keys\Caching;
-use PServerCore\Service\ServiceManager;
 
 /**
  * NEWS

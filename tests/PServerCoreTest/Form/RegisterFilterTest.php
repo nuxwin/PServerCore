@@ -40,8 +40,8 @@ class RegisterFilterTest extends TestBase
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|Collection $collection */
         $collection = $this->getMockBuilder(Collection::class)
-                ->setMethods(['getValidationOptions', 'getRegisterOptions', 'getPasswordOptions'])
-                ->getMock();
+            ->setMethods(['getValidationOptions', 'getRegisterOptions', 'getPasswordOptions'])
+            ->getMock();
 
         $collection->expects($this->any())
             ->method('getValidationOptions')

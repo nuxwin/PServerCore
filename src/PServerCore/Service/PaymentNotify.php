@@ -2,14 +2,47 @@
 
 namespace PServerCore\Service;
 
+use Doctrine\ORM\EntityManager;
 use Exception;
 use PaymentAPI\Provider\Request;
 use PaymentAPI\Service\AlreadyAddedException;
 use PaymentAPI\Service\LogInterface;
 use PServerCore\Entity\DonateLog;
+use PServerCore\Options\Collection;
 
-class PaymentNotify extends InvokableBase implements LogInterface
+class PaymentNotify implements LogInterface
 {
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  Collection */
+    protected $collectionOptions;
+
+    /** @var  Coin */
+    protected $coinService;
+
+    /** @var  UserBlock */
+    protected $userBlockService;
+
+    /**
+     * PaymentNotify constructor.
+     * @param EntityManager $entityManager
+     * @param Collection $collectionOptions
+     * @param Coin $coinService
+     * @param UserBlock $userBlockService
+     */
+    public function __construct(
+        EntityManager $entityManager,
+        Collection $collectionOptions,
+        Coin $coinService,
+        UserBlock $userBlockService
+    ) {
+        $this->entityManager = $entityManager;
+        $this->collectionOptions = $collectionOptions;
+        $this->coinService = $coinService;
+        $this->userBlockService = $userBlockService;
+    }
+
     /**
      * Method the add the reward
      *
@@ -38,17 +71,17 @@ class PaymentNotify extends InvokableBase implements LogInterface
         // save the message if gamebackend-service is unavailable
         $errorMessage = '';
         try {
-            $this->getCoinService()->addCoins($user, $coins);
+            $this->coinService->addCoins($user, $coins);
         } catch (\Exception $e) {
             $request->setStatus($request::STATUS_ERROR);
             $errorMessage = $e->getMessage();
         }
 
         if ($request->isReasonToBan()) {
-            $expire = (int)$this->getConfigService()->get('payment-api.ban-time', 0) + time();
+            $expire = (int)$this->collectionOptions->getConfig()['payment-api']['ban-time'] + time();
             $reason = 'Donate - ChargeBack';
 
-            $this->getUserBlockService()->blockUser($user, $expire, $reason);
+            $this->userBlockService->blockUser($user, $expire, $reason);
         }
 
         $this->saveDonateLog($request, $user, $errorMessage);
@@ -83,7 +116,7 @@ class PaymentNotify extends InvokableBase implements LogInterface
             $data['errorMessage'] = $errorMessage;
         }
 
-        $class = $this->getEntityOptions()->getDonateLog();
+        $class = $this->collectionOptions->getEntityOptions()->getDonateLog();
         /** @var DonateLog $donateEntity */
         $donateEntity = new $class;
         $donateEntity->setTransactionId($request->getTransactionId())
@@ -108,9 +141,8 @@ class PaymentNotify extends InvokableBase implements LogInterface
     protected function saveDonateLog(Request $request, $user, $errorMessage = '')
     {
         $donateLog = $this->getDonateLogEntity4Data($request, $user, $errorMessage);
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($donateLog);
-        $entityManager->flush();
+        $this->entityManager->persist($donateLog);
+        $this->entityManager->flush();
     }
 
     /**
@@ -146,7 +178,7 @@ class PaymentNotify extends InvokableBase implements LogInterface
     protected function isDonateAlreadyAdded(Request $request)
     {
         /** @var \PServerCore\Entity\Repository\DonateLog $donateEntity */
-        $donateEntity = $this->getEntityManager()->getRepository($this->getEntityOptions()->getDonateLog());
+        $donateEntity = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getDonateLog());
 
         return $donateEntity->isDonateAlreadyAdded($request->getTransactionId(),
             $this->mapPaymentProvider2DonateType($request));
@@ -159,5 +191,18 @@ class PaymentNotify extends InvokableBase implements LogInterface
     public function isStatusSuccess(Request $request)
     {
         return $request->getStatus() == $request::STATUS_SUCCESS;
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return null|\PServerCore\Entity\UserInterface
+     */
+    protected function getUser4Id($userId)
+    {
+        /** @var \PServerCore\Entity\Repository\User $userRepository */
+        $userRepository = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getUser());
+
+        return $userRepository->getUser4Id($userId);
     }
 }

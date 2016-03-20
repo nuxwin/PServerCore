@@ -2,18 +2,52 @@
 
 namespace PServerCore\Service;
 
-use PServerCore\Mapper\HydratorDownload;
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\DownloadList;
 use PServerCore\Keys\Caching;
+use PServerCore\Mapper\HydratorDownload;
+use PServerCore\Options\EntityOptions;
+use Zend\Form\Form;
 
-class Download extends InvokableBase
+class Download
 {
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  EntityOptions */
+    protected $entityOptions;
+
+    /** @var  CachingHelper */
+    protected $cachingHelperService;
+
+    /** @var  Form */
+    protected $adminDownloadForm;
+
+    /**
+     * Download constructor.
+     * @param EntityManager $entityManager
+     * @param EntityOptions $entityOptions
+     * @param CachingHelper $cachingHelperService
+     * @param Form $adminDownloadForm
+     */
+    public function __construct(
+        EntityManager $entityManager,
+        EntityOptions $entityOptions,
+        CachingHelper $cachingHelperService,
+        Form $adminDownloadForm
+    ) {
+        $this->entityManager = $entityManager;
+        $this->entityOptions = $entityOptions;
+        $this->cachingHelperService = $cachingHelperService;
+        $this->adminDownloadForm = $adminDownloadForm;
+    }
+
     /**
      * @return \PServerCore\Entity\DownloadList[]
      */
     public function getActiveList()
     {
-        $downloadInfo = $this->getCachingHelperService()->getItem(Caching::DOWNLOAD, function () {
+        $downloadInfo = $this->cachingHelperService->getItem(Caching::DOWNLOAD, function () {
             return $this->getDownloadRepository()->getActiveDownloadList();
         });
 
@@ -54,12 +88,12 @@ class Download extends InvokableBase
     public function download(array $data, $currentDownload = null)
     {
         if ($currentDownload == null) {
-            $class = $this->getEntityOptions()->getDownloadList();
+            $class = $this->entityOptions->getDownloadList();
             /** @var DownloadList $currentDownload */
             $currentDownload = new $class;
         }
 
-        $form = $this->getAdminDownloadForm();
+        $form = $this->adminDownloadForm;
         $form->setData($data);
         $form->setHydrator(new HydratorDownload());
         $form->bind($currentDownload);
@@ -70,9 +104,8 @@ class Download extends InvokableBase
         /** @var DownloadList $download */
         $download = $form->getData();
 
-        $entity = $this->getEntityManager();
-        $entity->persist($download);
-        $entity->flush();
+        $this->entityManager->persist($download);
+        $this->entityManager->flush();
 
         return $download;
     }
@@ -91,7 +124,7 @@ class Download extends InvokableBase
      */
     protected function getDownloadRepository()
     {
-        return $this->getEntityManager()->getRepository($this->getEntityOptions()->getDownloadList());
+        return $this->entityManager->getRepository($this->entityOptions->getDownloadList());
     }
 
 } 

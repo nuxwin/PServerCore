@@ -3,32 +3,53 @@
 namespace PServerCore\Service;
 
 
-class CachingHelper extends InvokableBase
+use Closure;
+use PServerCore\Options\GeneralOptions;
+use Zend\Cache\Storage\StorageInterface;
+
+class CachingHelper
 {
+    /** @var  StorageInterface */
+    protected $cachingService;
+
+    /** @var  GeneralOptions */
+    protected $generalOptions;
+
+    /**
+     * CachingHelper constructor.
+     * @param StorageInterface $cachingService
+     * @param GeneralOptions $generalOptions
+     */
+    public function __construct(StorageInterface $cachingService, GeneralOptions $generalOptions)
+    {
+        $this->cachingService = $cachingService;
+        $this->generalOptions = $generalOptions;
+    }
+
     /**
      * @param $cacheKey
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param null $lifetime
      * @return mixed
      */
-    public function getItem($cacheKey, \Closure $closure, $lifetime = null)
+    public function getItem($cacheKey, Closure $closure, $lifetime = null)
     {
         // we have to check if we enable the caching in config
         if (!$this->isCachingEnable()) {
             return $closure();
         }
 
-        $data = $this->getCachingService()->getItem($cacheKey);
+        $data = $this->cachingService->getItem($cacheKey);
         if (!$data) {
             $data = $closure();
             if ($lifetime > 0) {
-                $this->getCachingService()->setOptions(
-                    $this->getCachingService()
+                $this->cachingService->setOptions(
+                    $this->cachingService
                         ->getOptions()
                         ->setTtl($lifetime)
                 );
             }
-            $this->getCachingService()->setItem($cacheKey, $data);
+            $this->cachingService->setItem($cacheKey, $data);
         }
 
         return $data;
@@ -39,7 +60,7 @@ class CachingHelper extends InvokableBase
      */
     public function delItem($cacheKey)
     {
-        $this->getCachingService()->removeItem($cacheKey);
+        $this->cachingService->removeItem($cacheKey);
     }
 
     /**
@@ -47,7 +68,7 @@ class CachingHelper extends InvokableBase
      */
     public function isCachingEnable()
     {
-        return (bool)$this->getGeneralOptions()->getCache()['enable'];
+        return (bool)$this->generalOptions->getCache()['enable'];
     }
 
 } 
