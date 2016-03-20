@@ -153,15 +153,35 @@ class Module
             'factories' => [
                 'pserver_user_register_form' => function ($sm) {
                     /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                    $form = new Form\Register($sm);
-                    $form->setInputFilter(new Form\RegisterFilter($sm));
+                    /** @noinspection PhpParamsInspection */
+                    $form = new Form\Register(
+                        $sm->get('Doctrine\ORM\EntityManager'),
+                        $sm->get('SanCaptcha'),
+                        $sm->get(Options\Collection::class)
+                    );
+                    /** @noinspection PhpParamsInspection */
+                    $form->setInputFilter(
+                        new Form\RegisterFilter(
+                            $sm->get(Options\Collection::class),
+                            $sm->get('Doctrine\ORM\EntityManager'),
+                            $sm->get('gamebackend_dataservice')
+                        )
+                    );
                     return $form;
                 },
                 'pserver_user_password_form' => function ($sm) {
                     /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                    $form = new Form\Password($sm);
+                    /** @noinspection PhpParamsInspection */
+                    $form = new Form\Password(
+                        $sm->get('Doctrine\ORM\EntityManager'),
+                        $sm->get(Options\Collection::class)
+                    );
+                    /** @noinspection PhpParamsInspection */
                     $form->setInputFilter(
-                        new Form\PasswordFilter($sm)
+                        new Form\PasswordFilter(
+                            $sm->get('pserver_password_options'),
+                            $sm->get('pserver_secret_question')
+                        )
                     );
                     return $form;
                 },
@@ -171,7 +191,8 @@ class Module
                     /** @var Options\EntityOptions $entityOptions */
                     $entityOptions = $sm->get('pserver_entity_options');
                     $repositoryUser = $sm->get('Doctrine\ORM\EntityManager')->getRepository($entityOptions->getUser());
-                    $form = new Form\PwLost($sm);
+                    /** @noinspection PhpParamsInspection */
+                    $form = new Form\PwLost($sm->get('SanCaptcha'));
                     $form->setInputFilter(
                         new Form\PwLostFilter(
                             new Validator\ValidUserExists($repositoryUser)
@@ -180,13 +201,23 @@ class Module
                     return $form;
                 },
                 'pserver_user_changepwd_form' => function ($sm) {
+                    /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
                     $form = new Form\ChangePwd();
-                    $form->setInputFilter(new Form\ChangePwdFilter($sm));
+                    /** @noinspection PhpParamsInspection */
+                    $form->setInputFilter(new Form\ChangePwdFilter($sm->get('pserver_password_options')));
                     return $form;
                 },
                 'pserver_user_add_mail_form' => function ($sm) {
+                    /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
                     $form = new Form\AddEmail();
-                    $form->setInputFilter(new Form\AddEmailFilter($sm));
+                    /** @noinspection PhpParamsInspection */
+                    $form->setInputFilter(
+                        new Form\AddEmailFilter(
+                            $sm->get('Doctrine\ORM\EntityManager'),
+                            $sm->get('Config')['pserver'],
+                            $sm->get(Options\Collection::class)
+                        )
+                    );
                     return $form;
                 },
                 'pserver_entity_options' => function ($sm) {
@@ -251,7 +282,8 @@ class Module
                 'zfcticketsystem_ticketsystem_entry_form' => function ($sm) {
                     /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
                     $form = new \ZfcTicketSystem\Form\TicketEntry();
-                    $form->setInputFilter(new Form\TicketEntryFilter($sm));
+                    /** @noinspection PhpParamsInspection */
+                    $form->setInputFilter(new Form\TicketEntryFilter($sm->get('zfc-bbcode_parser')));
                     return $form;
                 },
                 'small_user_login_form' => function ($sm) {

@@ -2,16 +2,11 @@
 
 namespace PServerCore\Validator;
 
-use PServerCore\Helper\HelperBasic;
-use PServerCore\Helper\HelperService;
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
-use Zend\ServiceManager\ServiceManager;
 
 class StriposExists extends AbstractValidator
 {
-    use HelperBasic, HelperService;
-
     const TYPE_EMAIL = 'email';
 
     /**
@@ -27,18 +22,18 @@ class StriposExists extends AbstractValidator
         self::ERROR_BLACKLIST => "Entry not allowed"
     ];
 
-    /** @var ServiceManager */
-    protected $serviceManager;
+    /** @var array */
+    protected $config;
     /** @var  string */
     protected $type;
 
     /**
-     * @param ServiceManager $serviceManager
-     * @param                              $type
+     * @param array $config
+     * @param string $type
      */
-    public function __construct(ServiceManager $serviceManager, $type)
+    public function __construct(array $config, $type)
     {
-        $this->setServiceManager($serviceManager);
+        $this->config = $config;
         $this->setType($type);
 
         parent::__construct();
@@ -60,7 +55,7 @@ class StriposExists extends AbstractValidator
     {
         $result = true;
         $this->setValue($value);
-        $blackList = $this->getConfigService()->get('pserver.blacklisted.' . $this->getType(), false);
+        $blackList = $this->config['blacklisted'][$this->getType()];
 
         if (!$blackList) {
             return $result;
@@ -76,26 +71,6 @@ class StriposExists extends AbstractValidator
         }
 
         return $result;
-    }
-
-    /**
-     * @param ServiceManager $serviceManager
-     *
-     * @return $this
-     */
-    protected function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
-    }
-
-    /**
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
     }
 
     /**

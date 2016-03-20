@@ -4,6 +4,7 @@
 namespace PServerCoreTest\Form;
 
 
+use PServerCore\Options\CollectionFactory;
 use PServerCoreTest\Util\TestBase;
 
 class RegisterFilterTest extends TestBase
@@ -46,8 +47,6 @@ class RegisterFilterTest extends TestBase
             ->method('getUserNameBackendNotExistsValidator')
             ->willReturn($UserNameBackendNotExistsMock);
 
-        $class->__construct($this->serviceManager);
-
         $class->setData([
             'username' => 'fo dfgo',
             'email' => 'fodfgo@example.com',
@@ -59,22 +58,5 @@ class RegisterFilterTest extends TestBase
         $this->assertFalse($class->isValid());
     }
 
-    /**
-     * @return \PServerCore\Form\RegisterFilter|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getClass()
-    {
-        if (!$this->class) {
-            /** @var \Zend\ServiceManager\ServiceManagerAwareInterface $class */
-            $class = $this->getMockBuilder($this->className)
-                ->disableOriginalConstructor()
-                ->setMethods($this->getMockedMethodList())
-                ->getMock();
-
-            $this->class = $class;
-        }
-
-        return $this->class;
-    }
 
 }

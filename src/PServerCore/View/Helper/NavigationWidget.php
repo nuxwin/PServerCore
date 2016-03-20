@@ -8,7 +8,7 @@ use Zend\View\Model\ViewModel;
 
 class NavigationWidget extends AbstractHelper
 {
-    /** @var  array*/
+    /** @var  array */
     protected $config;
 
     /**

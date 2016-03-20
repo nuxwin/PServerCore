@@ -2,29 +2,40 @@
 
 namespace PServerCore\Form;
 
-use PServerCore\Helper\HelperBasic;
-use PServerCore\Helper\HelperOptions;
-use PServerCore\Helper\HelperService;
+use Doctrine\ORM\EntityManager;
+use GameBackend\DataService\DataServiceInterface;
+use PServerCore\Options\Collection;
 use PServerCore\Validator;
 use PServerCore\Validator\AbstractRecord;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcBase\InputFilter\ProvidesEventsInputFilter;
 
 class RegisterFilter extends ProvidesEventsInputFilter
 {
-    use HelperOptions, HelperBasic, HelperService;
+    /** @var  Collection */
+    protected $collection;
 
-    /** @var ServiceLocatorInterface */
-    protected $serviceManager;
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  DataServiceInterface */
+    protected $gameBackendService;
 
     /**
-     * @param ServiceLocatorInterface $serviceManager
+     * RegisterFilter constructor.
+     * @param Collection $collection
+     * @param EntityManager $entityManager
+     * @param DataServiceInterface $gameBackendService
      */
-    public function __construct(ServiceLocatorInterface $serviceManager)
-    {
-        $this->setServiceManager($serviceManager);
+    public function __construct(
+        Collection $collection,
+        EntityManager $entityManager,
+        DataServiceInterface $gameBackendService
+    ) {
+        $this->collection = $collection;
+        $this->entityManager = $entityManager;
+        $this->gameBackendService = $gameBackendService;
 
-        $validationUsernameOptions = $this->getValidationOptions()->getUsername();
+        $validationUsernameOptions = $this->collection->getValidationOptions()->getUsername();
 
         $this->add([
             'name' => 'username',
@@ -63,7 +74,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
             ],
         ]);
 
-        if (!$this->getRegisterOptions()->isDuplicateEmail()) {
+        if (!$this->collection->getRegisterOptions()->isDuplicateEmail()) {
             $element = $this->get('email');
             /** @var \Zend\Validator\ValidatorChain $chain */
             $chain = $element->getValidatorChain();
@@ -92,7 +103,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
             ],
         ]);
 
-        $passwordLengthOptions = $this->getPasswordOptions()->getLength();
+        $passwordLengthOptions = $this->collection->getPasswordOptions()->getLength();
 
         $this->add([
             'name' => 'password',
@@ -130,7 +141,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
             ],
         ]);
 
-        if ($this->getPasswordOptions()->isSecretQuestion()) {
+        if ($this->collection->getPasswordOptions()->isSecretQuestion()) {
             $this->add([
                 'name' => 'question',
                 'required' => true,
@@ -161,32 +172,12 @@ class RegisterFilter extends ProvidesEventsInputFilter
     }
 
     /**
-     * @param ServiceLocatorInterface $serviceManager
-     *
-     * @return self
-     */
-    public function setServiceManager(ServiceLocatorInterface $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
-    }
-
-    /**
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
      * @return array
      */
     protected function getSecretQuestionList()
     {
         /** @var \PServerCore\Entity\Repository\SecretQuestion $secret */
-        $secret = $this->getEntityManager()->getRepository('PServerCore\Entity\SecretQuestion');
+        $secret = $this->entityManager->getRepository($this->collection->getEntityOptions()->getSecretQuestion());
         $secretQuestion = $secret->getQuestions();
 
         $result = [];
@@ -203,7 +194,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
     public function getUsernameValidator()
     {
         /** @var $repositoryUser \Doctrine\Common\Persistence\ObjectRepository */
-        $repositoryUser = $this->getEntityManager()->getRepository($this->getEntityOptions()->getUser());
+        $repositoryUser = $this->entityManager->getRepository($this->collection->getEntityOptions()->getUser());
 
         return new Validator\NoRecordExists($repositoryUser, 'username');
     }
@@ -214,7 +205,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
     public function getEmailValidator()
     {
         /** @var $repositoryUser \Doctrine\Common\Persistence\ObjectRepository */
-        $repositoryUser = $this->getEntityManager()->getRepository($this->getEntityOptions()->getUser());
+        $repositoryUser = $this->entityManager->getRepository($this->collection->getEntityOptions()->getUser());
 
         return new Validator\NoRecordExists($repositoryUser, 'email');
     }
@@ -224,7 +215,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
      */
     public function getStriposValidator()
     {
-        return new Validator\StriposExists($this->getServiceManager(), Validator\StriposExists::TYPE_EMAIL);
+        return new Validator\StriposExists($this->collection->getConfig(), Validator\StriposExists::TYPE_EMAIL);
     }
 
     /**
@@ -232,7 +223,10 @@ class RegisterFilter extends ProvidesEventsInputFilter
      */
     public function getUserNameBackendNotExistsValidator()
     {
-        return new Validator\UserNameBackendNotExists($this->getServiceManager());
+        return new Validator\UserNameBackendNotExists(
+            $this->gameBackendService,
+            $this->collection->getEntityOptions()
+        );
     }
 
 

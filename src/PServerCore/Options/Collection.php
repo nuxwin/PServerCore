@@ -32,6 +32,9 @@ class Collection
     /** @var  ValidationOptions */
     protected $validationOptions;
 
+    /** @var  array */
+    protected $config;
+
     /**
      * @return EntityOptions
      */
@@ -173,6 +176,24 @@ class Collection
     public function setValidationOptions($validationOptions)
     {
         $this->validationOptions = $validationOptions;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param array $config
+     * @return self
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
         return $this;
     }
 

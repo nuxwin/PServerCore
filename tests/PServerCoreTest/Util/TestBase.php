@@ -4,24 +4,21 @@
 namespace PServerCoreTest\Util;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use PServerCore\Service\ServiceManager;
 
 class TestBase extends TestCase
 {
-    /** @var  \Zend\ServiceManager\ServiceManager */
-    protected $serviceManager;
     /** @var  string */
     protected $className;
     /** @var array|null  */
     protected $mockedMethodList = null;
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $class;
+    /** @var array */
+    protected $mockedConstructorArgList = [];
 
     public function setUp()
     {
         parent::setUp();
-        $this->serviceManager = ServiceManagerFactory::getServiceManager();
-        ServiceManager::setInstance($this->serviceManager);
     }
 
     /**
@@ -37,20 +34,19 @@ class TestBase extends TestCase
     }
 
     /**
-     * @return \Zend\ServiceManager\ServiceManagerAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getClass()
     {
         if (!$this->class) {
-            /** @var \Zend\ServiceManager\ServiceManagerAwareInterface $class */
-            $class = $this->getMockBuilder($this->className)
-                ->disableOriginalConstructor()
-                ->setMethods($this->getMockedMethodList())
+            $class = $this->getMockBuilder($this->className);
+            if ($this->mockedConstructorArgList) {
+                $class->setConstructorArgs($this->mockedConstructorArgList);
+            } else {
+                $class->disableOriginalConstructor();
+            }
+            $this->class = $class->setMethods($this->mockedMethodList)
                 ->getMock();
-
-            $class->setServiceManager($this->serviceManager);
-
-            $this->class = $class;
         }
 
         return $this->class;

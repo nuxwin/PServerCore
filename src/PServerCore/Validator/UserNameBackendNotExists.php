@@ -3,17 +3,13 @@
 
 namespace PServerCore\Validator;
 
-use GameBackend\Helper\Service;
-use PServerCore\Helper\HelperBasic;
-use PServerCore\Helper\HelperOptions;
-use PServerCore\Helper\HelperService;
+use Exception;
+use GameBackend\DataService\DataServiceInterface;
+use PServerCore\Options\EntityOptions;
 use Zend\Validator\AbstractValidator;
-use Zend\ServiceManager\ServiceManager;
 
 class UserNameBackendNotExists extends AbstractValidator
 {
-    use HelperBasic, HelperService, Service, HelperOptions;
-
     const ERROR_RECORD_FOUND = 'recordFound';
 
     /**
@@ -24,27 +20,31 @@ class UserNameBackendNotExists extends AbstractValidator
         self::ERROR_RECORD_FOUND => "A record matching the input was found",
     ];
 
+    /** @var  DataServiceInterface */
+    protected $gameBackendService;
+
+    /** @var  EntityOptions */
+    protected $entityOptions;
 
     /**
-     * @var ServiceManager
+     * UserNameBackendNotExists constructor.
+     * @param DataServiceInterface $gameBackendService
+     * @param EntityOptions $entityOptions
      */
-    protected $serviceManager;
-
-    /**
-     * @param ServiceManager $serviceManager
-     */
-    public function __construct(ServiceManager $serviceManager)
+    public function __construct(DataServiceInterface $gameBackendService, EntityOptions $entityOptions)
     {
-        $this->setServiceManager($serviceManager);
+        $this->gameBackendService = $gameBackendService;
+        $this->entityOptions = $entityOptions;
 
         parent::__construct();
     }
+
 
     /**
      * @param mixed $value
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function isValid($value)
     {
@@ -61,36 +61,17 @@ class UserNameBackendNotExists extends AbstractValidator
     }
 
     /**
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * @param ServiceManager $serviceManager
-     * @return UserNameBackendNotExists
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
-    }
-
-    /**
      * @param string $value
      *
      * @return bool
      */
     protected function query($value)
     {
-        $class = $this->getEntityOptions()->getUser();
+        $class = $this->entityOptions->getUser();
         /** @var \PServerCore\Entity\UserInterface $user */
         $user = new $class();
         $user->setUsername($value);
 
-        return $this->getGameBackendService()->isUserNameExists($user);
+        return $this->gameBackendService->isUserNameExists($user);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace PServerCore\Validator;
 
-use Zend\Validator\AbstractValidator;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Exception;
+use Zend\Validator\AbstractValidator;
 
 abstract class AbstractRecord extends AbstractValidator
 {
@@ -91,7 +92,7 @@ abstract class AbstractRecord extends AbstractValidator
     /**
      * @param $value
      * @return object
-     * @throws \Exception
+     * @throws Exception
      */
     protected function query($value)
     {
@@ -110,7 +111,7 @@ abstract class AbstractRecord extends AbstractValidator
                 break;
 
             default:
-                throw new \Exception('Invalid key used in validator');
+                throw new Exception('Invalid key used in validator');
                 break;
         }
 

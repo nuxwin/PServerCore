@@ -15,6 +15,7 @@ class TimerWidgetTest extends TestBase
         $this->mockedMethodList = [
             'getView'
         ];
+
         /** @var \PServerCore\View\Helper\TimerWidget|\PHPUnit_Framework_MockObject_MockObject $class */
         $class = $this->getClass();
 
@@ -29,19 +30,5 @@ class TimerWidgetTest extends TestBase
         $result = $class->__invoke();
 
         $this->assertNull($result);
-    }
-
-    /**
-     * @return \Zend\ServiceManager\ServiceManagerAwareInterface
-     */
-    protected function getClass()
-    {
-        /** @var \Zend\ServiceManager\ServiceManagerAwareInterface $class */
-        $class = $this->getMockBuilder($this->className)
-            ->setConstructorArgs([$this->serviceManager])
-            ->setMethods($this->getMockedMethodList())
-            ->getMock();
-
-        return $class;
     }
 }

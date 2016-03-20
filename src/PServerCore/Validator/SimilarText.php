@@ -2,9 +2,10 @@
 
 namespace PServerCore\Validator;
 
+use PServerCore\Entity\UserInterface;
+use PServerCore\Service\SecretQuestion;
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
-use PServerCore\Entity\UserInterface;
 
 class SimilarText extends AbstractValidator
 {
@@ -21,13 +22,13 @@ class SimilarText extends AbstractValidator
         self::ERROR_NOT_SAME => "Secret Answer is not correct"
     ];
 
-    /** @var \PServerCore\Service\SecretQuestion */
+    /** @var SecretQuestion */
     protected $secretQuestionService;
 
     /**
-     * @param \PServerCore\Service\SecretQuestion $secretQuestionService
+     * @param SecretQuestion $secretQuestionService
      */
-    public function __construct(\PServerCore\Service\SecretQuestion $secretQuestionService)
+    public function __construct(SecretQuestion $secretQuestionService)
     {
         $this->setSecretQuestion($secretQuestionService);
 
@@ -75,15 +76,15 @@ class SimilarText extends AbstractValidator
     }
 
     /**
-     * @param \PServerCore\Service\SecretQuestion $secretQuestionService
+     * @param SecretQuestion $secretQuestionService
      */
-    protected function setSecretQuestion(\PServerCore\Service\SecretQuestion $secretQuestionService)
+    protected function setSecretQuestion(SecretQuestion $secretQuestionService)
     {
         $this->secretQuestionService = $secretQuestionService;
     }
 
     /**
-     * @return \PServerCore\Service\SecretQuestion
+     * @return SecretQuestion
      */
     protected function getSecretQuestion()
     {

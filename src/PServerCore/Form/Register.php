@@ -2,21 +2,37 @@
 
 namespace PServerCore\Form;
 
+use Doctrine\ORM\EntityManager;
+use PServerCore\Options\Collection;
+use Zend\Captcha\AdapterInterface;
 use Zend\Form\Element;
 use Zend\Form\Element\Captcha;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcBase\Form\ProvidesEventsForm;
 
 class Register extends ProvidesEventsForm
 {
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    /** @var  AdapterInterface */
+    protected $sanCaptcha;
+
+    /** @var  Collection */
+    protected $collection;
 
     /**
      * Register constructor.
-     * @param ServiceLocatorInterface $sm
+     * @param EntityManager $entityManager
+     * @param AdapterInterface $sanCaptcha
+     * @param Collection $collection
      */
-    public function __construct(ServiceLocatorInterface $sm)
+    public function __construct(EntityManager $entityManager, AdapterInterface $sanCaptcha, Collection $collection)
     {
         parent::__construct();
+
+        $this->entityManager = $entityManager;
+        $this->sanCaptcha = $sanCaptcha;
+        $this->collection = $collection;
 
         $this->add([
             'type' => 'Zend\Form\Element\Csrf',
@@ -87,18 +103,14 @@ class Register extends ProvidesEventsForm
             ],
         ]);
 
-        /** @var \PServerCore\Service\ConfigRead $configService */
-        $configService = $sm->get('pserver_configread_service');
-        if ($configService->get('pserver.password.secret_question')) {
-
-            /** @var \PServerCore\Options\EntityOptions $entityOptions */
-            $entityOptions = $sm->get('pserver_entity_options');
+        if ($this->collection->getConfig()['password']['secret_question']) {
+            $entityOptions = $this->collection->getEntityOptions();
 
             $this->add([
                 'name' => 'question',
                 'type' => 'DoctrineModule\Form\Element\ObjectSelect',
                 'options' => [
-                    'object_manager' => $sm->get('Doctrine\ORM\EntityManager'),
+                    'object_manager' => $this->entityManager,
                     'target_class' => $entityOptions->getSecretQuestion(),
                     'property' => 'question',
                     'label' => 'SecretQuestion',
@@ -129,7 +141,7 @@ class Register extends ProvidesEventsForm
         }
 
         $captcha = new Captcha('captcha');
-        $captcha->setCaptcha($sm->get('SanCaptcha'))
+        $captcha->setCaptcha($this->sanCaptcha)
             ->setOptions([
                 'label' => 'Please verify you are human.',
             ])

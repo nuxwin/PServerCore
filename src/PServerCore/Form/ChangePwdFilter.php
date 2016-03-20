@@ -2,22 +2,17 @@
 
 namespace PServerCore\Form;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use PServerCore\Options\PasswordOptions;
 use ZfcBase\InputFilter\ProvidesEventsInputFilter;
 
 class ChangePwdFilter extends ProvidesEventsInputFilter
 {
-    /** @var  ServiceLocatorInterface */
-    protected $serviceManager;
-
     /**
-     * @param ServiceLocatorInterface $serviceLocatorInterface
+     * @param PasswordOptions $passwordOptions
      */
-    public function __construct(ServiceLocatorInterface $serviceLocatorInterface)
+    public function __construct(PasswordOptions $passwordOptions)
     {
-        $this->setServiceManager($serviceLocatorInterface);
-
-        $passwordLengthOptions = $this->getPasswordOptions()->getLength();
+        $passwordLengthOptions = $passwordOptions->getLength();
 
         $this->add([
             'name' => 'currentPassword',
@@ -71,31 +66,5 @@ class ChangePwdFilter extends ProvidesEventsInputFilter
         ]);
     }
 
-    /**
-     * @param ServiceLocatorInterface $oServiceManager
-     *
-     * @return $this
-     */
-    public function setServiceManager(ServiceLocatorInterface $oServiceManager)
-    {
-        $this->serviceManager = $oServiceManager;
 
-        return $this;
-    }
-
-    /**
-     * @return ServiceLocatorInterface
-     */
-    protected function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * @return \PServerCore\Options\PasswordOptions
-     */
-    protected function getPasswordOptions()
-    {
-        return $this->getServiceManager()->get('pserver_password_options');
-    }
 }

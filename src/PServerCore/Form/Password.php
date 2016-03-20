@@ -2,27 +2,31 @@
 
 namespace PServerCore\Form;
 
+use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserInterface;
+use PServerCore\Options\Collection;
 use Zend\Form\Element;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcBase\Form\ProvidesEventsForm;
 
 class Password extends ProvidesEventsForm
 {
-    /** @var  ServiceLocatorInterface */
-    protected $serviceManager;
     /** @var  UserInterface */
     protected $user;
-    /** @var  \Doctrine\ORM\EntityManager */
+    /** @var  EntityManager */
     protected $entityManager;
+    /** @var  Collection */
+    protected $collectionOptions;
 
     /**
-     * @param ServiceLocatorInterface $serviceLocatorInterface
+     * Password constructor.
+     * @param EntityManager $entityManager
+     * @param Collection $collectionOptions
      */
-    public function __construct(ServiceLocatorInterface $serviceLocatorInterface)
+    public function __construct(EntityManager $entityManager, Collection $collectionOptions)
     {
         parent::__construct();
-        $this->setServiceManager($serviceLocatorInterface);
+        $this->entityManager = $entityManager;
+        $this->collectionOptions = $collectionOptions;
 
         $this->add([
             'type' => 'Zend\Form\Element\Csrf',
@@ -69,13 +73,16 @@ class Password extends ProvidesEventsForm
      */
     public function addSecretQuestion(UserInterface $user)
     {
-        if (!$this->getPasswordOptions()->isSecretQuestion()) {
+        if (!$this->collectionOptions->getPasswordOptions()->isSecretQuestion()) {
             return;
         }
 
         $this->setUser($user);
         /** @var \PServerCore\Entity\Repository\SecretAnswer $repositorySecretAnswer */
-        $repositorySecretAnswer = $this->getEntityManager()->getRepository($this->getEntityOptions()->getSecretAnswer());
+        $repositorySecretAnswer = $this->entityManager
+            ->getRepository(
+                $this->collectionOptions->getEntityOptions()->getSecretAnswer()
+            );
         $answer = $repositorySecretAnswer->getAnswer4UserId($this->getUser()->getId());
 
         if (!$answer) {
@@ -128,51 +135,5 @@ class Password extends ProvidesEventsForm
         return $this->user;
     }
 
-    /**
-     * @param ServiceLocatorInterface $serviceManager
-     *
-     * @return $this
-     */
-    protected function setServiceManager(ServiceLocatorInterface $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
 
-        return $this;
-    }
-
-    /**
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        if (!$this->entityManager) {
-            $this->entityManager = $this->getServiceManager()->get('Doctrine\ORM\EntityManager');
-        }
-
-        return $this->entityManager;
-    }
-
-    /**
-     * @return ServiceLocatorInterface
-     */
-    protected function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * @return \PServerCore\Options\EntityOptions
-     */
-    protected function getEntityOptions()
-    {
-        return $this->getServiceManager()->get('pserver_entity_options');
-    }
-
-    /**
-     * @return \PServerCore\Options\PasswordOptions
-     */
-    public function getPasswordOptions()
-    {
-        return $this->getServiceManager()->get('pserver_password_options');
-    }
 } 

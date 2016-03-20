@@ -2,13 +2,15 @@
 
 namespace PServerCore\Validator;
 
+use Exception;
+
 class RecordExists extends AbstractRecord
 {
     /**
      * @param mixed $value
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function isValid($value)
     {

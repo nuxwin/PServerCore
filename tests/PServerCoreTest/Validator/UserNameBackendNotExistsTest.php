@@ -4,6 +4,7 @@
 namespace PServerCoreTest\Validator;
 
 
+use PServerCore\Options\EntityOptions;
 use PServerCoreTest\Util\TestBase;
 
 class UserNameBackendNotExistsTest extends TestBase
@@ -22,7 +23,10 @@ class UserNameBackendNotExistsTest extends TestBase
             ->method('isUserNameExists')
             ->willReturn(false);
 
-        $this->serviceManager->setService('gamebackend_dataservice', $gameMock);
+        $this->mockedConstructorArgList = [
+            $gameMock,
+            new EntityOptions()
+        ];
         $class = $this->getClass();
 
         $result = $class->isValid('foobar');
@@ -41,7 +45,10 @@ class UserNameBackendNotExistsTest extends TestBase
             ->method('isUserNameExists')
             ->willReturn(true);
 
-        $this->serviceManager->setService('gamebackend_dataservice', $gameMock);
+        $this->mockedConstructorArgList = [
+            $gameMock,
+            new EntityOptions()
+        ];
         $class = $this->getClass();
 
         $result = $class->isValid('foobar');
@@ -50,21 +57,5 @@ class UserNameBackendNotExistsTest extends TestBase
         $this->assertNotEmpty($class->getMessages());
     }
 
-    /**
-     * @return \PServerCore\Validator\UserNameBackendNotExists|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getClass()
-    {
-        if (!$this->class) {
-            /** @var \Zend\ServiceManager\ServiceManagerAwareInterface $class */
-            $class = $this->getMockBuilder($this->className)
-                ->setConstructorArgs([$this->serviceManager])
-                ->setMethods($this->getMockedMethodList())
-                ->getMock();
 
-            $this->class = $class;
-        }
-
-        return $this->class;
-    }
 }

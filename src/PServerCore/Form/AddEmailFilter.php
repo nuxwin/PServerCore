@@ -3,28 +3,34 @@
 
 namespace PServerCore\Form;
 
-use PServerCore\Helper\HelperBasic;
-use PServerCore\Helper\HelperOptions;
-use PServerCore\Helper\HelperService;
+use Doctrine\ORM\EntityManager;
+use PServerCore\Options\Collection;
 use PServerCore\Validator;
 use PServerCore\Validator\AbstractRecord;
-use Zend\ServiceManager\ServiceManager;
 use ZfcBase\InputFilter\ProvidesEventsInputFilter;
 
 class AddEmailFilter extends ProvidesEventsInputFilter
 {
-    use HelperOptions, HelperBasic, HelperService;
+    /** @var  EntityManager */
+    protected $entityManager;
 
-    /** @var ServiceManager */
-    protected $serviceManager;
+    /** @var  array */
+    protected $config;
+
+    /** @var  Collection */
+    protected $collectionOptions;
 
     /**
      * AddEmailFilter constructor.
-     * @param ServiceManager $serviceManager
+     * @param EntityManager $entityManager
+     * @param array $config
+     * @param Collection $collection
      */
-    public function __construct(ServiceManager $serviceManager)
+    public function __construct(EntityManager $entityManager, array $config, Collection $collection)
     {
-        $this->setServiceManager($serviceManager);
+        $this->entityManager = $entityManager;
+        $this->config = $config;
+        $this->collectionOptions = $collection;
 
         $this->add([
             'name' => 'email',
@@ -43,7 +49,7 @@ class AddEmailFilter extends ProvidesEventsInputFilter
             ],
         ]);
 
-        if (!$this->getRegisterOptions()->isDuplicateEmail()) {
+        if (!$collection->getRegisterOptions()->isDuplicateEmail()) {
             $element = $this->get('email');
             /** @var \Zend\Validator\ValidatorChain $chain */
             $chain = $element->getValidatorChain();
@@ -74,32 +80,14 @@ class AddEmailFilter extends ProvidesEventsInputFilter
     }
 
     /**
-     * @param ServiceManager $serviceManager
-     *
-     * @return $this
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
-    }
-
-    /**
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
      * @return AbstractRecord
      */
     public function getEmailValidator()
     {
         /** @var $repositoryUser \Doctrine\Common\Persistence\ObjectRepository */
-        $repositoryUser = $this->getEntityManager()->getRepository($this->getEntityOptions()->getUser());
+        $repositoryUser = $this->entityManager->getRepository(
+            $this->collectionOptions->getEntityOptions()->getUser()
+        );
 
         return new Validator\NoRecordExists($repositoryUser, 'email');
     }
@@ -109,6 +97,6 @@ class AddEmailFilter extends ProvidesEventsInputFilter
      */
     public function getStriposValidator()
     {
-        return new Validator\StriposExists($this->getServiceManager(), Validator\StriposExists::TYPE_EMAIL);
+        return new Validator\StriposExists($this->config, Validator\StriposExists::TYPE_EMAIL);
     }
 }

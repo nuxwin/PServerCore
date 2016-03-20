@@ -2,8 +2,8 @@
 
 namespace PServerCore\View\Helper;
 
-use Zend\Stdlib\RequestInterface;
 use Zend\Mvc\Router\RouteInterface;
+use Zend\Stdlib\RequestInterface;
 use Zend\View\Helper\AbstractHelper;
 
 class Active extends AbstractHelper

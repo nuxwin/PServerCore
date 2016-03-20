@@ -2,15 +2,19 @@
 
 namespace PServerCore\Form;
 
+use Zend\Captcha\AdapterInterface;
 use Zend\Form\Element;
 use Zend\Form\Element\Captcha;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcBase\Form\ProvidesEventsForm;
 
 class PwLost extends ProvidesEventsForm
 {
 
-    public function __construct(ServiceLocatorInterface $sm)
+    /**
+     * PwLost constructor.
+     * @param AdapterInterface $adapterInterface
+     */
+    public function __construct(AdapterInterface $adapterInterface)
     {
         parent::__construct();
 
@@ -32,7 +36,7 @@ class PwLost extends ProvidesEventsForm
         ]);
 
         $captcha = new Captcha('captcha');
-        $captcha->setCaptcha($sm->get('SanCaptcha'))
+        $captcha->setCaptcha($adapterInterface)
             ->setOptions([
                 'label' => 'Please verify you are human.',
             ])

@@ -32,6 +32,8 @@ class CollectionFactory implements FactoryInterface
         $collection->setUserCodesOptions($serviceLocator->get('pserver_user_code_options'));
         /** @noinspection PhpParamsInspection */
         $collection->setValidationOptions($serviceLocator->get('pserver_validation_options'));
+        /** @noinspection PhpParamsInspection */
+        $collection->setConfig($serviceLocator->get('Config')['pserver']);
 
         return $collection;
     }

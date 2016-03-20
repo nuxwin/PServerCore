@@ -3,34 +3,37 @@
 namespace PServerCore\Form;
 
 use PServerCore\Entity\UserInterface;
+use PServerCore\Options\PasswordOptions;
+use PServerCore\Service\SecretQuestion;
 use PServerCore\Validator\SimilarText;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcBase\InputFilter\ProvidesEventsInputFilter;
 
 class PasswordFilter extends ProvidesEventsInputFilter
 {
-    /** @var  \PServerCore\Validator\SimilarText */
+    /** @var  SimilarText */
     protected $similarText;
+
     /** @var  UserInterface */
     protected $user;
-    /** @var  ServiceLocatorInterface */
-    protected $serviceManager;
+
+    /** @var  PasswordOptions */
+    protected $passwordOptions;
 
     /**
-     * @param ServiceLocatorInterface $serviceLocatorInterface
+     * PasswordFilter constructor.
+     * @param PasswordOptions $passwordOptions
+     * @param SecretQuestion $secretQuestionService
      */
-    public function __construct(ServiceLocatorInterface $serviceLocatorInterface)
+    public function __construct(PasswordOptions $passwordOptions, SecretQuestion $secretQuestionService)
     {
-        $this->setServiceManager($serviceLocatorInterface);
+        $this->passwordOptions = $passwordOptions;
 
-        if ($this->getPasswordOptions()->isSecretQuestion()) {
-            /** @var \PServerCore\Service\SecretQuestion $secretQuestion */
-            $secretQuestion = $this->getServiceManager()->get('pserver_secret_question');
-            $similarText = new \PServerCore\Validator\SimilarText($secretQuestion);
+        if ($this->passwordOptions->isSecretQuestion()) {
+            $similarText = new SimilarText($secretQuestionService);
             $this->setSimilarText($similarText);
         }
 
-        $passwordLengthOptions = $this->getPasswordOptions()->getLength();
+        $passwordLengthOptions = $this->passwordOptions->getLength();
 
         $this->add([
             'name' => 'password',
@@ -67,26 +70,6 @@ class PasswordFilter extends ProvidesEventsInputFilter
                 ],
             ],
         ]);
-    }
-
-    /**
-     * @param ServiceLocatorInterface $oServiceManager
-     *
-     * @return $this
-     */
-    public function setServiceManager(ServiceLocatorInterface $oServiceManager)
-    {
-        $this->serviceManager = $oServiceManager;
-
-        return $this;
-    }
-
-    /**
-     * @return ServiceLocatorInterface
-     */
-    protected function getServiceManager()
-    {
-        return $this->serviceManager;
     }
 
     /**
@@ -128,11 +111,5 @@ class PasswordFilter extends ProvidesEventsInputFilter
         return $this->similarText;
     }
 
-    /**
-     * @return \PServerCore\Options\PasswordOptions
-     */
-    protected function getPasswordOptions()
-    {
-        return $this->getServiceManager()->get('pserver_password_options');
-    }
+
 } 
