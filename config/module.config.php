@@ -1,5 +1,7 @@
 <?php
 
+use PServerCore\Controller;
+use PServerCore\Entity;
 use PServerCore\Service;
 use PServerCore\Options;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -104,17 +106,17 @@ return [
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ],
+        'aliases' => [
+            'translator' => 'MvcTranslator',
+            'payment_api_log_service' => Service\PaymentNotify::class,
+            'zfcticketsystem_ticketsystem_service' => Service\TicketSystem::class,
+            'payment_api_ip_service' => Service\Ip::class,
+            'payment_api_validation' => Service\PaymentValidation::class,
+            'pserver_options_collection' => Options\Collection::class,
+            'pserver_usercodes_service' => Service\UserCodes::class,
+            'pserver_timer_service' => Service\Timer::class,
+        ],
         'factories' => [
-            'aliases' => [
-                'translator' => 'MvcTranslator',
-                'payment_api_log_service' => Service\PaymentNotify::class,
-                'zfcticketsystem_ticketsystem_service' => Service\TicketSystem::class,
-                'payment_api_ip_service' => Service\Ip::class,
-                'payment_api_validation' => Service\PaymentValidation::class,
-                'pserver_options_collection' => Options\Collection::class,
-                'pserver_usercodes_service' => Service\UserCodes::class,
-                'pserver_timer_service' => Service\Timer::class,
-            ],
             'pserver_caching_service' => function () {
                 $cache = \Zend\Cache\StorageFactory::factory([
                     'adapter' => 'filesystem',
@@ -198,14 +200,22 @@ return [
         ],
     ],
     'controllers' => [
-        'invokables' => [
-            'PServerCore\Controller\Index' => 'PServerCore\Controller\IndexController',
-            'SmallUser\Controller\Auth' => 'PServerCore\Controller\AuthController',
-            'PServerCore\Controller\Auth' => 'PServerCore\Controller\AuthController',
-            'PServerCore\Controller\Site' => 'PServerCore\Controller\SiteController',
-            'PServerCore\Controller\Account' => 'PServerCore\Controller\AccountController',
-            'PServerCore\Controller\Donate' => 'PServerCore\Controller\DonateController',
-            'PServerCore\Controller\Info' => 'PServerCore\Controller\InfoController',
+        'aliases' => [
+            'PServerCore\Controller\Index' => Controller\IndexController::class,
+            'SmallUser\Controller\Auth' => Controller\AuthController::class,
+            'PServerCore\Controller\Auth' => Controller\AuthController::class,
+            'PServerCore\Controller\Site' => Controller\SiteController::class,
+            'PServerCore\Controller\Account' => Controller\AccountController::class,
+            'PServerCore\Controller\Donate' => Controller\DonateController::class,
+            'PServerCore\Controller\Info' => Controller\InfoController::class,
+        ],
+        'factories' => [
+            Controller\IndexController::class => Controller\IndexFactory::class,
+            Controller\AuthController::class => Controller\AuthFactory::class,
+            Controller\SiteController::class => Controller\SiteFactory::class,
+            Controller\AccountController::class => Controller\AccountFactory::class,
+            Controller\DonateController::class => Controller\DonateFactory::class,
+            Controller\InfoController::class => Controller\InfoFactory::class,
         ],
     ],
     'view_manager' => [
@@ -262,7 +272,7 @@ return [
             'orm_default' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'driverClass' => Doctrine\DBAL\Driver\PDOMySql\Driver::class,
                 'params' => [
                     'host' => 'localhost',
                     'port' => '3306',
@@ -277,7 +287,7 @@ return [
             'orm_sro_account' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => 'GameBackend\DBAL\Driver\PDODblib\Driver',
+                'driverClass' => GameBackend\DBAL\Driver\PDODblib\Driver::class,
                 'params' => [
                     'host' => 'local',
                     'port' => '1433',
@@ -289,7 +299,7 @@ return [
             'orm_sro_shard' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => 'GameBackend\DBAL\Driver\PDODblib\Driver',
+                'driverClass' => GameBackend\DBAL\Driver\PDODblib\Driver::class,
                 'params' => [
                     'host' => 'local',
                     'port' => '1433',
@@ -301,7 +311,7 @@ return [
             'orm_sro_log' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => 'GameBackend\DBAL\Driver\PDODblib\Driver',
+                'driverClass' => GameBackend\DBAL\Driver\PDODblib\Driver::class,
                 'params' => [
                     'host' => 'local',
                     'port' => '1433',
@@ -319,7 +329,7 @@ return [
         ],
         'driver' => [
             'application_entities' => [
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'class' => Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
                 'paths' => [
                     __DIR__ . '/../src/PServerCore/Entity'
@@ -484,25 +494,25 @@ return [
             ],
         ],
         'entity' => [
-            'available_countries' => 'PServerCore\Entity\AvailableCountries',
-            'country_list' => 'PServerCore\Entity\CountryList',
-            'donate_log' => 'PServerCore\Entity\DonateLog',
-            'download_list' => 'PServerCore\Entity\DownloadList',
-            'ip_block' => 'PServerCore\Entity\IpBlock',
-            'login_failed' => 'PServerCore\Entity\LoginFailed',
-            'login_history' => 'PServerCore\Entity\LoginHistory',
-            'logs' => 'PServerCore\Entity\Logs',
-            'news' => 'PServerCore\Entity\News',
-            'page_info' => 'PServerCore\Entity\PageInfo',
-            'player_history' => 'PServerCore\Entity\PlayerHistory',
-            'secret_answer' => 'PServerCore\Entity\SecretAnswer',
-            'secret_question' => 'PServerCore\Entity\SecretQuestion',
-            'server_info' => 'PServerCore\Entity\ServerInfo',
-            'user' => 'PServerCore\Entity\User',
-            'user_block' => 'PServerCore\Entity\UserBlock',
-            'user_codes' => 'PServerCore\Entity\UserCodes',
-            'user_extension' => 'PServerCore\Entity\UserExtension',
-            'user_role' => 'PServerCore\Entity\UserRole',
+            'available_countries' => Entity\AvailableCountries::class,
+            'country_list' => Entity\CountryList::class,
+            'donate_log' => Entity\DonateLog::class,
+            'download_list' => Entity\DownloadList::class,
+            'ip_block' => Entity\IpBlock::class,
+            'login_failed' => Entity\LoginFailed::class,
+            'login_history' => Entity\LoginHistory::class,
+            'logs' => Entity\Logs::class,
+            'news' => Entity\News::class,
+            'page_info' => Entity\PageInfo::class,
+            'player_history' => Entity\PlayerHistory::class,
+            'secret_answer' => Entity\SecretAnswer::class,
+            'secret_question' => Entity\SecretQuestion::class,
+            'server_info' => Entity\ServerInfo::class,
+            'user' => Entity\User::class,
+            'user_block' => Entity\UserBlock::class,
+            'user_codes' => Entity\UserCodes::class,
+            'user_extension' => Entity\UserExtension::class,
+            'user_role' => Entity\UserRole::class,
         ],
         'navigation' => [
             'home' => [
@@ -636,7 +646,7 @@ return [
     'authenticationadapter' => [
         'odm_default' => [
             'objectManager' => 'doctrine.documentmanager.odm_default',
-            'identityClass' => 'PServerCore\Entity\User',
+            'identityClass' => Entity\User::class,
             'identityProperty' => 'username',
             'credentialProperty' => 'password',
             'credentialCallable' => 'PServerCore\Entity\User::hashPassword'
@@ -644,7 +654,7 @@ return [
     ],
     'small-user' => [
         'user_entity' => [
-            'class' => 'PServerCore\Entity\User'
+            'class' => Entity\User::class
         ],
         'login' => [
             'route' => 'PServerCore'
@@ -668,10 +678,10 @@ return [
     ],
     'zfc-ticket-system' => [
         'entity' => [
-            'ticket_category' => 'PServerCore\Entity\TicketSystem\TicketCategory',
-            'ticket_entry' => 'PServerCore\Entity\TicketSystem\TicketEntry',
-            'ticket_subject' => 'PServerCore\Entity\TicketSystem\TicketSubject',
-            'user' => 'PServerCore\Entity\User',
+            'ticket_category' => Entity\TicketSystem\TicketCategory::class,
+            'ticket_entry' => Entity\TicketSystem\TicketEntry::class,
+            'ticket_subject' => Entity\TicketSystem\TicketSubject::class,
+            'user' => Entity\User::class,
         ],
     ],
     'ZfcDatagrid' => [

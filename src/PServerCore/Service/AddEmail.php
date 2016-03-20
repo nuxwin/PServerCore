@@ -108,4 +108,12 @@ class AddEmail extends InvokableBase
         return $user;
     }
 
+    /**
+     * @return \PServerCore\Form\AddEmail
+     */
+    public function getAddEmailForm()
+    {
+        return parent::getAddEmailForm();
+    }
+
 }

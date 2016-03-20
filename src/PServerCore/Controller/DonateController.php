@@ -2,18 +2,30 @@
 
 namespace PServerCore\Controller;
 
-use PServerCore\Helper\HelperService;
-use PServerCore\Helper\HelperServiceLocator;
+use PServerCore\Service\User;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class DonateController extends AbstractActionController
 {
-    use HelperServiceLocator, HelperService;
+    /** @var  User */
+    protected $userService;
 
+    /**
+     * DonateController constructor.
+     * @param User $userService
+     */
+    public function __construct(User $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    /**
+     * @return array
+     */
     public function indexAction()
     {
         /** @var \PServerCore\Entity\UserInterface $user */
-        $user = $this->getUserService()->getAuthService()->getIdentity();
+        $user = $this->userService->getAuthService()->getIdentity();
 
         return [
             'user' => $user

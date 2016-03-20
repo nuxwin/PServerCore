@@ -3,13 +3,35 @@
 namespace PServerCore\Controller;
 
 use PServerCore\Entity\UserCodes;
-use PServerCore\Helper\HelperOptions;
-use PServerCore\Helper\HelperService;
-use PServerCore\Helper\HelperServiceLocator;
+use PServerCore\Service\AddEmail;
+use PServerCore\Service\User;
+use PServerCore\Service\UserCodes as UserCodesService;
+use SmallUser\Controller\AuthController as SmallUserAuthController;
 
-class AuthController extends \SmallUser\Controller\AuthController
+class AuthController extends SmallUserAuthController
 {
-    use HelperServiceLocator, HelperService, HelperOptions;
+    /** @var  User */
+    protected $userService;
+
+    /** @var  UserCodesService */
+    protected $userCodes;
+
+    /** @var  AddEmail */
+    protected $addEmailService;
+
+    /**
+     * AuthController constructor.
+     * @param User $userService
+     * @param UserCodesService $userCodes
+     * @param AddEmail $addEmailService
+     */
+    public function __construct(User $userService, UserCodesService $userCodes, AddEmail $addEmailService)
+    {
+        parent::__construct($userService);
+
+        $this->userCodes = $userCodes;
+        $this->addEmailService = $addEmailService;
+    }
 
     /**
      * @return array|\Zend\Http\Response
@@ -18,13 +40,15 @@ class AuthController extends \SmallUser\Controller\AuthController
     {
 
         //if already login, redirect to success page
-        if ($this->getUserService()->getAuthService()->hasIdentity()) {
+        if ($this->userService->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute($this->getLoggedInRoute());
         }
 
-        $form = $this->getUserService()->getRegisterForm();
+        $form = $this->userService->getRegisterForm();
 
+        /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
+
         if ($request->isPost()) {
             $user = $this->getUserService()->register($this->params()->fromPost());
             if ($user) {
@@ -43,7 +67,7 @@ class AuthController extends \SmallUser\Controller\AuthController
     public function registerDoneAction()
     {
         return [
-            'mail_confirmation' => $this->getUserService()->isRegisterMailConfirmationOption()
+            'mail_confirmation' => $this->userService->isRegisterMailConfirmationOption()
         ];
     }
 
@@ -54,18 +78,20 @@ class AuthController extends \SmallUser\Controller\AuthController
     {
         $codeRoute = $this->params()->fromRoute('code');
 
-        $userCode = $this->getCode4Data($codeRoute, UserCodes::TYPE_REGISTER);
+        $userCode = $this->userCodes->getCode4Data($codeRoute, UserCodes::TYPE_REGISTER);
         if (!$userCode) {
             return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
         }
 
-        $user = $this->getUserService()->registerGameWithSamePassword($userCode);
+        $user = $this->userService->registerGameWithSamePassword($userCode);
 
-        $form = $this->getUserService()->getPasswordForm();
+        $form = $this->userService->getPasswordForm();
+        /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
+
         if ($request->isPost() || $user) {
             if (!$user) {
-                $user = $this->getUserService()->registerGameWithOtherPw($this->params()->fromPost(), $userCode);
+                $user = $this->userService->registerGameWithOtherPw($this->params()->fromPost(), $userCode);
             }
             if ($user) {
                 //$this->getUserService()->doAuthentication($user);
@@ -78,16 +104,19 @@ class AuthController extends \SmallUser\Controller\AuthController
         ];
     }
 
+    /**
+     * @return array|mixed|\Zend\Http\Response
+     */
     public function ipConfirmAction()
     {
         $code = $this->params()->fromRoute('code');
 
-        $oCode = $this->getCode4Data($code, UserCodes::TYPE_CONFIRM_COUNTRY);
+        $oCode = $this->userCodes->getCode4Data($code, UserCodes::TYPE_CONFIRM_COUNTRY);
         if (!$oCode) {
             return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
         }
 
-        $user = $this->getUserService()->countryConfirm($oCode);
+        $user = $this->userService->countryConfirm($oCode);
         if ($user) {
             return $this->redirect()->toRoute('small-user-auth', ['action' => 'ip-confirm-done']);
         }
@@ -95,19 +124,27 @@ class AuthController extends \SmallUser\Controller\AuthController
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function ipConfirmDoneAction()
     {
         return [];
     }
 
+    /**
+     * @return array|\Zend\Http\Response
+     */
     public function pwLostAction()
     {
 
-        $form = $this->getUserService()->getPasswordLostForm();
+        $form = $this->userService->getPasswordLostForm();
 
+        /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
+
         if ($request->isPost()) {
-            $user = $this->getUserService()->lostPw($this->params()->fromPost());
+            $user = $this->userService->lostPw($this->params()->fromPost());
             if ($user) {
                 return $this->redirect()->toRoute('small-user-auth', ['action' => 'pw-lost-done']);
             }
@@ -118,24 +155,32 @@ class AuthController extends \SmallUser\Controller\AuthController
         ];
     }
 
+    /**
+     * @return array
+     */
     public function pwLostDoneAction()
     {
         return [];
     }
 
+    /**
+     * @return array|mixed|\Zend\Http\Response
+     */
     public function pwLostConfirmAction()
     {
         $code = $this->params()->fromRoute('code');
 
-        $codeEntity = $this->getCode4Data($code, UserCodes::TYPE_LOST_PASSWORD);
+        $codeEntity = $this->userCodes->getCode4Data($code, UserCodes::TYPE_LOST_PASSWORD);
         if (!$codeEntity) {
             return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
         }
-        $form = $this->getUserService()->getPasswordForm();
+        $form = $this->userService->getPasswordForm();
         $form->addSecretQuestion($codeEntity->getUser());
+        /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
+
         if ($request->isPost()) {
-            $user = $this->getUserService()->lostPwConfirm($this->params()->fromPost(), $codeEntity);
+            $user = $this->userService->lostPwConfirm($this->params()->fromPost(), $codeEntity);
             if ($user) {
                 return $this->redirect()->toRoute('small-user-auth', ['action' => 'pw-lost-confirm-done']);
             }
@@ -146,52 +191,56 @@ class AuthController extends \SmallUser\Controller\AuthController
         ];
     }
 
+    /**
+     * @return mixed|\Zend\Http\Response
+     */
     public function secretLoginAction()
     {
         $code = $this->params()->fromRoute('code');
 
-        $codeEntity = $this->getCode4Data($code, UserCodes::TYPE_SECRET_LOGIN);
+        $codeEntity = $this->userCodes->getCode4Data($code, UserCodes::TYPE_SECRET_LOGIN);
         if (!$codeEntity) {
             return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
         }
-        $this->getUserService()->doAuthentication($codeEntity->getUser());
-        $this->getUserCodesService()->deleteCode($codeEntity);
+        $this->userService->doAuthentication($codeEntity->getUser());
+        $this->userCodes->deleteCode($codeEntity);
 
         return $this->redirect()->toRoute($this->getLoggedInRoute());
     }
 
+    /**
+     * @return array
+     */
     public function pwLostConfirmDoneAction()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function wrongCodeAction()
     {
         return [];
     }
 
+    /**
+     * @return mixed
+     */
     public function addEmailAction()
     {
         $code = $this->params()->fromRoute('code');
 
-        $codeEntity = $this->getCode4Data($code, UserCodes::TYPE_ADD_EMAIL);
+        $codeEntity = $this->userCodes->getCode4Data($code, UserCodes::TYPE_ADD_EMAIL);
         if (!$codeEntity) {
             return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
         }
-        $user = $this->getAddEmailService()->changeMail($codeEntity->getUser());
-        $this->getUserCodesService()->deleteCode($codeEntity);
+        $user = $this->addEmailService->changeMail($codeEntity->getUser());
+        $this->userCodes->deleteCode($codeEntity);
 
-        $this->getUserService()->doAuthentication($user);
-    }
+        $this->userService->doAuthentication($user);
 
-    protected function getCode4Data($code, $type)
-    {
-        $entityManager = $this->getEntityManager();
-        /** @var $repositoryCode \PServerCore\Entity\Repository\UserCodes */
-        $repositoryCode = $entityManager->getRepository($this->getEntityOptions()->getUserCodes());
-        $codeEntity = $repositoryCode->getData4CodeType($code, $type);
-
-        return $codeEntity;
+        return null;
     }
 
 }

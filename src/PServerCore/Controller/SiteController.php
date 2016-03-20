@@ -2,13 +2,28 @@
 
 namespace PServerCore\Controller;
 
-use PServerCore\Helper\HelperService;
-use PServerCore\Helper\HelperServiceLocator;
+use PServerCore\Service\Download;
+use PServerCore\Service\PageInfo;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class SiteController extends AbstractActionController
 {
-    use HelperServiceLocator, HelperService;
+    /** @var  Download */
+    protected $downloadService;
+
+    /** @var  PageInfo */
+    protected $pageInfoService;
+
+    /**
+     * SiteController constructor.
+     * @param Download $downloadService
+     * @param PageInfo $pageInfoService
+     */
+    public function __construct(Download $downloadService, PageInfo $pageInfoService)
+    {
+        $this->downloadService = $downloadService;
+        $this->pageInfoService = $pageInfoService;
+    }
 
     /**
      * DownloadPage
@@ -16,7 +31,7 @@ class SiteController extends AbstractActionController
     public function downloadAction()
     {
         return [
-            'downloadList' => $this->getDownloadService()->getActiveList()
+            'downloadList' => $this->downloadService->getActiveList()
         ];
     }
 
@@ -26,7 +41,7 @@ class SiteController extends AbstractActionController
     public function pageAction()
     {
         $type = $this->params()->fromRoute('type');
-        $pageInfo = $this->getPageInfoService()->getPage4Type($type);
+        $pageInfo = $this->pageInfoService->getPage4Type($type);
         if (!$pageInfo) {
             return $this->redirect()->toRoute('PServerCore');
         }

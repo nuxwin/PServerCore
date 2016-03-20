@@ -2,25 +2,34 @@
 
 namespace PServerCore\Controller;
 
-use PServerCore\Helper\HelperService;
-use PServerCore\Helper\HelperServiceLocator;
+use PServerCore\Service\News;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class IndexController extends AbstractActionController
 {
-    use HelperServiceLocator, HelperService;
+    /** @var  News */
+    protected $newsService;
 
-	public function indexAction()
+    /**
+     * IndexController constructor.
+     * @param News $newsService
+     */
+    public function __construct(News $newsService)
     {
-		$pageNumber = (int)$this->params()->fromRoute('page');
+        $this->newsService = $newsService;
+    }
 
-		$newsList = $this->getNewsService()->getActiveNews($pageNumber);
+    public function indexAction()
+    {
+        $pageNumber = (int)$this->params()->fromRoute('page');
 
-		// @deprecated sNews remove in 1.0
-		return [
-			'aNews' => $newsList,
-			'newsList' => $newsList
-		];
-	}
+        $newsList = $this->newsService->getActiveNews($pageNumber);
+
+        // @deprecated sNews remove in 1.0
+        return [
+            'aNews' => $newsList,
+            'newsList' => $newsList
+        ];
+    }
 
 }

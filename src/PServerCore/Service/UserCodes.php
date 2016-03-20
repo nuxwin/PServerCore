@@ -113,6 +113,23 @@ class UserCodes
     }
 
     /**
+     * @param string $code
+     * @param string $type
+     * @return null|\PServerCore\Entity\UserCodes
+     */
+    public function getCode4Data($code, $type)
+    {
+        /** @var $repositoryCode \PServerCore\Entity\Repository\UserCodes */
+        $repositoryCode = $this->entityManager->getRepository(
+            $this->collectionOptions->getEntityOptions()->getUserCodes()
+        );
+
+        $codeEntity = $repositoryCode->getData4CodeType($code, $type);
+
+        return $codeEntity;
+    }
+
+    /**
      * @param Entity[] $codeList
      *
      * @return int
