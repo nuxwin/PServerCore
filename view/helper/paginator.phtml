@@ -1,5 +1,5 @@
 <?php
-    $params = isset($this->params)?$this->params:array();
+    $params = isset($this->params)?$this->params: [];
     $format = isset($this->ajax)?'paginatorAjax(\''.$this->ajax.'\',\'%s\')':'%s';
     $button = isset($this->ajax)?'<a onclick="%s" >%s</a>':'<a href="%s">%s</a>';
 ?>
