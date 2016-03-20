@@ -275,7 +275,7 @@ return [
             Service\Download::class => function ($sm) {
                 /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
                 /** @noinspection PhpParamsInspection */
-                return new Service\News(
+                return new Service\Download(
                     $sm->get('Doctrine\ORM\EntityManager'),
                     $sm->get('pserver_entity_options'),
                     $sm->get(Service\CachingHelper::class),
