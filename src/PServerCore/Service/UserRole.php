@@ -7,7 +7,6 @@ namespace PServerCore\Service;
 use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\Form;
 use Zend\Form\FormInterface;
 use Zend\Mvc\Controller\PluginManager;
 
@@ -54,7 +53,7 @@ class UserRole
      */
     public function addRoleForm($data, $userId)
     {
-        /** @var Form $form */
+        /** @var FormInterface $form */
         $form = $this->adminUserRoleForm;
         $form->setData($data);
 
@@ -84,6 +83,14 @@ class UserRole
     {
         $user = $this->getUser4Id($userId);
         $this->removeRole4User($user, $roleId);
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getAdminUserRoleForm()
+    {
+        return $this->adminUserRoleForm;
     }
 
     /**

@@ -6,7 +6,6 @@ namespace PServerCore\Service;
 
 class Timer
 {
-
     /**
      * @param array $hourList
      * @param integer $minute

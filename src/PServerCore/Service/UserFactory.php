@@ -11,7 +11,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class UserFactory extends SmallUserFactory
 {
-    protected $className = User::class;
+    protected $className = \PServerCore\Service\User::class;
 
     /**
      * @param ServiceLocatorInterface $serviceLocator

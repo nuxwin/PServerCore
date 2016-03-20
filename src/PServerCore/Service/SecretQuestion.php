@@ -7,7 +7,7 @@ use PServerCore\Entity\SecretQuestion as Entity;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Mapper\HydratorSecretQuestion;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 
 class SecretQuestion
 {
@@ -17,19 +17,19 @@ class SecretQuestion
     /** @var  EntityOptions */
     protected $entityOptions;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $adminSecretQuestionForm;
 
     /**
      * SecretQuestion constructor.
      * @param EntityManager $entityManager
      * @param EntityOptions $entityOptions
-     * @param Form $adminSecretQuestionForm
+     * @param FormInterface $adminSecretQuestionForm
      */
     public function __construct(
         EntityManager $entityManager,
         EntityOptions $entityOptions,
-        Form $adminSecretQuestionForm
+        FormInterface $adminSecretQuestionForm
     ) {
         $this->entityManager = $entityManager;
         $this->entityOptions = $entityOptions;
@@ -127,6 +127,14 @@ class SecretQuestion
     public function getQuestion4Id($questionId)
     {
         return $this->getQuestionRepository()->getQuestion4Id($questionId);
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getAdminSecretQuestionForm()
+    {
+        return $this->adminSecretQuestionForm;
     }
 
     /**

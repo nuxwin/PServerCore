@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 
 class Coin
 {
@@ -20,7 +20,7 @@ class Coin
     /** @var  EntityOptions */
     protected $entityOptions;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $adminCoinForm;
 
     /** @var  Ip */
@@ -31,14 +31,14 @@ class Coin
      * @param EntityManager $entityManager
      * @param DataServiceInterface $gameBackendService
      * @param EntityOptions $entityOptions
-     * @param Form $adminCoinForm
+     * @param FormInterface $adminCoinForm
      * @param Ip $ipService
      */
     public function __construct(
         EntityManager $entityManager,
         DataServiceInterface $gameBackendService,
         EntityOptions $entityOptions,
-        Form $adminCoinForm,
+        FormInterface $adminCoinForm,
         Ip $ipService
     ) {
         $this->entityManager = $entityManager;
@@ -117,6 +117,14 @@ class Coin
         $userRepository = $this->entityManager->getRepository($this->entityOptions->getUser());
 
         return $userRepository->getUser4Id($userId);
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getAdminCoinForm()
+    {
+        return $this->adminCoinForm;
     }
 
 }

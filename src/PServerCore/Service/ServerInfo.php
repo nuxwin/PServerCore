@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use PServerCore\Keys\Caching;
 use PServerCore\Mapper\HydratorServerInfo;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 
 class ServerInfo
 {
@@ -19,7 +19,7 @@ class ServerInfo
     /** @var  EntityOptions */
     protected $entityOptions;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $adminServerInfoForm;
 
     /**
@@ -27,13 +27,13 @@ class ServerInfo
      * @param CachingHelper $cachingHelperService
      * @param EntityManager $entityManager
      * @param EntityOptions $entityOptions
-     * @param Form $adminServerInfoForm
+     * @param FormInterface $adminServerInfoForm
      */
     public function __construct(
         CachingHelper $cachingHelperService,
         EntityManager $entityManager,
         EntityOptions $entityOptions,
-        Form $adminServerInfoForm
+        FormInterface $adminServerInfoForm
     ) {
         $this->cachingHelperService = $cachingHelperService;
         $this->entityManager = $entityManager;
@@ -109,6 +109,14 @@ class ServerInfo
         $entity->flush();
 
         return $serverInfo;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getAdminServerInfoForm()
+    {
+        return $this->adminServerInfoForm;
     }
 
     /**

@@ -10,7 +10,7 @@ use PServerCore\Entity\UserInterface;
 use PServerCore\Options\Collection;
 use PServerCore\Service\UserCodes as UserCodesService;
 use Zend\Authentication\AuthenticationService;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 use Zend\Mvc\Controller\Plugin\FlashMessenger;
 use Zend\Mvc\Controller\PluginManager;
 
@@ -25,7 +25,7 @@ class AddEmail
     /** @var  Collection */
     protected $collectionOptions;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $addEmailForm;
 
     /** @var  EntityManager */
@@ -45,7 +45,7 @@ class AddEmail
      * @param AuthenticationService $authService
      * @param PluginManager $controllerPluginManager
      * @param Collection $collectionOptions
-     * @param Form $addEmailForm
+     * @param FormInterface $addEmailForm
      * @param EntityManager $entityManager
      * @param Mail $mailService
      * @param UserCodesService $userCodeService
@@ -54,7 +54,7 @@ class AddEmail
         AuthenticationService $authService,
         PluginManager $controllerPluginManager,
         Collection $collectionOptions,
-        Form $addEmailForm,
+        FormInterface $addEmailForm,
         EntityManager $entityManager,
         Mail $mailService,
         UserCodesService $userCodeService
@@ -166,7 +166,7 @@ class AddEmail
     }
 
     /**
-     * @return Form
+     * @return FormInterface
      */
     public function getAddEmailForm()
     {

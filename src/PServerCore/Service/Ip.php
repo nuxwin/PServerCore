@@ -7,7 +7,6 @@ use PaymentAPI\Service\Ip as PaymentApiIp;
 
 class Ip extends PaymentApiIp
 {
-
     /**
      * @param string|null $ip
      *

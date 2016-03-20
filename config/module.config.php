@@ -254,12 +254,8 @@ return [
                 /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
                 /** @noinspection PhpParamsInspection */
                 return new Service\SecretQuestion(
-                    $sm->get('small_user_auth_service'),
-                    $sm->get('ControllerPluginManager'),
-                    $sm->get(Options\Collection::class),
-                    $sm->get('pserver_user_add_mail_form'),
                     $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get(Service\Mail::class),
+                    $sm->get('pserver_entity_options'),
                     $sm->get('pserver_admin_secret_question_form')
                 );
             },
@@ -286,8 +282,12 @@ return [
                 /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
                 /** @noinspection PhpParamsInspection */
                 return new Service\AddEmail(
+                    $sm->get('small_user_auth_service'),
+                    $sm->get('ControllerPluginManager'),
+                    $sm->get(Options\Collection::class),
+                    $sm->get('pserver_user_add_mail_form'),
                     $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_entity_options'),
+                    $sm->get(Service\Mail::class),
                     $sm->get(Service\UserCodes::class)
                 );
             },

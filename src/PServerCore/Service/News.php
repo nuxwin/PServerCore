@@ -9,7 +9,7 @@ use PServerCore\Entity\News as NewsEntity;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Mapper\HydratorNews;
 use PServerCore\Options\Collection;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 use Zend\Paginator\Paginator;
 
 class News
@@ -20,16 +20,16 @@ class News
     /** @var  Collection */
     protected $collectionOptions;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $adminNewsForm;
 
     /**
      * News constructor.
      * @param EntityManager $entityManager
      * @param Collection $collectionOptions
-     * @param Form $adminNewsForm
+     * @param FormInterface $adminNewsForm
      */
-    public function __construct(EntityManager $entityManager, Collection $collectionOptions, Form $adminNewsForm)
+    public function __construct(EntityManager $entityManager, Collection $collectionOptions, FormInterface $adminNewsForm)
     {
         $this->entityManager = $entityManager;
         $this->collectionOptions = $collectionOptions;
@@ -116,4 +116,14 @@ class News
 
         return $news;
     }
+
+    /**
+     * @return FormInterface
+     */
+    public function getAdminNewsForm()
+    {
+        return $this->adminNewsForm;
+    }
+
+
 } 

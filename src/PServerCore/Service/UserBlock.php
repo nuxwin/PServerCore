@@ -3,13 +3,14 @@
 namespace PServerCore\Service;
 
 
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Entity\UserBlock as UserBlockEntity;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Mapper\HydratorUserBlock;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 
 class UserBlock
 {
@@ -21,7 +22,7 @@ class UserBlock
     /** @var  EntityManager */
     protected $entityManager;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $adminUserBlockForm;
 
     /** @var  DataServiceInterface */
@@ -31,13 +32,13 @@ class UserBlock
      * UserBlock constructor.
      * @param EntityOptions $entityOptions
      * @param EntityManager $entityManager
-     * @param Form $adminUserBlockForm
+     * @param FormInterface $adminUserBlockForm
      * @param DataServiceInterface $gameBackendService
      */
     public function __construct(
         EntityOptions $entityOptions,
         EntityManager $entityManager,
-        Form $adminUserBlockForm,
+        FormInterface $adminUserBlockForm,
         DataServiceInterface $gameBackendService
     ) {
         $this->entityOptions = $entityOptions;
@@ -115,7 +116,7 @@ class UserBlock
 
         $this->blockUser(
             $user,
-            new \DateTime(),
+            new DateTime(),
             '',
             $creator
         );
@@ -136,6 +137,14 @@ class UserBlock
     }
 
     /**
+     * @return FormInterface
+     */
+    public function getAdminUserBlockForm()
+    {
+        return $this->adminUserBlockForm;
+    }
+
+    /**
      * @param UserBlockEntity $userBlock
      * @return bool
      */
@@ -147,7 +156,7 @@ class UserBlock
         $entityManager->merge($userBlock);
         $entityManager->flush();
 
-        if ($userBlock->getExpire() > new \DateTime) {
+        if ($userBlock->getExpire() > new DateTime) {
             $this->gameBackendService->blockUser(
                 $userBlock->getUser(),
                 $userBlock->getExpire(),

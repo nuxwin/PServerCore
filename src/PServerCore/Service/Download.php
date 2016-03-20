@@ -7,7 +7,7 @@ use PServerCore\Entity\DownloadList;
 use PServerCore\Keys\Caching;
 use PServerCore\Mapper\HydratorDownload;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 
 class Download
 {
@@ -20,7 +20,7 @@ class Download
     /** @var  CachingHelper */
     protected $cachingHelperService;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $adminDownloadForm;
 
     /**
@@ -28,13 +28,13 @@ class Download
      * @param EntityManager $entityManager
      * @param EntityOptions $entityOptions
      * @param CachingHelper $cachingHelperService
-     * @param Form $adminDownloadForm
+     * @param FormInterface $adminDownloadForm
      */
     public function __construct(
         EntityManager $entityManager,
         EntityOptions $entityOptions,
         CachingHelper $cachingHelperService,
-        Form $adminDownloadForm
+        FormInterface $adminDownloadForm
     ) {
         $this->entityManager = $entityManager;
         $this->entityOptions = $entityOptions;
@@ -126,5 +126,14 @@ class Download
     {
         return $this->entityManager->getRepository($this->entityOptions->getDownloadList());
     }
+
+    /**
+     * @return FormInterface
+     */
+    public function getAdminDownloadForm()
+    {
+        return $this->adminDownloadForm;
+    }
+
 
 } 

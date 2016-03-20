@@ -751,6 +751,38 @@ class User extends SmallUser
     }
 
     /**
+     * @return FormInterface
+     */
+    public function getChangePasswordForm()
+    {
+        return $this->changePasswordForm;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getPasswordLostForm()
+    {
+        return $this->passwordLostForm;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getPasswordForm()
+    {
+        return $this->passwordForm;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getRegisterForm()
+    {
+        return $this->registerForm;
+    }
+
+    /**
      * We want to crypt a password =)
      *
      * @param $password

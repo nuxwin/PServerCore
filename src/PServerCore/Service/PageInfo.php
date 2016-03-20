@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use PServerCore\Keys\Caching;
 use PServerCore\Mapper\HydratorPageInfo;
 use PServerCore\Options\Collection;
-use Zend\Form\Form;
+use Zend\Form\FormInterface;
 
 class PageInfo
 {
@@ -19,7 +19,7 @@ class PageInfo
     /** @var  Collection */
     protected $collectionOptions;
 
-    /** @var  Form */
+    /** @var  FormInterface */
     protected $adminPageInfoForm;
 
     /**
@@ -27,13 +27,13 @@ class PageInfo
      * @param CachingHelper $cachingHelperService
      * @param EntityManager $entityManager
      * @param Collection $collectionOptions
-     * @param Form $adminPageInfoForm
+     * @param FormInterface $adminPageInfoForm
      */
     public function __construct(
         CachingHelper $cachingHelperService,
         EntityManager $entityManager,
         Collection $collectionOptions,
-        Form $adminPageInfoForm
+        FormInterface $adminPageInfoForm
     ) {
         $this->cachingHelperService = $cachingHelperService;
         $this->entityManager = $entityManager;
@@ -95,5 +95,14 @@ class PageInfo
     {
         return $this->collectionOptions->getConfig()['pageinfotype'];
     }
+
+    /**
+     * @return FormInterface
+     */
+    public function getAdminPageInfoForm()
+    {
+        return $this->adminPageInfoForm;
+    }
+
 
 } 

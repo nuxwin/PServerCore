@@ -3,6 +3,7 @@
 namespace PServerCore\Controller;
 
 use PServerCore\Entity\UserCodes;
+use PServerCore\Form\Password;
 use PServerCore\Service\AddEmail;
 use PServerCore\Service\User;
 use PServerCore\Service\UserCodes as UserCodesService;
@@ -174,6 +175,8 @@ class AuthController extends SmallUserAuthController
         if (!$codeEntity) {
             return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
         }
+
+        /** @var Password $form */
         $form = $this->userService->getPasswordForm();
         $form->addSecretQuestion($codeEntity->getUser());
         /** @var \Zend\Http\Request $request */
