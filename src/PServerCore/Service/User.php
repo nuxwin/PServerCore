@@ -8,7 +8,7 @@ use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Entity\Repository\AvailableCountries as RepositoryAvailableCountries;
 use PServerCore\Entity\Repository\CountryList;
 use PServerCore\Entity\User as Entity;
-use PServerCore\Entity\UserCodes;
+use PServerCore\Entity\UserCodes as UserCodesEntity;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Helper\DateTimer;
 use PServerCore\Options\Collection;
@@ -107,7 +107,7 @@ class User extends SmallUser
         $entityManager->flush();
 
         if ($this->isRegisterMailConfirmationOption()) {
-            $code = $this->userCodeService->setCode4User($userEntity, UserCodes::TYPE_REGISTER);
+            $code = $this->userCodeService->setCode4User($userEntity, UserCodesEntity::TYPE_REGISTER);
 
             $this->mailService->register($userEntity, $code);
         } else {
@@ -125,10 +125,10 @@ class User extends SmallUser
     }
 
     /**
-     * @param UserCodes $userCode
+     * @param UserCodesEntity $userCode
      * @return UserInterface|null
      */
-    public function registerGameWithSamePassword(UserCodes $userCode)
+    public function registerGameWithSamePassword(UserCodesEntity $userCode)
     {
         $user = null;
         // config is different pw-system
@@ -141,10 +141,10 @@ class User extends SmallUser
 
     /**
      * @param array $data
-     * @param UserCodes $userCode
+     * @param UserCodesEntity $userCode
      * @return UserInterface|bool
      */
-    public function registerGameWithOtherPw(array $data, UserCodes $userCode)
+    public function registerGameWithOtherPw(array $data, UserCodesEntity $userCode)
     {
         $form = $this->passwordForm;
 
@@ -161,11 +161,11 @@ class User extends SmallUser
     }
 
     /**
-     * @param UserCodes $userCode
+     * @param UserCodesEntity $userCode
      * @param null $plainPassword
      * @return UserInterface
      */
-    public function registerGameForm(UserCodes $userCode, $plainPassword = null)
+    public function registerGameForm(UserCodesEntity $userCode, $plainPassword = null)
     {
         $user = $this->registerGame($userCode->getUser(), $plainPassword);
         $this->setAvailableCountries4User($user, $this->ipService->getIp());
@@ -244,7 +244,7 @@ class User extends SmallUser
         $userRepository = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getUser());
         $user = $userRepository->getUser4UserName($data['username']);
 
-        $code = $this->userCodeService->setCode4User($user, UserCodes::TYPE_LOST_PASSWORD);
+        $code = $this->userCodeService->setCode4User($user, UserCodesEntity::TYPE_LOST_PASSWORD);
 
         $this->mailService->lostPw($user, $code);
 
@@ -253,10 +253,10 @@ class User extends SmallUser
 
     /**
      * @param array $data
-     * @param UserCodes $userCode
+     * @param UserCodesEntity $userCode
      * @return bool|User
      */
-    public function lostPwConfirm(array $data, UserCodes $userCode)
+    public function lostPwConfirm(array $data, UserCodesEntity $userCode)
     {
         $form = $this->passwordForm;
         /** @var \PServerCore\Form\PasswordFilter $filter */
@@ -286,10 +286,10 @@ class User extends SmallUser
     }
 
     /**
-     * @param UserCodes $userCodes
+     * @param UserCodesEntity $userCodes
      * @return UserInterface
      */
-    public function countryConfirm(UserCodes $userCodes)
+    public function countryConfirm(UserCodesEntity $userCodes)
     {
         $entityManager = $this->entityManager;
 
@@ -356,7 +356,7 @@ class User extends SmallUser
     }
 
     /**
-     * @param \PServerCore\Service\UserCodes $userCodeService
+     * @param UserCodes $userCodeService
      * @return self
      */
     public function setUserCodeService($userCodeService)
@@ -542,7 +542,7 @@ class User extends SmallUser
         $availableCountries = $entityManager->getRepository($this->collectionOptions->getEntityOptions()->getAvailableCountries());
 
         if (!$availableCountries->isCountryAllowedForUser($user->getId(), $country)) {
-            $code = $this->userCodeService->setCode4User($user, UserCodes::TYPE_CONFIRM_COUNTRY);
+            $code = $this->userCodeService->setCode4User($user, UserCodesEntity::TYPE_CONFIRM_COUNTRY);
             $this->mailService->confirmCountry($user, $code);
             $this->getFlashMessenger()->setNamespace($this::ERROR_NAME_SPACE)->addMessage('Please confirm your new ip with your email');
             $result = false;
@@ -566,7 +566,7 @@ class User extends SmallUser
 
                 if (in_array(strtolower($userRole->getRoleId()), $secretLoginRoleList)) {
 
-                    $code = $this->userCodeService->setCode4User($user, UserCodes::TYPE_SECRET_LOGIN);
+                    $code = $this->userCodeService->setCode4User($user, UserCodesEntity::TYPE_SECRET_LOGIN);
                     $this->mailService->secretLogin($user, $code);
 
                     $this->getFlashMessenger()

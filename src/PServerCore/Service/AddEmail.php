@@ -5,7 +5,7 @@ namespace PServerCore\Service;
 
 
 use Doctrine\ORM\EntityManager;
-use PServerCore\Entity\UserCodes;
+use PServerCore\Entity\UserCodes as UserCodesEntity;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Options\Collection;
 use PServerCore\Service\UserCodes as UserCodesService;
@@ -118,7 +118,7 @@ class AddEmail
             $entityManager->persist($userExtension);
             $entityManager->flush();
 
-            $code = $this->userCodeService->setCode4User($user, UserCodes::TYPE_ADD_EMAIL);
+            $code = $this->userCodeService->setCode4User($user, UserCodesEntity::TYPE_ADD_EMAIL);
             $user->setEmail($data['email']);
 
             $this->mailService->addEmail($user, $code);
