@@ -28,7 +28,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(name="username", type="string", length=45, nullable=false, unique=true)
+     * @ORM\Column(name="username", type="string", length=45, nullable=false)
      */
     private $username = '';
 
