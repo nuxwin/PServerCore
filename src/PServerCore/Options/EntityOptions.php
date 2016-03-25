@@ -3,6 +3,7 @@
 
 namespace PServerCore\Options;
 
+use PServerCore\Entity;
 use Zend\Stdlib\AbstractOptions;
 
 class EntityOptions extends AbstractOptions
@@ -12,97 +13,97 @@ class EntityOptions extends AbstractOptions
     /**
      * @var string
      */
-    protected $availableCountries = 'PServerCore\Entity\AvailableCountries';
+    protected $availableCountries = Entity\AvailableCountries::class;
 
     /**
      * @var string
      */
-    protected $countryList = 'PServerCore\Entity\CountryList';
+    protected $countryList = Entity\CountryList::class;
 
     /**
      * @var string
      */
-    protected $donateLog = 'PServerCore\Entity\DonateLog';
+    protected $donateLog = Entity\DonateLog::class;
 
     /**
      * @var string
      */
-    protected $downloadList = 'PServerCore\Entity\DownloadList';
+    protected $downloadList = Entity\DownloadList::class;
 
     /**
      * @var string
      */
-    protected $ipBlock = 'PServerCore\Entity\IpBlock';
+    protected $ipBlock = Entity\IpBlock::class;
 
     /**
      * @var string
      */
-    protected $loginFailed = 'PServerCore\Entity\LoginFailed';
+    protected $loginFailed = Entity\LoginFailed::class;
 
     /**
      * @var string
      */
-    protected $loginHistory = 'PServerCore\Entity\LoginHistory';
+    protected $loginHistory = Entity\LoginHistory::class;
 
     /**
      * @var string
      */
-    protected $logs = 'PServerCore\Entity\Logs';
+    protected $logs = Entity\Logs::class;
 
     /**
      * @var string
      */
-    protected $news = 'PServerCore\Entity\News';
+    protected $news = Entity\News::class;
 
     /**
      * @var string
      */
-    protected $pageInfo = 'PServerCore\Entity\PageInfo';
+    protected $pageInfo = Entity\PageInfo::class;
 
     /**
      * @var string
      */
-    protected $playerHistory = 'PServerCore\Entity\PlayerHistory';
+    protected $playerHistory = Entity\PlayerHistory::class;
 
     /**
      * @var string
      */
-    protected $secretAnswer = 'PServerCore\Entity\SecretAnswer';
+    protected $secretAnswer = Entity\SecretAnswer::class;
 
     /**
      * @var string
      */
-    protected $secretQuestion = 'PServerCore\Entity\SecretQuestion';
+    protected $secretQuestion = Entity\SecretQuestion::class;
 
     /**
      * @var string
      */
-    protected $serverInfo = 'PServerCore\Entity\ServerInfo';
+    protected $serverInfo = Entity\ServerInfo::class;
 
     /**
      * @var string
      */
-    protected $userBlock = 'PServerCore\Entity\UserBlock';
+    protected $userBlock = Entity\UserBlock::class;
 
     /**
      * @var string
      */
-    protected $userCodes = 'PServerCore\Entity\UserCodes';
+    protected $userCodes = Entity\UserCodes::class;
 
     /**
      * @var string
      */
-    protected $userExtension = 'PServerCore\Entity\UserExtension';
+    protected $userExtension = Entity\UserExtension::class;
 
     /**
      * @var string
      */
-    protected $userRole = 'PServerCore\Entity\UserRole';
+    protected $userRole = Entity\UserRole::class;
 
     /**
      * @var string
      */
-    protected $user = 'PServerCore\Entity\User';
+    protected $user = Entity\User::class;
 
     /**
      * @return string
@@ -115,7 +116,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $availableCountries
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setAvailableCountries($availableCountries)
     {
@@ -134,7 +135,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $countryList
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setCountryList($countryList)
     {
@@ -153,7 +154,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $donateLog
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setDonateLog($donateLog)
     {
@@ -172,7 +173,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $downloadList
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setDownloadList($downloadList)
     {
@@ -191,7 +192,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $ipBlock
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setIpBlock($ipBlock)
     {
@@ -210,7 +211,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $loginFailed
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setLoginFailed($loginFailed)
     {
@@ -229,7 +230,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $loginHistory
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setLoginHistory($loginHistory)
     {
@@ -248,7 +249,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $logs
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setLogs($logs)
     {
@@ -267,7 +268,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $news
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setNews($news)
     {
@@ -286,7 +287,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $pageInfo
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setPageInfo($pageInfo)
     {
@@ -305,7 +306,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $playerHistory
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setPlayerHistory($playerHistory)
     {
@@ -324,7 +325,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $secretAnswer
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setSecretAnswer($secretAnswer)
     {
@@ -343,7 +344,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $secretQuestion
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setSecretQuestion($secretQuestion)
     {
@@ -362,7 +363,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $serverInfo
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setServerInfo($serverInfo)
     {
@@ -381,7 +382,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $userBlock
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setUserBlock($userBlock)
     {
@@ -400,7 +401,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $userCodes
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setUserCodes($userCodes)
     {
@@ -419,7 +420,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $userExtension
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setUserExtension($userExtension)
     {
@@ -438,7 +439,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $userRole
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setUserRole($userRole)
     {
@@ -457,7 +458,7 @@ class EntityOptions extends AbstractOptions
     /**
      * @param string $user
      *
-     * @return EntityOptions
+     * @return self
      */
     public function setUser($user)
     {
