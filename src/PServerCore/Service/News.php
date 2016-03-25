@@ -29,8 +29,11 @@ class News
      * @param Collection $collectionOptions
      * @param FormInterface $adminNewsForm
      */
-    public function __construct(EntityManager $entityManager, Collection $collectionOptions, FormInterface $adminNewsForm)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        Collection $collectionOptions,
+        FormInterface $adminNewsForm
+    ) {
         $this->entityManager = $entityManager;
         $this->collectionOptions = $collectionOptions;
         $this->adminNewsForm = $adminNewsForm;
