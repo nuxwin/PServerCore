@@ -3,6 +3,7 @@
 namespace PServerCore\Form;
 
 use PServerCore\Options\PasswordOptions;
+use PServerCore\Validator\PasswordRules;
 use ZfcBase\InputFilter\ProvidesEventsInputFilter;
 
 class ChangePwdFilter extends ProvidesEventsInputFilter
@@ -41,6 +42,7 @@ class ChangePwdFilter extends ProvidesEventsInputFilter
                         'max' => $passwordLengthOptions['max'],
                     ],
                 ],
+                new PasswordRules($passwordOptions),
             ],
         ]);
 
@@ -62,6 +64,7 @@ class ChangePwdFilter extends ProvidesEventsInputFilter
                         'token' => 'password',
                     ],
                 ],
+                new PasswordRules($passwordOptions),
             ],
         ]);
     }

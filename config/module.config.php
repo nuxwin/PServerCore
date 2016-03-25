@@ -606,6 +606,22 @@ return [
                 'min' => 6,
                 'max' => 32
             ],
+            /**
+             * password must contain a number
+             */
+            'contains_number' => false,
+            /**
+             * password must contain a lower letter
+             */
+            'contains_lower_letter' => false,
+            /**
+             * password must contain a upper letter
+             */
+            'contains_upper_letter' => false,
+            /**
+             * password must contain a special char
+             */
+            'contains_special_char' => false,
         ],
         'validation' => [
             'username' => [

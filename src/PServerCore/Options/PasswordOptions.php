@@ -27,6 +27,18 @@ class PasswordOptions extends AbstractOptions
         'max' => 32
     ];
 
+    /** @var bool */
+    protected $containsNumber = false;
+
+    /** @var bool */
+    protected $containsLowerLetter = false;
+
+    /** @var bool */
+    protected $containsUpperLetter = false;
+
+    /** @var bool */
+    protected $containsSpecialChar = false;
+
     /**
      * @return boolean
      */
@@ -81,6 +93,78 @@ class PasswordOptions extends AbstractOptions
     {
         $this->length = $length;
 
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isContainsNumber()
+    {
+        return $this->containsNumber;
+    }
+
+    /**
+     * @param boolean $containsNumber
+     * @return self
+     */
+    public function setContainsNumber($containsNumber)
+    {
+        $this->containsNumber = $containsNumber;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isContainsLowerLetter()
+    {
+        return $this->containsLowerLetter;
+    }
+
+    /**
+     * @param boolean $containsLowerLetter
+     * @return self
+     */
+    public function setContainsLowerLetter($containsLowerLetter)
+    {
+        $this->containsLowerLetter = $containsLowerLetter;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isContainsUpperLetter()
+    {
+        return $this->containsUpperLetter;
+    }
+
+    /**
+     * @param boolean $containsUpperLetter
+     * @return self
+     */
+    public function setContainsUpperLetter($containsUpperLetter)
+    {
+        $this->containsUpperLetter = $containsUpperLetter;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isContainsSpecialChar()
+    {
+        return $this->containsSpecialChar;
+    }
+
+    /**
+     * @param boolean $containsSpecialChar
+     * @return self
+     */
+    public function setContainsSpecialChar($containsSpecialChar)
+    {
+        $this->containsSpecialChar = $containsSpecialChar;
         return $this;
     }
 

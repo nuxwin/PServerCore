@@ -5,6 +5,7 @@ namespace PServerCore\Form;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Options\PasswordOptions;
 use PServerCore\Service\SecretQuestion;
+use PServerCore\Validator\PasswordRules;
 use PServerCore\Validator\SimilarText;
 use ZfcBase\InputFilter\ProvidesEventsInputFilter;
 
@@ -47,6 +48,7 @@ class PasswordFilter extends ProvidesEventsInputFilter
                         'max' => $passwordLengthOptions['max'],
                     ],
                 ],
+                new PasswordRules($passwordOptions),
             ],
         ]);
 
@@ -68,6 +70,7 @@ class PasswordFilter extends ProvidesEventsInputFilter
                         'token' => 'password',
                     ],
                 ],
+                new PasswordRules($passwordOptions),
             ],
         ]);
     }

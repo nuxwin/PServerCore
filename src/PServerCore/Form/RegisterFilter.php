@@ -117,6 +117,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
                         'max' => $passwordLengthOptions['max'],
                     ],
                 ],
+                new Validator\PasswordRules($this->collection->getPasswordOptions()),
             ],
         ]);
 
@@ -138,6 +139,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
                         'token' => 'password',
                     ],
                 ],
+                new Validator\PasswordRules($this->collection->getPasswordOptions()),
             ],
         ]);
 
