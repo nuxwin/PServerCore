@@ -3,6 +3,12 @@
 	<hr/>
 	<ul class="list-unstyled">
 		<?php foreach($this->loggedIn as $entry):
+
+			// we want to deactivate a entry
+			if ($entry === null) {
+				continue;
+			}
+
 			$routeParams = isset($entry['route']['params'])?$entry['route']['params']:[];
 		?>
 			<?php if($this->isAllowed($entry['route']['name'])): ?>
