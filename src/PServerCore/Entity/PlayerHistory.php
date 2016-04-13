@@ -36,6 +36,9 @@ class PlayerHistory
      */
     private $created;
 
+    /**
+     * PlayerHistory constructor.
+     */
     public function __construct()
     {
         $this->created = new \DateTime();
