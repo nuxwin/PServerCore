@@ -38,7 +38,7 @@ class Active extends AbstractHelper
 
         $routeMatch = $router->match($request);
 
-        if (is_null($routeMatch)) {
+        if ($routeMatch === null) {
             return false;
         }
 

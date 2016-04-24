@@ -49,8 +49,7 @@ class AddEmail extends ProvidesEventsForm
         ]);
 
         $submitElement = new Element\Button('submit');
-        $submitElement
-            ->setLabel('Submit')
+        $submitElement->setLabel('Submit')
             ->setAttributes([
                 'class' => 'btn btn-primary',
                 'type' => 'submit',

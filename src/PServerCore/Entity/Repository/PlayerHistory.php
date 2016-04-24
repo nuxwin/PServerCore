@@ -21,7 +21,7 @@ class PlayerHistory extends EntityRepository
         /** @var \PServerCore\Entity\PlayerHistory $result */
         $result = $query->getOneOrNullResult();
 
-        return is_null($result) ? 0 : $result->getPlayer();
+        return $result === null ? 0 : $result->getPlayer();
     }
 
     /**
