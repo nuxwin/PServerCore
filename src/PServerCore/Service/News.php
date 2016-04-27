@@ -97,7 +97,8 @@ class News
     public function news(array $data, UserInterface $user, $currentNews = null)
     {
         if (!$currentNews) {
-            $currentNews = new NewsEntity();
+            $class = $this->collectionOptions->getEntityOptions()->getNews();
+            $currentNews = new $class;
         }
 
         $form = $this->adminNewsForm;
