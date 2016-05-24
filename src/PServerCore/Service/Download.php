@@ -120,19 +120,19 @@ class Download
     }
 
     /**
-     * @return \PServerCore\Entity\Repository\DownloadList
-     */
-    protected function getDownloadRepository()
-    {
-        return $this->entityManager->getRepository($this->entityOptions->getDownloadList());
-    }
-
-    /**
      * @return FormInterface
      */
     public function getAdminDownloadForm()
     {
         return $this->adminDownloadForm;
+    }
+
+    /**
+     * @return \PServerCore\Entity\Repository\DownloadList
+     */
+    protected function getDownloadRepository()
+    {
+        return $this->entityManager->getRepository($this->entityOptions->getDownloadList());
     }
 
 

@@ -10,7 +10,7 @@ return [
     'router' => [
         'routes' => [
             'PServerCore' => [
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => [
                     'route' => '/',
                     'defaults' => [
@@ -135,223 +135,31 @@ return [
             'small_user_service' => Service\User::class,
         ],
         'factories' => [
-            'pserver_caching_service' => function () {
-                $cache = \Zend\Cache\StorageFactory::factory([
-                    'adapter' => 'filesystem',
-                    'options' => [
-                        'cache_dir' => __DIR__ . '/../../../../data/cache',
-                        'ttl' => 86400
-                    ],
-                    'plugins' => [
-                        'exception_handler' => [
-                            'throw_exceptions' => false
-                        ],
-                        'serializer'
-                    ],
-                ]);
-                return $cache;
-            },
-            Service\PaymentValidation::class => function ($sm) {
-                /** @var $sm \Zend\Mvc\Controller\ControllerManager */
-                /** @noinspection PhpParamsInspection */
-                return new Service\PaymentValidation($sm->get('small_user_service'));
-            },
-            Service\TicketSystem::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                $ticketSystem = new Service\TicketSystem(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('zfcticketsystem_ticketsystem_new_form'),
-                    $sm->get('zfcticketsystem_ticketsystem_entry_form'),
-                    $sm->get('zfcticketsystem_entry_options')
-                );
-
-                /** @noinspection PhpParamsInspection */
-                $ticketSystem->setMailService($sm->get('pserver_mail_service'));
-                /** @noinspection PhpParamsInspection */
-                $ticketSystem->setGeneralOptions($sm->get('pserver_general_options'));
-
-                return $ticketSystem;
-            },
-            Service\PaymentValidation::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\PaymentValidation(
-                    $sm->get('small_user_service')
-                );
-            },
+            'pserver_caching_service' => Service\CachingFactory::class,
+            Service\TicketSystem::class => Service\TicketSystemFactory::class,
+            Service\PaymentValidation::class => Service\PaymentValidationFactory::class,
             Options\Collection::class => Options\CollectionFactory::class,
             Service\Timer::class => InvokableFactory::class,
             Service\Ip::class => InvokableFactory::class,
-            Service\UserCodes::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\UserCodes(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_format_service'),
-                    $sm->get(Options\Collection::class)
-                );
-            },
-            Service\CachingHelper::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\CachingHelper(
-                    $sm->get('pserver_caching_service'),
-                    $sm->get('pserver_general_options')
-                );
-            },
-            Service\ConfigRead::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                return new Service\ConfigRead(
-                    $sm->get('Config')
-                );
-            },
-            Service\Donate::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\Donate(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_entity_options')
-                );
-            },
+            Service\UserCodes::class => Service\UserCodesFactory::class,
+            Service\CachingHelper::class => Service\CachingHelperFactory::class,
+            Service\ConfigRead::class => Service\ConfigReadFactory::class,
+            Service\Donate::class => Service\DonateFactory::class,
             Service\Format::class => InvokableFactory::class,
-            Service\LoginHistory::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\LoginHistory(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_entity_options')
-                );
-            },
-            Service\Logs::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\Logs(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_entity_options')
-                );
-            },
-            Service\ServerInfo::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\ServerInfo(
-                    $sm->get(Service\CachingHelper::class),
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_entity_options'),
-                    $sm->get('pserver_admin_server_info_form')
-                );
-            },
-            Service\Mail::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\Mail(
-                    $sm->get('ViewRenderer'),
-                    $sm->get('pserver_options_collection'),
-                    $sm->get('Doctrine\ORM\EntityManager')
-                );
-            },
-            Service\SecretQuestion::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\SecretQuestion(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_entity_options'),
-                    $sm->get('pserver_admin_secret_question_form')
-                );
-            },
-            Service\News::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\News(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_options_collection'),
-                    $sm->get('pserver_admin_news_form')
-                );
-            },
-            Service\Download::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\Download(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_entity_options'),
-                    $sm->get(Service\CachingHelper::class),
-                    $sm->get('pserver_admin_download_form')
-                );
-            },
-            Service\AddEmail::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\AddEmail(
-                    $sm->get('small_user_auth_service'),
-                    $sm->get('ControllerPluginManager'),
-                    $sm->get(Options\Collection::class),
-                    $sm->get('pserver_user_add_mail_form'),
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get(Service\Mail::class),
-                    $sm->get(Service\UserCodes::class)
-                );
-            },
-            Service\Coin::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\Coin(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('gamebackend_dataservice'),
-                    $sm->get('pserver_entity_options'),
-                    $sm->get('pserver_admin_coin_form'),
-                    $sm->get(Service\Ip::class)
-                );
-            },
-            Service\PageInfo::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\PageInfo(
-                    $sm->get(Service\CachingHelper::class),
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get(Options\Collection::class),
-                    $sm->get('pserver_admin_page_info_form')
-                );
-            },
-            Service\PlayerHistory::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\PlayerHistory(
-                    $sm->get(Service\CachingHelper::class),
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get(Options\Collection::class),
-                    $sm->get('gamebackend_dataservice')
-                );
-            },
-            Service\UserBlock::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\UserBlock(
-                    $sm->get('pserver_entity_options'),
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_admin_user_block_form'),
-                    $sm->get('gamebackend_dataservice')
-                );
-            },
-            Service\UserRole::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\UserRole(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get('pserver_admin_user_role_form'),
-                    $sm->get('pserver_entity_options'),
-                    $sm->get('ControllerPluginManager')
-                );
-            },
-            Service\PaymentNotify::class => function ($sm) {
-                /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-                /** @noinspection PhpParamsInspection */
-                return new Service\PaymentNotify(
-                    $sm->get('Doctrine\ORM\EntityManager'),
-                    $sm->get(Options\Collection::class),
-                    $sm->get(Service\Coin::class),
-                    $sm->get(Service\UserBlock::class)
-                );
-            },
+            Service\LoginHistory::class => Service\LoginHistoryFactory::class,
+            Service\Logs::class => Service\LogsFactory::class,
+            Service\ServerInfo::class => Service\ServerInfoFactory::class,
+            Service\Mail::class => Service\MailFactory::class,
+            Service\SecretQuestion::class => Service\SecretQuestionFactory::class,
+            Service\News::class => Service\NewsFactory::class,
+            Service\Download::class => Service\DownloadFactory::class,
+            Service\AddEmail::class => Service\AddEmailFactory::class,
+            Service\Coin::class => Service\CoinFactory::class,
+            Service\PageInfo::class => Service\PageInfoFactory::class,
+            Service\PlayerHistory::class => Service\PlayerHistoryFactory::class,
+            Service\UserBlock::class => Service\UserBlockFactory::class,
+            Service\UserRole::class => Service\UserCodesFactory::class,
+            Service\PaymentNotify::class => Service\PaymentNotifyFactory::class,
             Service\User::class => Service\UserFactory::class
         ],
     ],

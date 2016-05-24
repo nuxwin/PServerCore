@@ -190,7 +190,7 @@ class Module
                     /** @var $repositoryUser \Doctrine\Common\Persistence\ObjectRepository */
                     /** @var Options\EntityOptions $entityOptions */
                     $entityOptions = $sm->get('pserver_entity_options');
-                    $repositoryUser = $sm->get('Doctrine\ORM\EntityManager')->getRepository($entityOptions->getUser());
+                    $repositoryUser = $sm->get(\Doctrine\ORM\EntityManager::class)->getRepository($entityOptions->getUser());
                     /** @noinspection PhpParamsInspection */
                     $form = new Form\PwLost($sm->get('SanCaptcha'));
                     $form->setInputFilter(
