@@ -158,7 +158,7 @@ return [
             Service\PageInfo::class => Service\PageInfoFactory::class,
             Service\PlayerHistory::class => Service\PlayerHistoryFactory::class,
             Service\UserBlock::class => Service\UserBlockFactory::class,
-            Service\UserRole::class => Service\UserCodesFactory::class,
+            Service\UserRole::class => Service\UserRoleFactory::class,
             Service\PaymentNotify::class => Service\PaymentNotifyFactory::class,
             Service\User::class => Service\UserFactory::class
         ],
