@@ -79,6 +79,7 @@ class DonateLog extends EntityRepository
                     Entity::TYPE_PAYMENT_WALL,
                     Entity::TYPE_SUPER_REWARD,
                     Entity::TYPE_XSOLLA,
+                    Entity::TYPE_PAY_PAL,
                 ],
                 \Doctrine\DBAL\Connection::PARAM_STR_ARRAY
             )
@@ -96,6 +97,7 @@ class DonateLog extends EntityRepository
             Entity::TYPE_PAYMENT_WALL,
             Entity::TYPE_SUPER_REWARD,
             Entity::TYPE_XSOLLA,
+            Entity::TYPE_PAY_PAL,
             Entity::TYPE_INTERNAL
         ];
     }
