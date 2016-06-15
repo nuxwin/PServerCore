@@ -18,7 +18,7 @@ class Test extends TestBase
 
         $result = $class->getCode(32);
         $this->assertInternalType('string', $result);
-        $this->assertEquals(32, strlen($result));
+        $this->assertRegExp('/[a-zA-Z0-9]{32}/', $result);
     }
 
 
