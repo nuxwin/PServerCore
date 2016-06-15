@@ -3,14 +3,16 @@
 use PServerCore\Controller;
 use PServerCore\Entity;
 use PServerCore\Options;
+use PServerCore\View\Helper;
 use PServerCore\Service;
+use Zend\Mvc\Router\Http;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
         'routes' => [
             'PServerCore' => [
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'type' => Http\Literal::class,
                 'options' => [
                     'route' => '/',
                     'defaults' => [
@@ -22,7 +24,7 @@ return [
                 'may_terminate' => true,
                 'child_routes' => [
                     'site-news' => [
-                        'type' => 'segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'news-[:page].html',
                             'constraints' => [
@@ -36,7 +38,7 @@ return [
                         ],
                     ],
                     'site-detail' => [
-                        'type' => 'segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'detail-[:type].html',
                             'constraints' => [
@@ -49,7 +51,7 @@ return [
                         ],
                     ],
                     'site-download' => [
-                        'type' => 'segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'download.html',
                             'defaults' => [
@@ -59,7 +61,7 @@ return [
                         ],
                     ],
                     'user' => [
-                        'type' => 'segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'panel/account[/:action].html',
                             'constraints' => [
@@ -72,7 +74,7 @@ return [
                         ],
                     ],
                     'panel_donate' => [
-                        'type' => 'segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'panel/donate[/:action].html',
                             'constraints' => [
@@ -85,7 +87,7 @@ return [
                         ],
                     ],
                     'info' => [
-                        'type' => 'segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'info[/:action].png',
                             'constraints' => [
@@ -180,6 +182,44 @@ return [
             Controller\AccountController::class => Controller\AccountFactory::class,
             Controller\DonateController::class => Controller\DonateFactory::class,
             Controller\InfoController::class => Controller\InfoFactory::class,
+        ],
+    ],
+    'view_helpers' => [
+        'aliases' => [
+            'pserverformerrors' => Helper\FormError::class,
+            'formlabel' => Helper\FormLabel::class,
+            'formWidget' => Helper\FormWidget::class,
+            'sidebarWidget' => Helper\SideBarWidget::class,
+            'playerHistory' => Helper\PlayerHistory::class,
+            'active' => Helper\Active::class,
+            'donateSum' => Helper\DonateSum::class,
+            'donateCounter' => Helper\DonateCounter::class,
+            'navigationWidgetPServerCore' => Helper\NavigationWidget::class,
+            'dateTimeFormatTime' => Helper\DateTimeFormat::class,
+            'newsWidget' => Helper\NewsWidget::class,
+            'loggedInWidgetPServerCore' => Helper\LoggedInWidget::class,
+            'loginWidgetPServerCore' => Helper\LoginWidget::class,
+            'serverInfoWidgetPServerCore' => Helper\ServerInfoWidget::class,
+            'timerWidgetPServerCore' => Helper\TimerWidget::class,
+            'coinsWidgetPServerCore' => Helper\CoinsWidget::class,
+        ],
+        'factories' => [
+            Helper\FormError::class => InvokableFactory::class,
+            Helper\FormLabel::class => InvokableFactory::class,
+            Helper\FormWidget::class => InvokableFactory::class,
+            Helper\SideBarWidget::class => InvokableFactory::class,
+            Helper\PlayerHistory::class => Helper\PlayerHistoryFactory::class,
+            Helper\Active::class => Helper\ActiveFactory::class,
+            Helper\DonateSum::class => Helper\DonateSumFactory::class,
+            Helper\DonateCounter::class => Helper\DonateCounterFactory::class,
+            Helper\NavigationWidget::class => Helper\NavigationWidgetFactory::class,
+            Helper\DateTimeFormat::class => Helper\DateTimeFormatFactory::class,
+            Helper\NewsWidget::class => Helper\NewsFactory::class,
+            Helper\LoggedInWidget::class => Helper\LoggedInFactory::class,
+            Helper\LoginWidget::class => Helper\LoginFactory::class,
+            Helper\ServerInfoWidget::class => Helper\ServerInfoFactory::class,
+            Helper\TimerWidget::class => Helper\TimerFactory::class,
+            Helper\CoinsWidget::class => Helper\CoinsFactory::class,
         ],
     ],
     'view_manager' => [
