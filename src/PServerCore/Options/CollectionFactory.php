@@ -17,23 +17,23 @@ class CollectionFactory implements FactoryInterface
         /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
         $collection = new Collection();
         /** @noinspection PhpParamsInspection */
-        $collection->setEntityOptions($serviceLocator->get('pserver_entity_options'));
+        $collection->setEntityOptions($serviceLocator->get(EntityOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setGeneralOptions($serviceLocator->get('pserver_general_options'));
+        $collection->setGeneralOptions($serviceLocator->get(GeneralOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setLoginOptions($serviceLocator->get('pserver_login_options'));
+        $collection->setLoginOptions($serviceLocator->get(LoginOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setMailOptions($serviceLocator->get('pserver_mail_options'));
+        $collection->setMailOptions($serviceLocator->get(MailOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setPasswordOptions($serviceLocator->get('pserver_password_options'));
+        $collection->setPasswordOptions($serviceLocator->get(PasswordOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setRegisterOptions($serviceLocator->get('pserver_register_options'));
+        $collection->setRegisterOptions($serviceLocator->get(RegisterOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setUserCodesOptions($serviceLocator->get('pserver_user_code_options'));
+        $collection->setUserCodesOptions($serviceLocator->get(UserCodeOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setValidationOptions($serviceLocator->get('pserver_validation_options'));
+        $collection->setValidationOptions($serviceLocator->get(ValidationOptions::class));
         /** @noinspection PhpParamsInspection */
-        $collection->setConfig($serviceLocator->get('Config')['pserver']);
+        $collection->setConfig($serviceLocator->get('config')['pserver']);
 
         return $collection;
     }

@@ -4,6 +4,7 @@ use PServerCore\Controller;
 use PServerCore\Entity;
 use PServerCore\Options;
 use PServerCore\View\Helper;
+use PServerCore\Form;
 use PServerCore\Service;
 use Zend\Mvc\Router\Http;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -135,6 +136,22 @@ return [
             'pserver_user_block_service' => Service\UserBlock::class,
             'pserver_user_role_service' => Service\UserRole::class,
             'small_user_service' => Service\User::class,
+            'pserver_user_register_form' => Form\Register::class,
+            'pserver_user_password_form' => Form\Password::class,
+            'pserver_user_pwlost_form' => Form\PwLost::class,
+            'pserver_user_changepwd_form' => Form\ChangePwd::class,
+            'pserver_user_add_mail_form' => Form\AddEmail::class,
+            'zfcticketsystem_ticketsystem_new_form' => \ZfcTicketSystem\Form\TicketSystem::class,
+            'zfcticketsystem_ticketsystem_entry_form' => \ZfcTicketSystem\Form\TicketEntry::class,
+            'small_user_login_form' => \SmallUser\Form\Login::class,
+            'pserver_entity_options' => Options\EntityOptions::class,
+            'pserver_mail_options' => Options\MailOptions::class,
+            'pserver_general_options' => Options\GeneralOptions::class,
+            'pserver_password_options' => Options\PasswordOptions::class,
+            'pserver_user_code_options' => Options\UserCodeOptions::class,
+            'pserver_login_options' => Options\LoginOptions::class,
+            'pserver_register_options' => Options\RegisterOptions::class,
+            'pserver_validation_options' => Options\ValidationOptions::class,
         ],
         'factories' => [
             'pserver_caching_service' => Service\CachingFactory::class,
@@ -162,7 +179,23 @@ return [
             Service\UserBlock::class => Service\UserBlockFactory::class,
             Service\UserRole::class => Service\UserRoleFactory::class,
             Service\PaymentNotify::class => Service\PaymentNotifyFactory::class,
-            Service\User::class => Service\UserFactory::class
+            Service\User::class => Service\UserFactory::class,
+            Form\Register::class => Form\RegisterFactory::class,
+            Form\Password::class => Form\PasswordFactory::class,
+            Form\PwLost::class => Form\PwLostFactory::class,
+            Form\ChangePwd::class => Form\ChangePwdFactory::class,
+            Form\AddEmail::class => Form\AddEmailFactory::class,
+            \ZfcTicketSystem\Form\TicketSystem::class => Form\TicketSystemFactory::class,
+            \ZfcTicketSystem\Form\TicketEntry::class => Form\TicketEntryFactory::class,
+            \SmallUser\Form\Login::class => Form\LoginFactory::class,
+            Options\EntityOptions::class => Options\EntityOptionsFactory::class,
+            Options\MailOptions::class => Options\MailOptionsFactory::class,
+            Options\GeneralOptions::class => Options\GeneralOptionsFactory::class,
+            Options\PasswordOptions::class => Options\PasswordOptionsFactory::class,
+            Options\UserCodeOptions::class => Options\UserCodeOptionsFactory::class,
+            Options\LoginOptions::class => Options\LoginOptionsFactory::class,
+            Options\RegisterOptions::class => Options\RegisterOptionsFactory::class,
+            Options\ValidationOptions::class => Options\ValidationOptionsFactory::class,
         ],
     ],
     'controllers' => [
