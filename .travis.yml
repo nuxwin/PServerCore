@@ -74,7 +74,9 @@ install:
   - composer show
 
 script:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
+  - mkdir -p build/logs
+  # Run tests
+  - php ./vendor/bin/phpunit --configuration tests/phpunit.xml
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then php vendor/bin/coveralls -v; fi
