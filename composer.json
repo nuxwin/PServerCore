@@ -28,7 +28,7 @@
     "ext-json" : "*",
     "twig/twig": "~1.24",
     "zendframework/zend-servicemanager": "~2.7",
-    "zendframework/zend-mvc": "~2.5",
+    "zendframework/zend-mvc": "~2.7",
     "zendframework/zend-loader": "~2.5",
     "zendframework/zend-escaper": "~2.5",
     "zendframework/zend-config": "~2.5",

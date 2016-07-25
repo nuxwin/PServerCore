@@ -6,6 +6,7 @@ namespace PServerCoreTest\Form;
 
 use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\Mocking;
+use PServerCore\Form\RegisterFilter;
 use PServerCore\Options\Collection;
 use PServerCore\Options\PasswordOptions;
 use PServerCore\Options\RegisterOptions;
@@ -17,7 +18,7 @@ use PServerCoreTest\Util\TestBase;
 class RegisterFilterTest extends TestBase
 {
     /** @var string */
-    protected $className = '\PServerCore\Form\RegisterFilter';
+    protected $className = RegisterFilter::class;
 
     public function testIsValid()
     {
