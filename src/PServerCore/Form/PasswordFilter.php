@@ -7,9 +7,9 @@ use PServerCore\Options\PasswordOptions;
 use PServerCore\Service\SecretQuestion;
 use PServerCore\Validator\PasswordRules;
 use PServerCore\Validator\SimilarText;
-use ZfcBase\InputFilter\ProvidesEventsInputFilter;
+use Zend\InputFilter\InputFilter;
 
-class PasswordFilter extends ProvidesEventsInputFilter
+class PasswordFilter extends InputFilter
 {
     /** @var  SimilarText */
     protected $similarText;

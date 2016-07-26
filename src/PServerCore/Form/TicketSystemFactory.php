@@ -5,33 +5,44 @@ namespace PServerCore\Form;
 
 
 use Doctrine\ORM\EntityManager;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ZfcTicketSystem\Form\TicketSystem;
 
 class TicketSystemFactory implements FactoryInterface
 {
     /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return \ZfcTicketSystem\Form\TicketSystem
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return TicketSystem
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @noinspection PhpParamsInspection */
-        $form = new \ZfcTicketSystem\Form\TicketSystem(
-            $serviceLocator->get(EntityManager::class),
-            $serviceLocator->get('zfcticketsystem_entry_options')
+        $form = new TicketSystem(
+            $container->get(EntityManager::class),
+            $container->get('zfcticketsystem_entry_options')
         );
 
-        /** @noinspection PhpParamsInspection */
         $form->setInputFilter(
             new TicketSystemFilter(
-                $serviceLocator->get(EntityManager::class),
-                $serviceLocator->get('zfcticketsystem_entry_options'),
-                $serviceLocator->get('zfc-bbcode_parser')
+                $container->get(EntityManager::class),
+                $container->get('zfcticketsystem_entry_options'),
+                $container->get('zfc-bbcode_parser')
             )
         );
 
         return $form;
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return TicketSystem
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, TicketSystem::class);
     }
 
 }

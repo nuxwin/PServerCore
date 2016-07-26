@@ -2,10 +2,9 @@
 
 namespace PServerCore\Form;
 
-use Zend\Form\Element;
-use ZfcBase\Form\ProvidesEventsForm;
+use Zend\Form;
 
-class ChangePwd extends ProvidesEventsForm
+class ChangePwd extends Form\Form
 {
 
     public function __construct()
@@ -13,7 +12,7 @@ class ChangePwd extends ProvidesEventsForm
         parent::__construct();
 
         $this->add([
-            'type' => 'Zend\Form\Element\Csrf',
+            'type' => Form\Element\Csrf::class,
             'name' => 'eugzhoe45gh3o49ug2wrtu7gz50'
         ]);
 
@@ -56,7 +55,7 @@ class ChangePwd extends ProvidesEventsForm
             ],
         ]);
 
-        $submitElement = new Element\Button('submit');
+        $submitElement = new Form\Element\Button('submit');
         $submitElement
             ->setLabel('Change Password')
             ->setAttributes([
@@ -75,7 +74,7 @@ class ChangePwd extends ProvidesEventsForm
      */
     public function setWhich($which)
     {
-        $hidden = new Element\Hidden('which');
+        $hidden = new Form\Element\Hidden('which');
         $hidden->setLabel(' ');
         $hidden->setValue($which);
         $this->add($hidden);

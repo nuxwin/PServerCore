@@ -5,10 +5,9 @@ namespace PServerCore\Form;
 use Doctrine\ORM\EntityManager;
 use PServerCore\Entity\UserInterface;
 use PServerCore\Options\Collection;
-use Zend\Form\Element;
-use ZfcBase\Form\ProvidesEventsForm;
+use Zend\Form;
 
-class Password extends ProvidesEventsForm
+class Password extends Form\Form
 {
     /** @var  UserInterface */
     protected $user;
@@ -29,7 +28,7 @@ class Password extends ProvidesEventsForm
         $this->collectionOptions = $collectionOptions;
 
         $this->add([
-            'type' => 'Zend\Form\Element\Csrf',
+            'type' => Form\Element\Csrf::class,
             'name' => 'eugzhoe45gh3o49ug2wrtu7gz50'
         ]);
 
@@ -55,7 +54,7 @@ class Password extends ProvidesEventsForm
             ],
         ]);
 
-        $submitElement = new Element\Button('submit');
+        $submitElement = new Form\Element\Button('submit');
         $submitElement
             ->setLabel('Submit')
             ->setAttributes([

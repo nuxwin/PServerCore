@@ -7,9 +7,10 @@ use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Options\Collection;
 use PServerCore\Validator;
 use PServerCore\Validator\AbstractRecord;
-use ZfcBase\InputFilter\ProvidesEventsInputFilter;
+use Zend\InputFilter\InputFilter;
+use Zend\Validator\Hostname;
 
-class RegisterFilter extends ProvidesEventsInputFilter
+class RegisterFilter extends InputFilter
 {
     /** @var  Collection */
     protected $collection;
@@ -65,7 +66,7 @@ class RegisterFilter extends ProvidesEventsInputFilter
                 [
                     'name' => 'EmailAddress',
                     'options' => [
-                        'allow' => \Zend\Validator\Hostname::ALLOW_DNS,
+                        'allow' => Hostname::ALLOW_DNS,
                         'useMxCheck' => true,
                         'useDeepMxCheck' => true
                     ]

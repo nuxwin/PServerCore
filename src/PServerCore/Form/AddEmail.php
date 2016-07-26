@@ -4,10 +4,9 @@
 namespace PServerCore\Form;
 
 
-use Zend\Form\Element;
-use ZfcBase\Form\ProvidesEventsForm;
+use Zend\Form;
 
-class AddEmail extends ProvidesEventsForm
+class AddEmail extends Form\Form
 {
 
     /**
@@ -19,7 +18,7 @@ class AddEmail extends ProvidesEventsForm
         parent::__construct();
 
         $this->add([
-            'type' => 'Zend\Form\Element\Csrf',
+            'type' => Form\Element\Csrf::class,
             'name' => 'eugzhoe45gh3o49ug2wrtu7gz50'
         ]);
 
@@ -48,7 +47,7 @@ class AddEmail extends ProvidesEventsForm
             ],
         ]);
 
-        $submitElement = new Element\Button('submit');
+        $submitElement = new Form\Element\Button('submit');
         $submitElement->setLabel('Submit')
             ->setAttributes([
                 'class' => 'btn btn-primary',

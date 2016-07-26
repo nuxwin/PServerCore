@@ -3,9 +3,9 @@
 namespace PServerCore\Form;
 
 use PServerCore\Validator\AbstractRecord;
-use ZfcBase\InputFilter\ProvidesEventsInputFilter;
+use Zend\InputFilter\InputFilter;
 
-class PwLostFilter extends ProvidesEventsInputFilter
+class PwLostFilter extends InputFilter
 {
     /** @var  AbstractRecord */
     protected $userValidator;

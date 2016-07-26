@@ -5,11 +5,9 @@ namespace PServerCore\Form;
 use Doctrine\ORM\EntityManager;
 use PServerCore\Options\Collection;
 use Zend\Captcha\AdapterInterface;
-use Zend\Form\Element;
-use Zend\Form\Element\Captcha;
-use ZfcBase\Form\ProvidesEventsForm;
+use Zend\Form;
 
-class Register extends ProvidesEventsForm
+class Register extends Form\Form
 {
     /** @var  EntityManager */
     protected $entityManager;
@@ -35,7 +33,7 @@ class Register extends ProvidesEventsForm
         $this->collection = $collection;
 
         $this->add([
-            'type' => 'Zend\Form\Element\Csrf',
+            'type' => Form\Element\Csrf::class,
             'name' => 'eugzhoe45gh3o49ug2wrtu7gz50'
         ]);
 
@@ -140,7 +138,7 @@ class Register extends ProvidesEventsForm
             ]);
         }
 
-        $captcha = new Captcha('captcha');
+        $captcha = new Form\Element\Captcha('captcha');
         $captcha->setCaptcha($this->sanCaptcha)
             ->setOptions([
                 'label' => 'Please verify you are human.',
@@ -155,7 +153,7 @@ class Register extends ProvidesEventsForm
             'priority' => -90,
         ]);
 
-        $submitElement = new Element\Button('submit');
+        $submitElement = new Form\Element\Button('submit');
         $submitElement
             ->setLabel('Register')
             ->setAttributes([

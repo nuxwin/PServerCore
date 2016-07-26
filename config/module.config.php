@@ -6,14 +6,13 @@ use PServerCore\Options;
 use PServerCore\View\Helper;
 use PServerCore\Form;
 use PServerCore\Service;
-use Zend\Mvc\Router\Http;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
         'routes' => [
             'PServerCore' => [
-                'type' => Http\Literal::class,
+                'type' => 'Literal',
                 'options' => [
                     'route' => '/',
                     'defaults' => [
@@ -25,7 +24,7 @@ return [
                 'may_terminate' => true,
                 'child_routes' => [
                     'site-news' => [
-                        'type' => Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
                             'route' => 'news-[:page].html',
                             'constraints' => [
@@ -39,7 +38,7 @@ return [
                         ],
                     ],
                     'site-detail' => [
-                        'type' => Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
                             'route' => 'detail-[:type].html',
                             'constraints' => [
@@ -52,7 +51,7 @@ return [
                         ],
                     ],
                     'site-download' => [
-                        'type' => Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
                             'route' => 'download.html',
                             'defaults' => [
@@ -62,7 +61,7 @@ return [
                         ],
                     ],
                     'user' => [
-                        'type' => Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
                             'route' => 'panel/account[/:action].html',
                             'constraints' => [
@@ -75,7 +74,7 @@ return [
                         ],
                     ],
                     'panel_donate' => [
-                        'type' => Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
                             'route' => 'panel/donate[/:action].html',
                             'constraints' => [
@@ -88,7 +87,7 @@ return [
                         ],
                     ],
                     'info' => [
-                        'type' => Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
                             'route' => 'info[/:action].png',
                             'constraints' => [

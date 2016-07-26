@@ -5,24 +5,39 @@ namespace PServerCore\Form;
 
 
 use Doctrine\ORM\EntityManager;
+use Interop\Container\ContainerInterface;
 use PServerCore\Options;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AddEmailFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return AddEmail
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $form = new AddEmail();
-        /** @noinspection PhpParamsInspection */
         $form->setInputFilter(
             new AddEmailFilter(
-                $serviceLocator->get(EntityManager::class),
-                $serviceLocator->get('config')['pserver'],
-                $serviceLocator->get(Options\Collection::class)
+                $container->get(EntityManager::class),
+                $container->get('config')['pserver'],
+                $container->get(Options\Collection::class)
             )
         );
         return $form;
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return AddEmail
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, AddEmail::class);
     }
 
 }

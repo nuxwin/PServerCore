@@ -7,9 +7,10 @@ use Doctrine\ORM\EntityManager;
 use PServerCore\Options\Collection;
 use PServerCore\Validator;
 use PServerCore\Validator\AbstractRecord;
-use ZfcBase\InputFilter\ProvidesEventsInputFilter;
+use Zend\InputFilter\InputFilter;
+use Zend\Validator\Hostname;
 
-class AddEmailFilter extends ProvidesEventsInputFilter
+class AddEmailFilter extends InputFilter
 {
     /** @var  EntityManager */
     protected $entityManager;
@@ -40,7 +41,7 @@ class AddEmailFilter extends ProvidesEventsInputFilter
                 [
                     'name' => 'EmailAddress',
                     'options' => [
-                        'allow' => \Zend\Validator\Hostname::ALLOW_DNS,
+                        'allow' => Hostname::ALLOW_DNS,
                         'useMxCheck' => true,
                         'useDeepMxCheck' => true
                     ]

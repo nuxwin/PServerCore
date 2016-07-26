@@ -4,9 +4,9 @@ namespace PServerCore\Form;
 
 use PServerCore\Options\PasswordOptions;
 use PServerCore\Validator\PasswordRules;
-use ZfcBase\InputFilter\ProvidesEventsInputFilter;
+use Zend\InputFilter\InputFilter;
 
-class ChangePwdFilter extends ProvidesEventsInputFilter
+class ChangePwdFilter extends InputFilter
 {
     /**
      * @param PasswordOptions $passwordOptions
