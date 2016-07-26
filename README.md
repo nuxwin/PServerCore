@@ -2,7 +2,7 @@
 
 Master
 [![Build Status](https://travis-ci.org/kokspflanze/PServerCore.svg?branch=master)](https://travis-ci.org/kokspflanze/PServerCore)
-[![Coverage Status](https://coveralls.io/repos/kokspflanze/PServerCore/badge.svg?branch=master)](https://coveralls.io/r/kokspflanze/PServerCore)
+[![Coverage Status](https://coveralls.io/repos/github/kokspflanze/PServerCore/badge.svg?branch=master)](https://coveralls.io/github/kokspflanze/PServerCore?branch=master)
 
 ## SYSTEM REQUIREMENTS
 
