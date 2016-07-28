@@ -4,6 +4,7 @@
 namespace PServerCore\View\Helper;
 
 
+use Interop\Container\ContainerInterface;
 use PServerCore\Service\Coin;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -12,15 +13,26 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class CoinsFactory implements FactoryInterface
 {
     /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return CoinsWidget
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        return new CoinsWidget(
+            $container->get('small_user_auth_service'),
+            $container->get(Coin::class)
+        );
+    }
+
+    /**
      * @param ServiceLocatorInterface|ServiceLocatorAwareInterface $serviceLocator
      * @return CoinsWidget
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new CoinsWidget(
-            $serviceLocator->getServiceLocator()->get('small_user_auth_service'),
-            $serviceLocator->getServiceLocator()->get(Coin::class)
-        );
+        return $this($serviceLocator->getServiceLocator(), CoinsWidget::class);
     }
 
 }

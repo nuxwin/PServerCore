@@ -58,6 +58,6 @@
     "phpunit/phpunit": "~4.8|~5.2",
     "mabuzagu/pdo-dblib-module": "dev-master",
     "satooshi/php-coveralls": "dev-master",
-    "zf-commons/zfc-twig": "dev-master"
+    "kokspflanze/zfc-twig": "~1.3"
   }
 }
