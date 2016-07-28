@@ -32,10 +32,7 @@ class TimerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new TimerWidget(
-            $serviceLocator->getServiceLocator()->get('config')['pserver'],
-            $serviceLocator->getServiceLocator()->get(Timer::class)
-        );
+        return $this($serviceLocator->getServiceLocator(), TimerWidget::class);
     }
 
 }

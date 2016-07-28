@@ -5,6 +5,7 @@ namespace PServerCore\Controller;
 use PServerCore\Form\ChangePwd;
 use PServerCore\Service\AddEmail;
 use PServerCore\Service\User;
+use Zend\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class AccountController extends AbstractActionController
@@ -45,7 +46,7 @@ class AccountController extends AbstractActionController
         $form = $this->changePasswordForm;
         $elements = $form->getElements();
         foreach ($elements as $element) {
-            if ($element instanceof \Zend\Form\Element) {
+            if ($element instanceof Form\Element) {
                 $element->setValue('');
             }
         }

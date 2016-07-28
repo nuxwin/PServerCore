@@ -4,6 +4,7 @@
 namespace PServerCore\Controller;
 
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -11,17 +12,27 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class AuthFactory implements FactoryInterface
 {
     /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return AuthController
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        return new AuthController(
+            $container->get('small_user_service'),
+            $container->get('pserver_usercodes_service'),
+            $container->get('pserver_add_email_service')
+        );
+    }
+
+    /**
      * @param ServiceLocatorInterface|AbstractPluginManager $serviceLocator
      * @return AuthController
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @noinspection PhpParamsInspection */
-        return new AuthController(
-            $serviceLocator->getServiceLocator()->get('small_user_service'),
-            $serviceLocator->getServiceLocator()->get('pserver_usercodes_service'),
-            $serviceLocator->getServiceLocator()->get('pserver_add_email_service')
-        );
+        return $this($serviceLocator->getServiceLocator(), AuthController::class);
     }
 
 }
