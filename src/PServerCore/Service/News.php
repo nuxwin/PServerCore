@@ -40,7 +40,8 @@ class News
     }
 
     /**
-     * @return NewsEntity[]|Paginator
+     * @param int $page
+     * @return \PServerCore\Entity\News[]|Paginator
      */
     public function getActiveNews($page = 1)
     {

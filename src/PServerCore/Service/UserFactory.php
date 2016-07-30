@@ -5,47 +5,39 @@ namespace PServerCore\Service;
 
 
 use Doctrine\ORM\EntityManager;
+use Interop\Container\ContainerInterface;
 use PServerCore\Options\Collection;
 use SmallUser\Service\UserFactory as SmallUserFactory;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class UserFactory extends SmallUserFactory
 {
+    /**
+     * @var string
+     */
     protected $className = \PServerCore\Service\User::class;
 
     /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return User
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return mixed
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var User $class */
-        $class = parent::createService($serviceLocator);
+        $class = parent::__invoke($container, $requestedName, $options);
 
-        /** @noinspection PhpParamsInspection */
-        $class->setEntityManager($serviceLocator->get(EntityManager::class));
-        /** @noinspection PhpParamsInspection */
-        $class->setCollectionOptions($serviceLocator->get(Collection::class));
-        /** @noinspection PhpParamsInspection */
-        $class->setIpService($serviceLocator->get(Ip::class));
-        /** @noinspection PhpParamsInspection */
-        $class->setMailService($serviceLocator->get(Mail::class));
-        /** @noinspection PhpParamsInspection */
-        $class->setUserCodeService($serviceLocator->get(UserCodes::class));
-        /** @noinspection PhpParamsInspection */
-        $class->setGameDataService($serviceLocator->get('gamebackend_dataservice'));
-        /** @noinspection PhpParamsInspection */
-        $class->setSecretQuestionService($serviceLocator->get(SecretQuestion::class));
-        /** @noinspection PhpParamsInspection */
-        $class->setUserBlockService($serviceLocator->get(UserBlock::class));
-        /** @noinspection PhpParamsInspection */
-        $class->setRegisterForm($serviceLocator->get('pserver_user_register_form'));
-        /** @noinspection PhpParamsInspection */
-        $class->setPasswordLostForm($serviceLocator->get('pserver_user_pwlost_form'));
-        /** @noinspection PhpParamsInspection */
-        $class->setChangePasswordForm($serviceLocator->get('pserver_user_changepwd_form'));
-        /** @noinspection PhpParamsInspection */
-        $class->setPasswordForm($serviceLocator->get('pserver_user_password_form'));
+        $class->setEntityManager($container->get(EntityManager::class));
+        $class->setCollectionOptions($container->get(Collection::class));
+        $class->setIpService($container->get(Ip::class));
+        $class->setMailService($container->get(Mail::class));
+        $class->setUserCodeService($container->get(UserCodes::class));
+        $class->setGameDataService($container->get('gamebackend_dataservice'));
+        $class->setSecretQuestionService($container->get(SecretQuestion::class));
+        $class->setUserBlockService($container->get(UserBlock::class));
+        $class->setRegisterForm($container->get('pserver_user_register_form'));
+        $class->setPasswordLostForm($container->get('pserver_user_pwlost_form'));
+        $class->setChangePasswordForm($container->get('pserver_user_changepwd_form'));
+        $class->setPasswordForm($container->get('pserver_user_password_form'));
 
         return $class;
     }

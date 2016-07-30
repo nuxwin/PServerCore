@@ -169,7 +169,7 @@ class DownloadList
 
     /**
      * Get sortKey
-     * @return self
+     * @return integer
      */
     public function getSortKey()
     {

@@ -9,7 +9,8 @@ use PServerCore\Entity\UserInterface;
 class SecretAnswer extends EntityRepository
 {
     /**
-     * @return \PServerCore\Entity\SecretAnswer|null
+     * @param int $userId
+     * @return null|\PServerCore\Entity\SecretAnswer
      */
     public function getAnswer4UserId($userId)
     {

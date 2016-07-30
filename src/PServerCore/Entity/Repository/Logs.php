@@ -22,7 +22,7 @@ class Logs extends EntityRepository
     }
 
     /**
-     * @param UserInterface $users
+     * @param UserInterface $user
      */
     public function setLogsNull4User(UserInterface $user)
     {

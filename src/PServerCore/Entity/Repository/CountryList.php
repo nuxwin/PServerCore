@@ -14,7 +14,7 @@ class CountryList extends EntityRepository
     /**
      * @param int $decimalIp
      *
-     * @return \PServerCore\Entity\CountryList
+     * @return string
      */
     public function getCountryCode4Ip($decimalIp)
     {

@@ -49,7 +49,7 @@ class UserRole
     /**
      * @param $data
      * @param $userId
-     * @return \PServerCore\Entity\UserInterface
+     * @return \PServerCore\Entity\UserInterface|bool
      */
     public function addRoleForm($data, $userId)
     {

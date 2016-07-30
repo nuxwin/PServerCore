@@ -11,6 +11,7 @@ class IpBlock extends EntityRepository
 {
 
     /**
+     * @param string $ip
      * @return \PServerCore\Entity\IpBlock
      */
     public function isIPAllowed($ip)

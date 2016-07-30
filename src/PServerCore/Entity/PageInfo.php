@@ -50,6 +50,7 @@ class PageInfo
 
     /**
      * @ORM\PostPersist()
+     * @param LifecycleEventArgs $eventArgs
      */
     public function postPersist(LifecycleEventArgs $eventArgs)
     {

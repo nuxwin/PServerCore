@@ -5,24 +5,35 @@ namespace PServerCore\Service;
 
 
 use Doctrine\ORM\EntityManager;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class UserRoleFactory implements FactoryInterface
 {
     /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return UserRole
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        return new UserRole(
+            $container->get(EntityManager::class),
+            $container->get('pserver_admin_user_role_form'),
+            $container->get('pserver_entity_options'),
+            $container->get('ControllerPluginManager')
+        );
+    }
+
+    /**
      * @param ServiceLocatorInterface $serviceLocator
      * @return UserRole
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @noinspection PhpParamsInspection */
-        return new UserRole(
-            $serviceLocator->get(EntityManager::class),
-            $serviceLocator->get('pserver_admin_user_role_form'),
-            $serviceLocator->get('pserver_entity_options'),
-            $serviceLocator->get('ControllerPluginManager')
-        );
+        return $this($serviceLocator, UserRole::class);
     }
 
 }

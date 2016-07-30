@@ -5,11 +5,8 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
 use PServerCore\Options;
 use PServerCore\Service;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

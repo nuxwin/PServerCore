@@ -48,9 +48,10 @@ class UserBlock
     }
 
     /**
-     * @param $data
-     * @param $userId
-     * @return \PServerCore\Entity\UserInterface
+     * @param array $data
+     * @param int $userId
+     * @param null $creator
+     * @return UserInterface|bool
      */
     public function blockForm($data, $userId, $creator = null)
     {

@@ -9,6 +9,7 @@ class PageInfo extends EntityRepository
 {
 
     /**
+     * @param string $type
      * @return \PServerCore\Entity\PageInfo
      */
     public function getPageData4Type($type)

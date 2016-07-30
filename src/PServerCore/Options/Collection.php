@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 
 class Collection
 {
-    /** @var  EntityManager */
+    /** @var  EntityOptions */
     protected $entityOptions;
 
     /** @var  GeneralOptions */
@@ -44,7 +44,7 @@ class Collection
     }
 
     /**
-     * @param EntityManager $entityOptions
+     * @param EntityOptions $entityOptions
      * @return self
      */
     public function setEntityOptions($entityOptions)

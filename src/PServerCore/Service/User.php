@@ -254,7 +254,7 @@ class User extends SmallUser
     /**
      * @param array $data
      * @param UserCodesEntity $userCode
-     * @return bool|User
+     * @return bool|UserInterface
      */
     public function lostPwConfirm(array $data, UserCodesEntity $userCode)
     {
@@ -806,6 +806,7 @@ class User extends SmallUser
      *
      * @param array $data
      * @param UserInterface $user
+     * @param string $errorExtension
      *
      * @return bool
      */
