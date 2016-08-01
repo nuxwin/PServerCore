@@ -2,6 +2,7 @@
 
 namespace PServerCore\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PServerCore\Service\ServiceManager;
 
@@ -57,13 +58,13 @@ class User implements UserInterface
     private $created;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|UserRole[]
+     * @var ArrayCollection|UserRole[]
      * @ORM\ManyToMany(targetEntity="PServerCore\Entity\UserRole", mappedBy="user", fetch="EAGER",cascade={"persist"})
      */
     private $userRole;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|UserExtension[]
+     * @var ArrayCollection|UserExtension[]
      * @ORM\OneToMany(targetEntity="UserExtension", mappedBy="user", fetch="EAGER",cascade={"persist"})
      * @ORM\JoinColumn(name="usrId", referencedColumnName="userId")
      */
@@ -74,8 +75,8 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->userRole = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->userExtension = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userRole = new ArrayCollection();
+        $this->userExtension = new ArrayCollection();
         $this->created = new \DateTime();
     }
 
@@ -248,7 +249,7 @@ class User implements UserInterface
 
     /**
      * Get userRole
-     * @return \Doctrine\Common\Collections\ArrayCollection|UserRoleInterface[]
+     * @return ArrayCollection|UserRoleInterface[]
      */
     public function getUserRole()
     {
@@ -288,7 +289,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|UserExtension[]
+     * @return ArrayCollection|UserExtension[]
      */
     public function getUserExtension()
     {

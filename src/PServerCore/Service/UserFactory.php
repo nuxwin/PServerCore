@@ -7,6 +7,7 @@ namespace PServerCore\Service;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use PServerCore\Options\Collection;
+use PServerCore\Service\User as ServiceUser;
 use SmallUser\Service\UserFactory as SmallUserFactory;
 
 class UserFactory extends SmallUserFactory
@@ -14,7 +15,7 @@ class UserFactory extends SmallUserFactory
     /**
      * @var string
      */
-    protected $className = \PServerCore\Service\User::class;
+    protected $className = ServiceUser::class;
 
     /**
      * @param ContainerInterface $container

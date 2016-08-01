@@ -3,39 +3,41 @@
 
 namespace PServerCore\Options;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class CollectionFactory implements FactoryInterface
 {
     /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return Collection
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $collection = new Collection();
+        $collection->setEntityOptions($container->get(EntityOptions::class));
+        $collection->setGeneralOptions($container->get(GeneralOptions::class));
+        $collection->setLoginOptions($container->get(LoginOptions::class));
+        $collection->setMailOptions($container->get(MailOptions::class));
+        $collection->setPasswordOptions($container->get(PasswordOptions::class));
+        $collection->setRegisterOptions($container->get(RegisterOptions::class));
+        $collection->setUserCodesOptions($container->get(UserCodeOptions::class));
+        $collection->setValidationOptions($container->get(ValidationOptions::class));
+        $collection->setConfig($container->get('config')['pserver']);
+
+        return $collection;
+    }
+
+    /**
      * @param ServiceLocatorInterface $serviceLocator
      * @return Collection
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var $sm \Zend\ServiceManager\ServiceLocatorInterface */
-        $collection = new Collection();
-        /** @noinspection PhpParamsInspection */
-        $collection->setEntityOptions($serviceLocator->get(EntityOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setGeneralOptions($serviceLocator->get(GeneralOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setLoginOptions($serviceLocator->get(LoginOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setMailOptions($serviceLocator->get(MailOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setPasswordOptions($serviceLocator->get(PasswordOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setRegisterOptions($serviceLocator->get(RegisterOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setUserCodesOptions($serviceLocator->get(UserCodeOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setValidationOptions($serviceLocator->get(ValidationOptions::class));
-        /** @noinspection PhpParamsInspection */
-        $collection->setConfig($serviceLocator->get('config')['pserver']);
-
-        return $collection;
+        return $this($serviceLocator, Collection::class);
     }
 
 }

@@ -25,6 +25,9 @@ class SimilarText extends AbstractValidator
     /** @var SecretQuestion */
     protected $secretQuestionService;
 
+    /** @var  UserInterface|null */
+    protected $user;
+
     /**
      * @param SecretQuestion $secretQuestionService
      */

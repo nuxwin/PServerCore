@@ -5,6 +5,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;
+use PServerCore\Controller\AccountController;
 use PServerCore\Entity\Repository\AvailableCountries as RepositoryAvailableCountries;
 use PServerCore\Entity\Repository\CountryList;
 use PServerCore\Entity\User as Entity;
@@ -816,7 +817,7 @@ class User extends SmallUser
         $form->setData($data);
         if (!$form->isValid()) {
             $this->getFlashMessenger()
-                ->setNamespace(\PServerCore\Controller\AccountController::ERROR_NAME_SPACE . $errorExtension)
+                ->setNamespace(AccountController::ERROR_NAME_SPACE . $errorExtension)
                 ->addMessage('Form not valid.');
             return false;
         }
@@ -825,7 +826,7 @@ class User extends SmallUser
 
         if (!$user->hashPassword($user, $data['currentPassword'])) {
             $this->getFlashMessenger()
-                ->setNamespace(\PServerCore\Controller\AccountController::ERROR_NAME_SPACE . $errorExtension)
+                ->setNamespace(AccountController::ERROR_NAME_SPACE . $errorExtension)
                 ->addMessage('Wrong Password.');
             return false;
         }

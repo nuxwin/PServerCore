@@ -2,6 +2,7 @@
 
 namespace PServerCore\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,7 +57,7 @@ class UserRole implements UserRoleInterface
      */
     public function __construct()
     {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     /**

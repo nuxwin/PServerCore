@@ -3,9 +3,6 @@
 
 namespace PServerCore\Options;
 
-
-use Doctrine\ORM\EntityManager;
-
 class Collection
 {
     /** @var  EntityOptions */

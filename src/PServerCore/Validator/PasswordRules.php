@@ -5,7 +5,6 @@ namespace PServerCore\Validator;
 
 use PServerCore\Options\PasswordOptions;
 use Zend\Validator\AbstractValidator;
-use Zend\Validator\Exception;
 
 class PasswordRules extends AbstractValidator
 {

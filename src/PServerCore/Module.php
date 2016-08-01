@@ -5,8 +5,6 @@ namespace PServerCore;
 use PServerCore\Service\ServiceManager;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\Factory\InvokableFactory;
 
 class Module
 {

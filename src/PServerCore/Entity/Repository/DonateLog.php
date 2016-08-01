@@ -2,6 +2,7 @@
 
 namespace PServerCore\Entity\Repository;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
 use PServerCore\Entity\DonateLog as Entity;
 use PServerCore\Entity\UserInterface;
@@ -81,7 +82,7 @@ class DonateLog extends EntityRepository
                     Entity::TYPE_XSOLLA,
                     Entity::TYPE_PAY_PAL,
                 ],
-                \Doctrine\DBAL\Connection::PARAM_STR_ARRAY
+                Connection::PARAM_STR_ARRAY
             )
             ->getQuery();
 
