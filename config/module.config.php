@@ -6,17 +6,18 @@ use PServerCore\Options;
 use PServerCore\View\Helper;
 use PServerCore\Form;
 use PServerCore\Service;
+use Zend\Router\Http;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
         'routes' => [
             'PServerCore' => [
-                'type' => 'Literal',
+                'type' => Http\Literal::class,
                 'options' => [
                     'route' => '/',
                     'defaults' => [
-                        'controller' => 'PServerCore\Controller\Index',
+                        'controller' => Controller\IndexController::class,
                         'action' => 'index',
                         'page' => 1
                     ],
@@ -24,77 +25,77 @@ return [
                 'may_terminate' => true,
                 'child_routes' => [
                     'site-news' => [
-                        'type' => 'Segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'news-[:page].html',
                             'constraints' => [
                                 'page' => '[0-9]+',
                             ],
                             'defaults' => [
-                                'controller' => 'PServerCore\Controller\Index',
+                                'controller' => Controller\IndexController::class,
                                 'action' => 'index',
                                 'page' => 1
                             ],
                         ],
                     ],
                     'site-detail' => [
-                        'type' => 'Segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'detail-[:type].html',
                             'constraints' => [
                                 'type' => '[a-zA-Z]+',
                             ],
                             'defaults' => [
-                                'controller' => 'PServerCore\Controller\Site',
+                                'controller' => Controller\SiteController::class,
                                 'action' => 'page'
                             ],
                         ],
                     ],
                     'site-download' => [
-                        'type' => 'Segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'download.html',
                             'defaults' => [
-                                'controller' => 'PServerCore\Controller\Site',
+                                'controller' => Controller\SiteController::class,
                                 'action' => 'download'
                             ],
                         ],
                     ],
                     'user' => [
-                        'type' => 'Segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'panel/account[/:action].html',
                             'constraints' => [
                                 'action' => '[a-zA-Z-]+',
                             ],
                             'defaults' => [
-                                'controller' => 'PServerCore\Controller\Account',
+                                'controller' => Controller\AccountController::class,
                                 'action' => 'index',
                             ],
                         ],
                     ],
                     'panel_donate' => [
-                        'type' => 'Segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'panel/donate[/:action].html',
                             'constraints' => [
                                 'action' => '[a-zA-Z-]+',
                             ],
                             'defaults' => [
-                                'controller' => 'PServerCore\Controller\Donate',
+                                'controller' => Controller\DonateController::class,
                                 'action' => 'index',
                             ],
                         ],
                     ],
                     'info' => [
-                        'type' => 'Segment',
+                        'type' => Http\Segment::class,
                         'options' => [
                             'route' => 'info[/:action].png',
                             'constraints' => [
                                 'action' => '[a-zA-Z-]+',
                             ],
                             'defaults' => [
-                                'controller' => 'PServerCore\Controller\Info',
+                                'controller' => Controller\InfoController::class,
                                 'action' => 'index',
                             ],
                         ],
@@ -200,13 +201,7 @@ return [
     ],
     'controllers' => [
         'aliases' => [
-            'PServerCore\Controller\Index' => Controller\IndexController::class,
             'SmallUser\Controller\Auth' => Controller\AuthController::class,
-            'PServerCore\Controller\Auth' => Controller\AuthController::class,
-            'PServerCore\Controller\Site' => Controller\SiteController::class,
-            'PServerCore\Controller\Account' => Controller\AccountController::class,
-            'PServerCore\Controller\Donate' => Controller\DonateController::class,
-            'PServerCore\Controller\Info' => Controller\InfoController::class,
         ],
         'factories' => [
             Controller\IndexController::class => Controller\IndexFactory::class,
