@@ -2,7 +2,7 @@
 
 namespace PServerCore\View\Helper;
 
-use Zend\Mvc\Router\RouteInterface;
+use Zend\Router\RouteInterface;
 use Zend\Stdlib\RequestInterface;
 use Zend\View\Helper\AbstractHelper;
 

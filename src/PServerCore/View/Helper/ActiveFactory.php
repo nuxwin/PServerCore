@@ -5,9 +5,7 @@ namespace PServerCore\View\Helper;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ActiveFactory implements FactoryInterface
 {
@@ -23,15 +21,6 @@ class ActiveFactory implements FactoryInterface
             $container->get('router'),
             $container->get('request')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|ServiceLocatorAwareInterface $serviceLocator
-     * @return Active
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), Active::class);
     }
 
 }
