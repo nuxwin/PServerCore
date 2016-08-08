@@ -9,9 +9,13 @@
   ],
   "homepage": "https://github.com/kokspflanze/PServerCore",
   "autoload": {
-    "psr-0": {
-      "PServerCore\\": "src/",
-      "PServerCoreTest\\": "tests/"
+    "psr-4": {
+      "PServerCore\\": "src/PServerCore"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PServerCoreTest\\": "tests/PServerCoreTest"
     }
   },
   "authors": [
@@ -53,6 +57,7 @@
     "san/san-captcha": "~0.0.4",
     "ircmaxell/random-lib": "~1.0",
     "kokspflanze/small-user": "~1.0",
+    "zendframework/zend-mvc-plugin-flashmessenger": "~1.0",
     "kokspflanze/zfc-ticket-system": "~0.2",
     "kokspflanze/zfc-twig": "~1.3"
   },

@@ -289,13 +289,6 @@ return [
             'p-server-core' => __DIR__ . '/../view',
         ],
     ],
-    // Placeholder for console routes
-    'console' => [
-        'router' => [
-            'routes' => [
-            ],
-        ],
-    ],
     /**
      *  DB Connection-Setup
      */
