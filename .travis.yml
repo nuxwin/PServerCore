@@ -13,23 +13,22 @@ cache:
     - $HOME/.composer/cache
     - vendor
 
+matrix:
+  allow_failures:
+    - php: nightly
+
 env:
   global:
     - COMPOSER_ARGS="--no-interaction"
-
-env:
   matrix:
     - DEPENDENCIES="--prefer-lowest --prefer-stable"
     - DEPENDENCIES=""
-
-allow_failures:
-  - php: nightly
 
 before_install:
   - travis_retry composer self-update
 
 install:
-  - travis_retry composer update -o --prefer-source $DEPENDENCIES
+  - travis_retry composer update -o --prefer-source $COMPOSER_ARGS $DEPENDENCIES
   - composer show
 
 script:
