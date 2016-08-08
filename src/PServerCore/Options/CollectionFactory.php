@@ -4,8 +4,7 @@
 namespace PServerCore\Options;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class CollectionFactory implements FactoryInterface
 {
@@ -29,15 +28,6 @@ class CollectionFactory implements FactoryInterface
         $collection->setConfig($container->get('config')['pserver']);
 
         return $collection;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Collection
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Collection::class);
     }
 
 }

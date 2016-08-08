@@ -5,8 +5,7 @@ namespace PServerCore\Service;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ConfigReadFactory implements FactoryInterface
 {
@@ -21,15 +20,6 @@ class ConfigReadFactory implements FactoryInterface
         return new ConfigRead(
             $container->get('config')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return ConfigRead
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, ConfigRead::class);
     }
 
 }

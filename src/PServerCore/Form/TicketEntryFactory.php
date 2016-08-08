@@ -5,8 +5,7 @@ namespace PServerCore\Form;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZfcTicketSystem\Form\TicketEntry;
 
 class TicketEntryFactory implements FactoryInterface
@@ -24,15 +23,6 @@ class TicketEntryFactory implements FactoryInterface
         $form->setInputFilter(new TicketEntryFilter($container->get('zfc-bbcode_parser')));
 
         return $form;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return TicketEntry
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, TicketEntry::class);
     }
 
 }

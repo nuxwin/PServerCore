@@ -7,8 +7,7 @@ namespace PServerCore\Service;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use PServerCore\Options;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class MailFactory implements FactoryInterface
 {
@@ -25,15 +24,6 @@ class MailFactory implements FactoryInterface
             $container->get(Options\Collection::class),
             $container->get(EntityManager::class)
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Mail
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Mail::class);
     }
 
 }

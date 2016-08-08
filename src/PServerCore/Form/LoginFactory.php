@@ -9,8 +9,7 @@ use Interop\Container\ContainerInterface;
 use PServerCore\Options;
 use PServerCore\Validator;
 use SmallUser\Form\Login;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class LoginFactory implements FactoryInterface
 {
@@ -33,15 +32,6 @@ class LoginFactory implements FactoryInterface
         );
 
         return $form;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Login
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Login::class);
     }
 
 }

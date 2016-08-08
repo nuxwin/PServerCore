@@ -5,8 +5,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class DonateFactory implements FactoryInterface
 {
@@ -22,15 +21,6 @@ class DonateFactory implements FactoryInterface
             $container->get(EntityManager::class),
             $container->get('pserver_entity_options')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Donate
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Donate::class);
     }
 
 }

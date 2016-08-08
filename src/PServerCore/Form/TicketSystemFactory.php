@@ -6,8 +6,7 @@ namespace PServerCore\Form;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZfcTicketSystem\Form\TicketSystem;
 
 class TicketSystemFactory implements FactoryInterface
@@ -34,15 +33,6 @@ class TicketSystemFactory implements FactoryInterface
         );
 
         return $form;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return TicketSystem
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, TicketSystem::class);
     }
 
 }

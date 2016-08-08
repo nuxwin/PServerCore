@@ -6,8 +6,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class DownloadFactory implements FactoryInterface
 {
@@ -25,15 +24,6 @@ class DownloadFactory implements FactoryInterface
             $container->get(CachingHelper::class),
             $container->get('pserver_admin_download_form')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Download
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Download::class);
     }
 
 }

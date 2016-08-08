@@ -6,9 +6,8 @@ namespace PServerCore\View\Helper;
 
 use Interop\Container\ContainerInterface;
 use PServerCore\Service\News;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class NewsFactory implements FactoryInterface
 {
@@ -23,15 +22,6 @@ class NewsFactory implements FactoryInterface
         return new NewsWidget(
             $container->get(News::class)
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|ServiceLocatorAwareInterface $serviceLocator
-     * @return NewsWidget
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), NewsWidget::class);
     }
 
 }

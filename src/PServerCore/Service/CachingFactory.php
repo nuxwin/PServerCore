@@ -6,8 +6,7 @@ namespace PServerCore\Service;
 
 use Interop\Container\ContainerInterface;
 use Zend\Cache\StorageFactory;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class CachingFactory implements FactoryInterface
 {
@@ -32,15 +31,6 @@ class CachingFactory implements FactoryInterface
                 'serializer'
             ],
         ]);
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return \Zend\Cache\Storage\StorageInterface
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, StorageFactory::class);
     }
 
 }

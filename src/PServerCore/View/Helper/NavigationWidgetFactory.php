@@ -5,9 +5,8 @@ namespace PServerCore\View\Helper;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class NavigationWidgetFactory implements FactoryInterface
 {
@@ -22,15 +21,6 @@ class NavigationWidgetFactory implements FactoryInterface
         return new NavigationWidget(
             $container->get('config')['pserver']
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|ServiceLocatorAwareInterface $serviceLocator
-     * @return NavigationWidget
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), NavigationWidget::class);
     }
 
 }

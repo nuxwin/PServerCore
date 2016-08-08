@@ -5,8 +5,7 @@ namespace PServerCore\Options;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class PasswordOptionsFactory implements FactoryInterface
 {
@@ -19,15 +18,6 @@ class PasswordOptionsFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new PasswordOptions($container->get('config')['pserver']['password']);
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return PasswordOptions
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, PasswordOptions::class);
     }
 
 }

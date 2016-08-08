@@ -65,7 +65,9 @@ class PasswordRules extends AbstractValidator
             $result = false;
         }
 
-        if ($this->passwordOptions->isContainsSpecialChar() && preg_match('/[\'\/~`\!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\|;:"\<\>,\.\?\\\]/', $value) !== 1) {
+        if ($this->passwordOptions->isContainsSpecialChar() && preg_match('/[\'\/~`\!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\|;:"\<\>,\.\?\\\]/',
+                $value) !== 1
+        ) {
             $this->error(self::ERROR_NO_SPECIAL_CHAR);
             $result = false;
         }

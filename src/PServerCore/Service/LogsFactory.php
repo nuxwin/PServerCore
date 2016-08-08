@@ -6,8 +6,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class LogsFactory implements FactoryInterface
 {
@@ -23,15 +22,6 @@ class LogsFactory implements FactoryInterface
             $container->get(EntityManager::class),
             $container->get('pserver_entity_options')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Logs
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Logs::class);
     }
 
 }

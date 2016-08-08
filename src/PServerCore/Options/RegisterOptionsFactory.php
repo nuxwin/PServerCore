@@ -5,8 +5,7 @@ namespace PServerCore\Options;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class RegisterOptionsFactory implements FactoryInterface
 {
@@ -19,15 +18,6 @@ class RegisterOptionsFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new RegisterOptions($container->get('config')['pserver']['register']);
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return RegisterOptions
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, RegisterOptions::class);
     }
 
 }

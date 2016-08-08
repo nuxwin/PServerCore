@@ -5,8 +5,7 @@ namespace PServerCore\Service;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class CachingHelperFactory implements FactoryInterface
 {
@@ -16,15 +15,6 @@ class CachingHelperFactory implements FactoryInterface
             $container->get('pserver_caching_service'),
             $container->get('pserver_general_options')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return CachingHelper
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, CachingHelper::class);
     }
 
 }

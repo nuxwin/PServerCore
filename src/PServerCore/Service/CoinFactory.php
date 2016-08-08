@@ -6,8 +6,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class CoinFactory implements FactoryInterface
 {
@@ -20,15 +19,6 @@ class CoinFactory implements FactoryInterface
             $container->get('pserver_admin_coin_form'),
             $container->get(Ip::class)
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Coin
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Coin::class);
     }
 
 }

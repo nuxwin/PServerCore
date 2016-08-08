@@ -5,9 +5,7 @@ namespace PServerCore\Controller;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class DonateFactory implements FactoryInterface
 {
@@ -22,15 +20,6 @@ class DonateFactory implements FactoryInterface
         return new DonateController(
             $container->get('small_user_service')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|AbstractPluginManager $serviceLocator
-     * @return DonateController
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), DonateController::class);
     }
 
 }

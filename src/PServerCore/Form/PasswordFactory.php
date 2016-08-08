@@ -7,8 +7,7 @@ namespace PServerCore\Form;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use PServerCore\Options\Collection;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class PasswordFactory implements FactoryInterface
 {
@@ -32,15 +31,6 @@ class PasswordFactory implements FactoryInterface
             )
         );
         return $form;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Password
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, Password::class);
     }
 
 }

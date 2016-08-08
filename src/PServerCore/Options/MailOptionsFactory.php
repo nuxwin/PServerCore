@@ -5,8 +5,7 @@ namespace PServerCore\Options;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class MailOptionsFactory implements FactoryInterface
 {
@@ -19,15 +18,6 @@ class MailOptionsFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new MailOptions($container->get('config')['pserver']['mail']);
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return MailOptions
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, MailOptions::class);
     }
 
 }

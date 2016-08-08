@@ -5,9 +5,7 @@ namespace PServerCore\Controller;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class InfoFactory implements FactoryInterface
 {
@@ -22,15 +20,6 @@ class InfoFactory implements FactoryInterface
         return new InfoController(
             $container->get('pserver_playerhistory_service')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|AbstractPluginManager $serviceLocator
-     * @return InfoController
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), InfoController::class);
     }
 
 }

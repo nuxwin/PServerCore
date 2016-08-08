@@ -5,8 +5,7 @@ namespace PServerCore\Options;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ValidationOptionsFactory implements FactoryInterface
 {
@@ -19,15 +18,6 @@ class ValidationOptionsFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new ValidationOptions($container->get('config')['pserver']['validation']);
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return ValidationOptions
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, ValidationOptions::class);
     }
 
 }

@@ -7,8 +7,7 @@ namespace PServerCore\Service;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use PServerCore\Options;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class PaymentNotifyFactory implements FactoryInterface
 {
@@ -26,15 +25,6 @@ class PaymentNotifyFactory implements FactoryInterface
             $container->get(Coin::class),
             $container->get(UserBlock::class)
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return PaymentNotify
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, PaymentNotify::class);
     }
 
 }

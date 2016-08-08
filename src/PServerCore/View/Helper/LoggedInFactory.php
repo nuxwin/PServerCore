@@ -5,9 +5,8 @@ namespace PServerCore\View\Helper;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class LoggedInFactory implements FactoryInterface
 {
@@ -24,15 +23,6 @@ class LoggedInFactory implements FactoryInterface
             $container->get('config')['pserver'],
             $container->get('gamebackend_dataservice')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|ServiceLocatorAwareInterface $serviceLocator
-     * @return LoggedInWidget
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), LoggedInWidget::class);
     }
 
 }

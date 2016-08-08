@@ -5,8 +5,7 @@ namespace PServerCore\Service;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class PaymentValidationFactory implements FactoryInterface
 {
@@ -21,15 +20,6 @@ class PaymentValidationFactory implements FactoryInterface
         return new PaymentValidation(
             $container->get('small_user_service')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return PaymentValidation
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, PaymentValidation::class);
     }
 
 }

@@ -7,8 +7,7 @@ namespace PServerCore\Service;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use PServerCore\Options;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class PlayerHistoryFactory implements FactoryInterface
 {
@@ -26,15 +25,6 @@ class PlayerHistoryFactory implements FactoryInterface
             $container->get(Options\Collection::class),
             $container->get('gamebackend_dataservice')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return PlayerHistory
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, PlayerHistory::class);
     }
 
 }

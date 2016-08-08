@@ -6,9 +6,8 @@ namespace PServerCore\View\Helper;
 
 use Interop\Container\ContainerInterface;
 use PServerCore\Service\Donate;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class DonateSumFactory implements FactoryInterface
 {
@@ -23,15 +22,6 @@ class DonateSumFactory implements FactoryInterface
         return new DonateSum(
             $container->get(Donate::class)
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|ServiceLocatorAwareInterface $serviceLocator
-     * @return DonateSum
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), DonateSum::class);
     }
 
 }

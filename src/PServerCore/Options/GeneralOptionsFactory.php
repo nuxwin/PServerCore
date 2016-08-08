@@ -5,8 +5,7 @@ namespace PServerCore\Options;
 
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class GeneralOptionsFactory implements FactoryInterface
 {
@@ -19,15 +18,6 @@ class GeneralOptionsFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new GeneralOptions($container->get('config')['pserver']['general']);
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return GeneralOptions
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, GeneralOptions::class);
     }
 
 }

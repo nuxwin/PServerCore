@@ -7,8 +7,7 @@ namespace PServerCore\Service;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use PServerCore\Options;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class NewsFactory implements FactoryInterface
 {
@@ -25,15 +24,6 @@ class NewsFactory implements FactoryInterface
             $container->get(Options\Collection::class),
             $container->get('pserver_admin_news_form')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return News
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, News::class);
     }
 
 }

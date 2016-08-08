@@ -6,9 +6,8 @@ namespace PServerCore\View\Helper;
 
 use Interop\Container\ContainerInterface;
 use PServerCore\Service\PlayerHistory as ServicePlayerHistory;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class PlayerHistoryFactory implements FactoryInterface
 {
@@ -24,15 +23,6 @@ class PlayerHistoryFactory implements FactoryInterface
             $container->get(ServicePlayerHistory::class),
             $container->get('pserver_general_options')
         );
-    }
-
-    /**
-     * @param ServiceLocatorInterface|ServiceLocatorAwareInterface $serviceLocator
-     * @return PlayerHistory
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator->getServiceLocator(), PlayerHistory::class);
     }
 
 }

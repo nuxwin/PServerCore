@@ -6,8 +6,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class TicketSystemFactory implements FactoryInterface
 {
@@ -32,15 +31,6 @@ class TicketSystemFactory implements FactoryInterface
         $ticketSystem->setGeneralOptions($container->get('pserver_general_options'));
 
         return $ticketSystem;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return TicketSystem
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, TicketSystem::class);
     }
 
 }

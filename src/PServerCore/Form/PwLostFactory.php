@@ -8,8 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use PServerCore\Options;
 use PServerCore\Validator\ValidUserExists;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class PwLostFactory implements FactoryInterface
 {
@@ -33,15 +32,6 @@ class PwLostFactory implements FactoryInterface
         );
 
         return $form;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return PwLost
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        return $this($serviceLocator, PwLost::class);
     }
 
 }
