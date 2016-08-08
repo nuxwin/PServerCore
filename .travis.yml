@@ -19,41 +19,28 @@ matrix:
         - DEPS=lowest
     - php: 5.6
       env:
-        - DEPS=locked
+        - DEPS=latest
+    - php: 7
+      env:
+        - DEPS=lowest
+    - php: 7
+      env:
+        - DEPS=latest
         - TEST_COVERAGE=true
-    - php: 5.6
-      env:
-        - DEPS=latest
-    - php: 7
-      env:
-        - DEPS=lowest
-    - php: 7
-      env:
-        - DEPS=locked
-    - php: 7
-      env:
-        - DEPS=latest
     - php: nightly
       env:
         - DEPS=lowest
-    - php: nightly
-      env:
-        - DEPS=locked
     - php: nightly
       env:
         - DEPS=latest
     - php: hhvm
       env:
         - DEPS=lowest
-    - php: hhvm
-      env:
-        - DEPS=locked
     - php: hhvm
       env:
         - DEPS=latest
   allow_failures:
     - php: nightly
-    - php: hhvm
 
 before_install:
   - travis_retry composer self-update
