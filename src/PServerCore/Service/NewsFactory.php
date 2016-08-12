@@ -21,8 +21,7 @@ class NewsFactory implements FactoryInterface
     {
         return new News(
             $container->get(EntityManager::class),
-            $container->get(Options\Collection::class),
-            $container->get('pserver_admin_news_form')
+            $container->get(Options\Collection::class)
         );
     }
 

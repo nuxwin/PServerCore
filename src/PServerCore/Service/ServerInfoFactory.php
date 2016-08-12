@@ -21,8 +21,7 @@ class ServerInfoFactory implements FactoryInterface
         return new ServerInfo(
             $container->get(CachingHelper::class),
             $container->get(EntityManager::class),
-            $container->get('pserver_entity_options'),
-            $container->get('pserver_admin_server_info_form')
+            $container->get('pserver_entity_options')
         );
     }
 

@@ -22,8 +22,7 @@ class PageInfoFactory implements FactoryInterface
         return new PageInfo(
             $container->get(CachingHelper::class),
             $container->get(EntityManager::class),
-            $container->get(Options\Collection::class),
-            $container->get('pserver_admin_page_info_form')
+            $container->get(Options\Collection::class)
         );
     }
 

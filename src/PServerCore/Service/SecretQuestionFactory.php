@@ -20,8 +20,7 @@ class SecretQuestionFactory implements FactoryInterface
     {
         return new SecretQuestion(
             $container->get(EntityManager::class),
-            $container->get('pserver_entity_options'),
-            $container->get('pserver_admin_secret_question_form')
+            $container->get('pserver_entity_options')
         );
     }
 

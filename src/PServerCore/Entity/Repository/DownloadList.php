@@ -23,18 +23,6 @@ class DownloadList extends EntityRepository
     }
 
     /**
-     * @return null|\PServerCore\Entity\DownloadList[]
-     */
-    public function getDownloadList()
-    {
-        $query = $this->createQueryBuilder('p')
-            ->select('p')
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
-    /**
      * @param $id
      *
      * @return null|\PServerCore\Entity\DownloadList

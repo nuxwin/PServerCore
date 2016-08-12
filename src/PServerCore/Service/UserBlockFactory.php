@@ -21,7 +21,6 @@ class UserBlockFactory implements FactoryInterface
         return new UserBlock(
             $container->get('pserver_entity_options'),
             $container->get(EntityManager::class),
-            $container->get('pserver_admin_user_block_form'),
             $container->get('gamebackend_dataservice')
         );
     }

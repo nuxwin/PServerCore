@@ -4,9 +4,7 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use PServerCore\Keys\Caching;
-use PServerCore\Mapper\HydratorPageInfo;
 use PServerCore\Options\Collection;
-use Zend\Form\FormInterface;
 
 class PageInfo
 {
@@ -19,26 +17,20 @@ class PageInfo
     /** @var  Collection */
     protected $collectionOptions;
 
-    /** @var  FormInterface */
-    protected $adminPageInfoForm;
-
     /**
      * PageInfo constructor.
      * @param CachingHelper $cachingHelperService
      * @param EntityManager $entityManager
      * @param Collection $collectionOptions
-     * @param FormInterface $adminPageInfoForm
      */
     public function __construct(
         CachingHelper $cachingHelperService,
         EntityManager $entityManager,
-        Collection $collectionOptions,
-        FormInterface $adminPageInfoForm
+        Collection $collectionOptions
     ) {
         $this->cachingHelperService = $cachingHelperService;
         $this->entityManager = $entityManager;
         $this->collectionOptions = $collectionOptions;
-        $this->adminPageInfoForm = $adminPageInfoForm;
     }
 
     /**
@@ -60,49 +52,5 @@ class PageInfo
 
         return $pageInfo;
     }
-
-    /**
-     * @param array $data
-     * @param string $type
-     *
-     * @return bool|\PServerCore\Entity\PageInfo
-     */
-    public function pageInfo(array $data, $type)
-    {
-        $form = $this->adminPageInfoForm;
-        $form->setHydrator(new HydratorPageInfo());
-        $class = $this->collectionOptions->getEntityOptions()->getPageInfo();
-        $form->bind(new $class());
-        $form->setData($data);
-        if (!$form->isValid()) {
-            return false;
-        }
-
-        /** @var \PServerCore\Entity\PageInfo $pageInfo */
-        $pageInfo = $form->getData();
-        $pageInfo->setType($type);
-
-        $this->entityManager->persist($pageInfo);
-        $this->entityManager->flush();
-
-        return $pageInfo;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getPossiblePageInfoTypes()
-    {
-        return $this->collectionOptions->getConfig()['pageinfotype'];
-    }
-
-    /**
-     * @return FormInterface
-     */
-    public function getAdminPageInfoForm()
-    {
-        return $this->adminPageInfoForm;
-    }
-
 
 } 

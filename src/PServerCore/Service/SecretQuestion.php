@@ -3,11 +3,8 @@
 namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
-use PServerCore\Entity\SecretQuestion as Entity;
 use PServerCore\Entity\UserInterface;
-use PServerCore\Mapper\HydratorSecretQuestion;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\FormInterface;
 
 class SecretQuestion
 {
@@ -17,23 +14,17 @@ class SecretQuestion
     /** @var  EntityOptions */
     protected $entityOptions;
 
-    /** @var  FormInterface */
-    protected $adminSecretQuestionForm;
-
     /**
      * SecretQuestion constructor.
      * @param EntityManager $entityManager
      * @param EntityOptions $entityOptions
-     * @param FormInterface $adminSecretQuestionForm
      */
     public function __construct(
         EntityManager $entityManager,
-        EntityOptions $entityOptions,
-        FormInterface $adminSecretQuestionForm
+        EntityOptions $entityOptions
     ) {
         $this->entityManager = $entityManager;
         $this->entityOptions = $entityOptions;
-        $this->adminSecretQuestionForm = $adminSecretQuestionForm;
     }
 
     /**
@@ -81,45 +72,6 @@ class SecretQuestion
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function getQuestionQueryBuilder()
-    {
-        return $this->getQuestionRepository()->getQuestionQueryBuilder();
-    }
-
-    /**
-     * @param array $data
-     * @param null|Entity $currentSecretQuestion
-     *
-     * @return bool|Entity
-     */
-    public function secretQuestion(array $data, $currentSecretQuestion = null)
-    {
-        if ($currentSecretQuestion == null) {
-            $class = $this->entityOptions->getSecretQuestion();
-            /** @var Entity $currentSecretQuestion */
-            $currentSecretQuestion = new $class;
-        }
-
-        $form = $this->adminSecretQuestionForm;
-        $form->setData($data);
-        $form->setHydrator(new HydratorSecretQuestion());
-        $form->bind($currentSecretQuestion);
-        if (!$form->isValid()) {
-            return false;
-        }
-
-        /** @var Entity $secretQuestion */
-        $secretQuestion = $form->getData();
-
-        $this->entityManager->persist($secretQuestion);
-        $this->entityManager->flush();
-
-        return $secretQuestion;
-    }
-
-    /**
      * @param $questionId
      *
      * @return null|\PServerCore\Entity\SecretQuestion
@@ -127,14 +79,6 @@ class SecretQuestion
     public function getQuestion4Id($questionId)
     {
         return $this->getQuestionRepository()->getQuestion4Id($questionId);
-    }
-
-    /**
-     * @return FormInterface
-     */
-    public function getAdminSecretQuestionForm()
-    {
-        return $this->adminSecretQuestionForm;
     }
 
     /**

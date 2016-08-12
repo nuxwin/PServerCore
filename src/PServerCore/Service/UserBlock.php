@@ -8,9 +8,7 @@ use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Entity\UserBlock as UserBlockEntity;
 use PServerCore\Entity\UserInterface;
-use PServerCore\Mapper\HydratorUserBlock;
 use PServerCore\Options\EntityOptions;
-use Zend\Form\FormInterface;
 
 class UserBlock
 {
@@ -22,9 +20,6 @@ class UserBlock
     /** @var  EntityManager */
     protected $entityManager;
 
-    /** @var  FormInterface */
-    protected $adminUserBlockForm;
-
     /** @var  DataServiceInterface */
     protected $gameBackendService;
 
@@ -32,51 +27,16 @@ class UserBlock
      * UserBlock constructor.
      * @param EntityOptions $entityOptions
      * @param EntityManager $entityManager
-     * @param FormInterface $adminUserBlockForm
      * @param DataServiceInterface $gameBackendService
      */
     public function __construct(
         EntityOptions $entityOptions,
         EntityManager $entityManager,
-        FormInterface $adminUserBlockForm,
         DataServiceInterface $gameBackendService
     ) {
         $this->entityOptions = $entityOptions;
         $this->entityManager = $entityManager;
-        $this->adminUserBlockForm = $adminUserBlockForm;
         $this->gameBackendService = $gameBackendService;
-    }
-
-    /**
-     * @param array $data
-     * @param int $userId
-     * @param null $creator
-     * @return UserInterface|bool
-     */
-    public function blockForm($data, $userId, $creator = null)
-    {
-        $class = $this->entityOptions->getUserBlock();
-        /** @var UserBlockEntity $userBlock */
-
-        $form = $this->adminUserBlockForm;
-        $form->setHydrator(new HydratorUserBlock());
-        $form->bind(new $class);
-        $form->setData($data);
-
-        if (!$form->isValid()) {
-            return false;
-        }
-        /** @var UserBlockEntity $userBlockEntity */
-        $userBlockEntity = $form->getData();
-        $user = $this->getUser4Id($userId);
-
-        if ($user) {
-            $userBlockEntity->setUser($user);
-            $userBlockEntity->setCreator($creator);
-            $this->blockUserWithEntity($userBlockEntity);
-        }
-
-        return $user;
     }
 
     /**
@@ -138,18 +98,10 @@ class UserBlock
     }
 
     /**
-     * @return FormInterface
-     */
-    public function getAdminUserBlockForm()
-    {
-        return $this->adminUserBlockForm;
-    }
-
-    /**
      * @param UserBlockEntity $userBlock
      * @return bool
      */
-    protected function blockUserWithEntity(UserBlockEntity $userBlock)
+    public function blockUserWithEntity(UserBlockEntity $userBlock)
     {
         $this->gameBackendService->removeBlockUser($userBlock->getUser());
 
@@ -171,7 +123,7 @@ class UserBlock
      *
      * @return null|\PServerCore\Entity\UserInterface
      */
-    protected function getUser4Id($userId)
+    public function getUser4Id($userId)
     {
         /** @var \PServerCore\Entity\Repository\User $userRepository */
         $userRepository = $this->entityManager->getRepository($this->entityOptions->getUser());

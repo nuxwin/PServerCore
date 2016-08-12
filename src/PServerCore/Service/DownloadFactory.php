@@ -21,8 +21,7 @@ class DownloadFactory implements FactoryInterface
         return new Download(
             $container->get(EntityManager::class),
             $container->get('pserver_entity_options'),
-            $container->get(CachingHelper::class),
-            $container->get('pserver_admin_download_form')
+            $container->get(CachingHelper::class)
         );
     }
 
