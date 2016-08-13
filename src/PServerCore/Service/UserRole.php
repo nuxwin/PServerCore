@@ -166,7 +166,7 @@ class UserRole
     }
 
     /**
-     * @return \Zend\Mvc\Controller\Plugin\FlashMessenger
+     * @return \Zend\Mvc\Plugin\FlashMessenger\FlashMessenger
      */
     protected function getFlashMessenger()
     {

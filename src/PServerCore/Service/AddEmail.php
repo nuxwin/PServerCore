@@ -11,7 +11,7 @@ use PServerCore\Options\Collection;
 use PServerCore\Service\UserCodes as UserCodesService;
 use Zend\Authentication\AuthenticationService;
 use Zend\Form\FormInterface;
-use Zend\Mvc\Controller\Plugin\FlashMessenger;
+use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Zend\Mvc\Controller\PluginManager;
 
 class AddEmail
