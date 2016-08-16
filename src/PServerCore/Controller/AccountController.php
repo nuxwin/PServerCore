@@ -3,36 +3,45 @@
 namespace PServerCore\Controller;
 
 use PServerCore\Form\ChangePwd;
-use PServerCore\Service\AddEmail;
-use PServerCore\Service\User;
+use PServerCore\Service;
 use Zend\Form;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Authentication\AuthenticationServiceInterface;
 
 class AccountController extends AbstractActionController
 {
     const ERROR_NAME_SPACE = 'pserver-user-account-error';
     const SUCCESS_NAME_SPACE = 'pserver-user-account-success';
 
-    /** @var  User */
-    protected $userService;
+    /** @var  Service\Account */
+    protected $accountService;
 
     /** @var  ChangePwd */
     protected $changePasswordForm;
 
-    /** @var  AddEmail */
+    /** @var  Service\AddEmail */
     protected $addEmailService;
+
+    /** @var  AuthenticationServiceInterface */
+    protected $authService;
 
     /**
      * AccountController constructor.
-     * @param User $userService
-     * @param ChangePwd $changePasswordForm
-     * @param AddEmail $addEmailService
+     * @param Service\Account                $accountService
+     * @param ChangePwd                      $changePasswordForm
+     * @param Service\AddEmail               $addEmailService
+     * @param AuthenticationServiceInterface $authService
      */
-    public function __construct(User $userService, ChangePwd $changePasswordForm, AddEmail $addEmailService)
-    {
-        $this->userService = $userService;
+    public function __construct(
+        Service\Account $accountService,
+        ChangePwd $changePasswordForm,
+        Service\AddEmail $addEmailService,
+        AuthenticationServiceInterface $authService
+    ) {
+        $this->accountService = $accountService;
         $this->changePasswordForm = $changePasswordForm;
         $this->addEmailService = $addEmailService;
+        $this->authService = $authService;
     }
 
     /**
@@ -41,7 +50,7 @@ class AccountController extends AbstractActionController
     public function indexAction()
     {
         /** @var \PServerCore\Entity\UserInterface $user */
-        $user = $this->userService->getAuthService()->getIdentity();
+        $user = $this->authService->getIdentity();
 
         $form = $this->changePasswordForm;
         $elements = $form->getElements();
@@ -52,7 +61,7 @@ class AccountController extends AbstractActionController
         }
 
         $formChangeWebPwd = null;
-        if (!$this->userService->isSamePasswordOption()) {
+        if (!$this->accountService->isSamePasswordOption()) {
             $webPasswordForm = clone $form;
             $formChangeWebPwd = $webPasswordForm->setWhich('web');
         }
@@ -83,7 +92,7 @@ class AccountController extends AbstractActionController
         }
 
         $method = $this->params()->fromPost('which') == 'ingame' ? 'changeInGamePwd' : 'changeWebPwd';
-        if ($this->userService->$method($this->params()->fromPost(), $user)) {
+        if ($this->accountService->$method($this->params()->fromPost(), $user)) {
             $successKey = $this::SUCCESS_NAME_SPACE;
             if ($this->params()->fromPost('which') == 'ingame') {
                 $successKey .= 'InGame';
@@ -103,7 +112,7 @@ class AccountController extends AbstractActionController
     {
         $this->addEmailService->addEmail(
             $this->params()->fromPost(),
-            $this->userService->getAuthService()->getIdentity()
+            $this->authService->getIdentity()
         );
 
         return $this->redirect()->toRoute('PServerCore/user', ['action' => 'index']);

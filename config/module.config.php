@@ -155,6 +155,7 @@ return [
         ],
         'factories' => [
             'pserver_caching_service' => Service\CachingFactory::class,
+            Service\Account::class => Service\AccountFactory::class,
             Service\TicketSystem::class => Service\TicketSystemFactory::class,
             Service\PaymentValidation::class => Service\PaymentValidationFactory::class,
             Options\Collection::class => Options\CollectionFactory::class,

@@ -5,7 +5,6 @@ namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;
-use PServerCore\Controller\AccountController;
 use PServerCore\Entity\Repository\AvailableCountries as RepositoryAvailableCountries;
 use PServerCore\Entity\Repository\CountryList;
 use PServerCore\Entity\User as Entity;
@@ -61,9 +60,6 @@ class User extends SmallUser
 
     /** @var  FormInterface */
     protected $passwordLostForm;
-
-    /** @var  FormInterface */
-    protected $changePasswordForm;
 
     /**
      * @param array $data
@@ -176,52 +172,6 @@ class User extends SmallUser
             //user logged-in after confirmation
             $this->doAuthentication($user);
         }
-
-        return $user;
-    }
-
-    /**
-     * @param array $data
-     * @param UserInterface $user
-     * @return bool|null|UserInterface
-     */
-    public function changeWebPwd(array $data, UserInterface $user)
-    {
-        $user = $this->getUser4Id($user->getId());
-
-        // check if we use different pw system
-        if ($this->isSamePasswordOption()) {
-            return false;
-        }
-
-        if (!$this->isPwdChangeAllowed($data, $user, 'Web')) {
-            return false;
-        }
-
-        $user = $this->setNewPasswordAtUser($user, $data['password']);
-
-        return $user;
-    }
-
-    /**
-     * @param array $data
-     * @param UserInterface $user
-     * @return bool
-     */
-    public function changeInGamePwd(array $data, UserInterface $user)
-    {
-        $user = $this->getUser4Id($user->getId());
-        if (!$this->isPwdChangeAllowed($data, $user, 'InGame')) {
-            return false;
-        }
-
-        // check if we have to change it at web too
-        if ($this->isSamePasswordOption()) {
-            $user = $this->setNewPasswordAtUser($user, $data['password']);
-        }
-
-        $gameBackend = $this->gameDataService;
-        $gameBackend->setUser($user, $data['password']);
 
         return $user;
     }
@@ -413,16 +363,6 @@ class User extends SmallUser
     public function setPasswordLostForm($passwordLostForm)
     {
         $this->passwordLostForm = $passwordLostForm;
-        return $this;
-    }
-
-    /**
-     * @param FormInterface $changePasswordForm
-     * @return self
-     */
-    public function setChangePasswordForm($changePasswordForm)
-    {
-        $this->changePasswordForm = $changePasswordForm;
         return $this;
     }
 
@@ -754,14 +694,6 @@ class User extends SmallUser
     /**
      * @return FormInterface
      */
-    public function getChangePasswordForm()
-    {
-        return $this->changePasswordForm;
-    }
-
-    /**
-     * @return FormInterface
-     */
     public function getPasswordLostForm()
     {
         return $this->passwordLostForm;
@@ -784,6 +716,22 @@ class User extends SmallUser
     }
 
     /**
+     * @param UserInterface $user
+     * @param $password
+     * @return UserInterface
+     */
+    public function setNewPasswordAtUser(UserInterface $user, $password)
+    {
+        $entityManager = $this->entityManager;
+        $user->setPassword($this->bCrypt($password));
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $user;
+    }
+
+    /**
      * We want to crypt a password =)
      *
      * @param $password
@@ -800,54 +748,6 @@ class User extends SmallUser
         }
 
         return $result;
-    }
-
-    /**
-     * @TODO better error handling
-     *
-     * @param array $data
-     * @param UserInterface $user
-     * @param string $errorExtension
-     *
-     * @return bool
-     */
-    protected function isPwdChangeAllowed(array $data, UserInterface $user, $errorExtension)
-    {
-        $form = $this->changePasswordForm;
-        $form->setData($data);
-        if (!$form->isValid()) {
-            $this->getFlashMessenger()
-                ->setNamespace(AccountController::ERROR_NAME_SPACE . $errorExtension)
-                ->addMessage('Form not valid.');
-            return false;
-        }
-
-        $data = $form->getData();
-
-        if (!$user->hashPassword($user, $data['currentPassword'])) {
-            $this->getFlashMessenger()
-                ->setNamespace(AccountController::ERROR_NAME_SPACE . $errorExtension)
-                ->addMessage('Wrong Password.');
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param UserInterface $user
-     * @param $password
-     * @return UserInterface
-     */
-    protected function setNewPasswordAtUser(UserInterface $user, $password)
-    {
-        $entityManager = $this->entityManager;
-        $user->setPassword($this->bCrypt($password));
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return $user;
     }
 
     /**

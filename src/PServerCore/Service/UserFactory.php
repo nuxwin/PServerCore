@@ -25,6 +25,7 @@ class UserFactory extends SmallUserFactory
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
+        /** @var User $class */
         $class = parent::__invoke($container, $requestedName, $options);
 
         $class->setEntityManager($container->get(EntityManager::class));
@@ -37,7 +38,6 @@ class UserFactory extends SmallUserFactory
         $class->setUserBlockService($container->get(UserBlock::class));
         $class->setRegisterForm($container->get('pserver_user_register_form'));
         $class->setPasswordLostForm($container->get('pserver_user_pwlost_form'));
-        $class->setChangePasswordForm($container->get('pserver_user_changepwd_form'));
         $class->setPasswordForm($container->get('pserver_user_password_form'));
 
         return $class;
