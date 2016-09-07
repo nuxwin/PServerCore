@@ -25,9 +25,7 @@ class IndexController extends AbstractActionController
 
         $newsList = $this->newsService->getActiveNews($pageNumber);
 
-        // @deprecated sNews remove in 1.0
         return [
-            'aNews' => $newsList,
             'newsList' => $newsList
         ];
     }
