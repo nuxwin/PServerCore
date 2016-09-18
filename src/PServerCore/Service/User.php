@@ -122,21 +122,6 @@ class User extends SmallUser
     }
 
     /**
-     * @param UserCodesEntity $userCode
-     * @return UserInterface|null
-     */
-    public function registerGameWithSamePassword(UserCodesEntity $userCode)
-    {
-        $user = null;
-        // config is different pw-system
-        if ($this->isSamePasswordOption()) {
-            $user = $this->registerGameForm($userCode);
-        }
-
-        return $user;
-    }
-
-    /**
      * @param array $data
      * @param UserCodesEntity $userCode
      * @return UserInterface|bool

@@ -84,15 +84,21 @@ class AuthController extends SmallUserAuthController
             return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
         }
 
-        $user = $this->userService->registerGameWithSamePassword($userCode);
+        $form = null;
+        $passwordSame = $this->userService->isSamePasswordOption();
 
-        $form = $this->userService->getPasswordForm();
+        if (!$passwordSame) {
+            $form = $this->userService->getPasswordForm();
+        }
+
         /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
 
-        if ($request->isPost() || $user) {
-            if (!$user) {
+        if ($request->isPost()) {
+            if (!$passwordSame) {
                 $user = $this->userService->registerGameWithOtherPw($this->params()->fromPost(), $userCode);
+            } else {
+                $user = $this->userService->registerGameForm($userCode);
             }
             if ($user) {
                 //$this->getUserService()->doAuthentication($user);
@@ -101,7 +107,8 @@ class AuthController extends SmallUserAuthController
         }
 
         return [
-            'registerForm' => $form
+            'registerForm' => $form,
+            'passwordSame' => $passwordSame
         ];
     }
 

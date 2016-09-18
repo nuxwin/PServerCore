@@ -6,6 +6,12 @@
 
 {% block content %}
 
-    {{ formWidget(registerForm) }}
+    {% if passwordSame %}
+        <form action="" method="post">
+            <button type="submit">{{ translate('register complete') }}</button>
+        </form>
+    {% else %}
+        {{ formWidget(registerForm) }}
+    {% endif %}
 
 {% endblock content %}
