@@ -81,7 +81,7 @@ class AuthController extends SmallUserAuthController
 
         $userCode = $this->userCodes->getCode4Data($codeRoute, UserCodes::TYPE_REGISTER);
         if (!$userCode) {
-            return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
+            return $this->forward()->dispatch(AuthController::class, ['action' => 'wrong-code']);
         }
 
         $form = null;
@@ -121,7 +121,7 @@ class AuthController extends SmallUserAuthController
 
         $oCode = $this->userCodes->getCode4Data($code, UserCodes::TYPE_CONFIRM_COUNTRY);
         if (!$oCode) {
-            return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
+            return $this->forward()->dispatch(AuthController::class, ['action' => 'wrong-code']);
         }
 
         $user = $this->userService->countryConfirm($oCode);
@@ -180,7 +180,7 @@ class AuthController extends SmallUserAuthController
 
         $codeEntity = $this->userCodes->getCode4Data($code, UserCodes::TYPE_LOST_PASSWORD);
         if (!$codeEntity) {
-            return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
+            return $this->forward()->dispatch(AuthController::class, ['action' => 'wrong-code']);
         }
 
         /** @var Password $form */
@@ -210,7 +210,7 @@ class AuthController extends SmallUserAuthController
 
         $codeEntity = $this->userCodes->getCode4Data($code, UserCodes::TYPE_SECRET_LOGIN);
         if (!$codeEntity) {
-            return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
+            return $this->forward()->dispatch(AuthController::class, ['action' => 'wrong-code']);
         }
         $this->userService->doAuthentication($codeEntity->getUser());
         $this->userCodes->deleteCode($codeEntity);
@@ -243,7 +243,7 @@ class AuthController extends SmallUserAuthController
 
         $codeEntity = $this->userCodes->getCode4Data($code, UserCodes::TYPE_ADD_EMAIL);
         if (!$codeEntity) {
-            return $this->forward()->dispatch('PServerCore\Controller\Auth', ['action' => 'wrong-code']);
+            return $this->forward()->dispatch(AuthController::class, ['action' => 'wrong-code']);
         }
         $user = $this->addEmailService->changeMail($codeEntity->getUser());
         $this->userCodes->deleteCode($codeEntity);
