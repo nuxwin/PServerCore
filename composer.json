@@ -49,9 +49,8 @@
     "zendframework/zend-router": "~3.0",
     "zendframework/zend-serializer": "~2.5",
     "zendframework/zend-log": "~2.5",
-    "doctrine/doctrine-orm-module": "dev-master as 1.0.9",
-    "doctrine/doctrine-module": "dev-master",
-    "kokspflanze/game-backend": "~0.5",
+    "doctrine/doctrine-orm-module": "^1.1.0",
+    "kokspflanze/game-backend": "~0.6",
     "kokspflanze/payment-api": "~1.4",
     "kokspflanze/zfc-bbcode": "~2.1",
     "san/san-captcha": "^0.0.4",
@@ -63,7 +62,6 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^5.5",
-    "mabuzagu/pdo-dblib-module": "dev-master",
     "satooshi/php-coveralls": "dev-master"
   }
 }
