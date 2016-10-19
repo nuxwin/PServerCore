@@ -33,8 +33,9 @@ class UserRole implements UserRoleInterface
     private $isDefault;
 
     /**
-     * @var string
-     * @ORM\Column(name="parent_id", type="string", length=255, nullable=true)
+     * @var UserRoleInterface
+     *
+     * @ORM\ManyToOne(targetEntity="UserRole", inversedBy="parent_id")
      */
     private $parent;
 
@@ -124,7 +125,7 @@ class UserRole implements UserRoleInterface
 
     /**
      * Set parent
-     * @param string $parent
+     * @param UserRoleInterface $parent
      * @return UserRole
      */
     public function setParent($parent)
@@ -136,7 +137,7 @@ class UserRole implements UserRoleInterface
 
     /**
      * Get parent
-     * @return string
+     * @return UserRoleInterface
      */
     public function getParent()
     {
