@@ -298,7 +298,7 @@ return [
             'orm_default' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => Doctrine\DBAL\Driver\PDOMySql\Driver::class,
+                'driverClass' => \Doctrine\DBAL\Driver\PDOMySql\Driver::class,
                 'params' => [
                     'host' => 'localhost',
                     'port' => '3306',
@@ -313,7 +313,7 @@ return [
             'orm_sro_account' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => GameBackend\DBAL\Driver\PDODblib\Driver::class,
+                'driverClass' => \GameBackend\DBAL\Driver\PDODblib\Driver::class,
                 'params' => [
                     'host' => 'local',
                     'port' => '1433',
@@ -325,7 +325,7 @@ return [
             'orm_sro_shard' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => GameBackend\DBAL\Driver\PDODblib\Driver::class,
+                'driverClass' => \GameBackend\DBAL\Driver\PDODblib\Driver::class,
                 'params' => [
                     'host' => 'local',
                     'port' => '1433',
@@ -337,7 +337,7 @@ return [
             'orm_sro_log' => [
                 // mssql db @ windows  => 'GameBackend\DBAL\Driver\PDOSqlsrv\Driver'
                 // mssql db @ linux  => 'GameBackend\DBAL\Driver\PDODblib\Driver',
-                'driverClass' => GameBackend\DBAL\Driver\PDODblib\Driver::class,
+                'driverClass' => \GameBackend\DBAL\Driver\PDODblib\Driver::class,
                 'params' => [
                     'host' => 'local',
                     'port' => '1433',
@@ -355,7 +355,7 @@ return [
         ],
         'driver' => [
             'application_entities' => [
-                'class' => Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
                 'paths' => [
                     __DIR__ . '/../src/PServerCore/Entity'
