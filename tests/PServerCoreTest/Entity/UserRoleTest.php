@@ -12,10 +12,10 @@ class UserRoleTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $entity = new UserRole();
-        $this->assertInstanceOf('Doctrine\Common\Collections\Collection', $entity->getUser());
-        $this->assertInstanceOf('PServerCore\Entity\UserRoleInterface', $entity);
-        $this->assertInstanceOf('SmallUser\Entity\UserRoleInterface', $entity);
-        $this->assertInstanceOf('BjyAuthorize\Acl\HierarchicalRoleInterface', $entity);
+        $this->assertInstanceOf(\Doctrine\Common\Collections\Collection::class, $entity->getUser());
+        $this->assertInstanceOf(\PServerCore\Entity\UserRoleInterface::class, $entity);
+        $this->assertInstanceOf(\SmallUser\Entity\UserRoleInterface::class, $entity);
+        $this->assertInstanceOf(\BjyAuthorize\Acl\HierarchicalRoleInterface::class, $entity);
         $this->assertEmpty($entity->getUser());
     }
 
@@ -67,7 +67,7 @@ class UserRoleTest extends \PHPUnit_Framework_TestCase
         $result = $entity->addUser($entityUser);
 
         $this->assertEquals($entity, $result);
-        $this->assertInstanceOf('Doctrine\Common\Collections\Collection', $result->getUser());
+        $this->assertInstanceOf(\Doctrine\Common\Collections\Collection::class, $result->getUser());
         $this->assertNotEmpty($result->getUser()[0]);
         $this->assertEquals($entityUser, $result->getUser()[0]);
     }
@@ -79,7 +79,7 @@ class UserRoleTest extends \PHPUnit_Framework_TestCase
         $entityUser = new User();
         $entity->addUser($entityUser);
         $entity->removeUser($entityUser);
-        $this->assertInstanceOf('Doctrine\Common\Collections\Collection', $entity->getUser());
+        $this->assertInstanceOf(\Doctrine\Common\Collections\Collection::class, $entity->getUser());
         $this->assertEmpty($entity->getUser());
 
     }

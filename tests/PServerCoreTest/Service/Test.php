@@ -9,7 +9,7 @@ use PServerCoreTest\Util\TestBase;
 class Test extends TestBase
 {
     /** @var  string */
-    protected $className = '\PServerCore\Service\Format';
+    protected $className = \PServerCore\Service\Format::class;
 
     public function testGetCode()
     {

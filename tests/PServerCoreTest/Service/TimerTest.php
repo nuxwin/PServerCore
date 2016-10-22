@@ -9,7 +9,7 @@ use PServerCoreTest\Util\TestBase;
 class TimerTest extends TestBase
 {
     /** @var  string */
-    protected $className = '\PServerCore\Service\Timer';
+    protected $className = \PServerCore\Service\Timer::class;
 
     public function setUp()
     {

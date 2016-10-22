@@ -10,7 +10,7 @@ use PServerCoreTest\Util\TestBase;
 
 class PasswordRulesTest extends TestBase
 {
-    protected $className = 'PServerCore\Validator\PasswordRules';
+    protected $className = \PServerCore\Validator\PasswordRules::class;
 
     public function testIsValid()
     {

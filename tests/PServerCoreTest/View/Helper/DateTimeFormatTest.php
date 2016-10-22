@@ -9,7 +9,7 @@ use PServerCoreTest\Util\TestBase;
 
 class DateTimeFormatTest extends TestBase
 {
-    protected $className = 'PServerCore\View\Helper\DateTimeFormat';
+    protected $className = \PServerCore\View\Helper\DateTimeFormat::class;
 
     public function testInvoke()
     {

@@ -7,7 +7,7 @@ use PServerCoreTest\Util\TestBase;
 
 class ValidUserExistsTest extends TestBase
 {
-    protected $className = 'PServerCore\Validator\ValidUserExists';
+    protected $className = \PServerCore\Validator\ValidUserExists::class;
 
     public function testIsValid()
     {

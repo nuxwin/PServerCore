@@ -9,7 +9,7 @@ use PServerCoreTest\Util\TestBase;
 class StriposExistsTest extends TestBase
 {
     /** @var string */
-    protected $className = '\PServerCore\Validator\StriposExists';
+    protected $className = \PServerCore\Validator\StriposExists::class;
 
     public function testIsValid()
     {

@@ -15,10 +15,10 @@ class UserTest extends TestBase
     {
         $entity = new User();
 
-        $this->assertInstanceOf('DateTime', $entity->getCreated());
-        $this->assertInstanceOf('PServerCore\Entity\UserInterface', $entity);
-        $this->assertInstanceOf('SmallUser\Entity\UserInterface', $entity);
-        $this->assertInstanceOf('BjyAuthorize\Provider\Role\ProviderInterface', $entity);
+        $this->assertInstanceOf(\DateTime::class, $entity->getCreated());
+        $this->assertInstanceOf(\PServerCore\Entity\UserInterface::class, $entity);
+        $this->assertInstanceOf(\SmallUser\Entity\UserInterface::class, $entity);
+        $this->assertInstanceOf(\BjyAuthorize\Provider\Role\ProviderInterface::class, $entity);
     }
 
     public function testUserId()
@@ -99,7 +99,7 @@ class UserTest extends TestBase
         $this->assertEquals($entity, $result);
 
         $result = $entity->getUserRole();
-        $this->assertInstanceOf('Doctrine\Common\Collections\Collection', $result);
+        $this->assertInstanceOf(\Doctrine\Common\Collections\Collection::class, $result);
         $this->assertEquals($entityRole, $result[0]);
     }
 
@@ -112,7 +112,7 @@ class UserTest extends TestBase
         $entity->removeUserRole($entityRole);
 
         $result = $entity->getUserRole();
-        $this->assertInstanceOf('Doctrine\Common\Collections\Collection', $result);
+        $this->assertInstanceOf(\Doctrine\Common\Collections\Collection::class, $result);
         $this->assertEmpty($result);
     }
 
@@ -125,8 +125,8 @@ class UserTest extends TestBase
         $entityRole = new UserRole();
         $entity->addUserRole($entityRole);
         $result = $entity->getRoles();
-        $this->assertTrue(is_array($result));
-        $this->assertInstanceOf('Zend\Permissions\Acl\Role\RoleInterface', $result[0]);
+        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf(\Zend\Permissions\Acl\Role\RoleInterface::class, $result[0]);
     }
 
     public function testUserExtension()
@@ -137,17 +137,17 @@ class UserTest extends TestBase
         $entity->addUserExtension($entityExtension);
         $entity->addUserExtension($entityExtension);
 
-        $this->assertEquals(2, count($entity->getUserExtension()));
+        $this->assertCount(2, $entity->getUserExtension());
 
         $entity->removeUserExtension($entityExtension);
 
-        $this->assertEquals(1, count($entity->getUserExtension()));
+        $this->assertCount(1, $entity->getUserExtension());
     }
 
     public function testHashPasswordTrue()
     {
         $this->markTestSkipped('TODO');
-        $userService = $this->getMockBuilder('PServerCore\Service\User')
+        $userService = $this->getMockBuilder(\PServerCore\Service\User::class)
             ->disableOriginalConstructor()
             ->setMethods(['isSamePasswordOption'])
             ->getMock();
@@ -172,7 +172,7 @@ class UserTest extends TestBase
     {
         $this->markTestSkipped('TODO');
         // We need a mocking of GameBackend =)
-        $gameService = $this->getMockBuilder('GameBackend\DataService\Mocking')
+        $gameService = $this->getMockBuilder(\GameBackend\DataService\Mocking::class)
             ->disableOriginalConstructor()
             ->setMethods(['isPasswordSame'])
             ->getMock();
@@ -182,7 +182,7 @@ class UserTest extends TestBase
             ->will($this->returnValue(false));
 
         // Mock UserService
-        $userService = $this->getMockBuilder('PServerCore\Service\User')
+        $userService = $this->getMockBuilder(\PServerCore\Service\User::class)
             ->disableOriginalConstructor()
             ->setMethods(['isSamePasswordOption', 'getGameBackendService'])
             ->getMock();

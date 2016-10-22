@@ -10,11 +10,11 @@ use PServerCoreTest\Util\TestBase;
 class UserNameBackendNotExistsTest extends TestBase
 {
     /** @var string */
-    protected $className = '\PServerCore\Validator\UserNameBackendNotExists';
+    protected $className = \PServerCore\Validator\UserNameBackendNotExists::class;
 
     public function testIsValid()
     {
-        $gameMock = $this->getMockBuilder('\GameBackend\DataService\Mocking')
+        $gameMock = $this->getMockBuilder(\GameBackend\DataService\Mocking::class)
             ->disableOriginalConstructor()
             ->setMethods(['isUserNameExists'])
             ->getMock();
@@ -36,7 +36,7 @@ class UserNameBackendNotExistsTest extends TestBase
 
     public function testIsValidFalse()
     {
-        $gameMock = $this->getMockBuilder('\GameBackend\DataService\Mocking')
+        $gameMock = $this->getMockBuilder(\GameBackend\DataService\Mocking::class)
             ->disableOriginalConstructor()
             ->setMethods(['isUserNameExists'])
             ->getMock();

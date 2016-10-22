@@ -10,7 +10,7 @@ use PServerCoreTest\Util\TestBase;
 class PaymentNotifyTest extends TestBase
 {
     /** @var  string */
-    protected $className = '\PServerCore\Service\PaymentNotify';
+    protected $className = \PServerCore\Service\PaymentNotify::class;
 
     /**
      * @expectedException \Exception

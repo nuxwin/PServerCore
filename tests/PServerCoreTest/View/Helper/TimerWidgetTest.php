@@ -8,7 +8,7 @@ use PServerCoreTest\Util\TestBase;
 class TimerWidgetTest extends TestBase
 {
     /** @var string */
-    protected $className = 'PServerCore\View\Helper\TimerWidget';
+    protected $className = \PServerCore\View\Helper\TimerWidget::class;
 
     public function testInvoke()
     {
@@ -19,7 +19,7 @@ class TimerWidgetTest extends TestBase
         /** @var \PServerCore\View\Helper\TimerWidget|\PHPUnit_Framework_MockObject_MockObject $class */
         $class = $this->getClass();
 
-        $phpRenderer = $this->getMockBuilder('\Zend\View\Renderer\PhpRenderer')
+        $phpRenderer = $this->getMockBuilder(\Zend\View\Renderer\PhpRenderer::class)
             ->setMethods([])
             ->getMock();
 
