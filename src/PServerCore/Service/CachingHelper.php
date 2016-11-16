@@ -39,17 +39,17 @@ class CachingHelper
             return $closure();
         }
 
-        $data = $this->cachingService->getItem($cacheKey);
-        if (!$data) {
+        if ($lifetime > 0) {
+            $this->cachingService
+                ->getOptions()
+                ->setTtl($lifetime);
+        }
+
+        if (!$this->cachingService->hasItem($cacheKey)) {
             $data = $closure();
-            if ($lifetime > 0) {
-                $this->cachingService->setOptions(
-                    $this->cachingService
-                        ->getOptions()
-                        ->setTtl($lifetime)
-                );
-            }
             $this->cachingService->setItem($cacheKey, $data);
+        } else {
+            $data = $this->cachingService->getItem($cacheKey);
         }
 
         return $data;
