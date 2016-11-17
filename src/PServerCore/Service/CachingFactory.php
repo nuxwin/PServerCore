@@ -5,6 +5,7 @@ namespace PServerCore\Service;
 
 
 use Interop\Container\ContainerInterface;
+use Zend\Cache\Storage\Adapter\Filesystem;
 use Zend\Cache\StorageFactory;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -19,7 +20,7 @@ class CachingFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return StorageFactory::factory([
-            'adapter' => 'filesystem',
+            'adapter' => Filesystem::class,
             'options' => [
                 'cache_dir' => __DIR__ . '/../../../../../../data/cache',
                 'ttl' => 86400
