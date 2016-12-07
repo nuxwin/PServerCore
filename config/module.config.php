@@ -106,8 +106,8 @@ return [
     ],
     'service_manager' => [
         'abstract_factories' => [
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-            'Zend\Log\LoggerAbstractServiceFactory',
+            \Zend\Cache\Service\StorageCacheAbstractServiceFactory::class,
+            \Zend\Log\LoggerAbstractServiceFactory::class,
         ],
         'aliases' => [
             'translator' => 'MvcTranslator',
