@@ -259,7 +259,7 @@ return [
         'exception_template' => 'error/index',
         'template_map' => [
             'layout/layout' => __DIR__ . '/../view/layout/layout.twig',
-            'p-server-core/index/index' => __DIR__ . '/../view/p-server-core/index/index.phtml',
+            'p-server-core/index/index' => __DIR__ . '/../view/p-server-core/index/index.twig',
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/403' => __DIR__ . '/../view/error/403.twig',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
