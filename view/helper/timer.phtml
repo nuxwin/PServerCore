@@ -2,7 +2,7 @@
     <h3><?= $this->translate('Servertime') ?></h3>
     <hr/>
     <ul class="list-unstyled">
-        <li><i class="fa fa-clock-o"></i> <?= $this->translate('Timer') ?>: <span id="idTimerClock"><?php echo date('H:i:s') ?></span></li>
+        <li><i class="fa fa-clock-o"></i> <?= $this->translate('Servertime') ?>: <span id="idTimerClock"><?php echo date('H:i:s') ?></span></li>
         <?php $i=0; ?>
         <?php if ((bool)$this->timer ): ?>
             <?php foreach ($this->timer as $curTimer) : ?>
