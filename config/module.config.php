@@ -100,6 +100,18 @@ return [
                             ],
                         ],
                     ],
+                    'captcha' => [
+                        'type' => Http\Segment::class,
+                        'options' => [
+                            'route' => 'security/captcha[/:action].html',
+                            'constraints' => [
+                                'action' => '[a-zA-Z-]+',
+                            ],
+                            'defaults' => [
+                                'controller' => Controller\CaptchaController::class,
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -211,6 +223,7 @@ return [
             Controller\AccountController::class => Controller\AccountFactory::class,
             Controller\DonateController::class => Controller\DonateFactory::class,
             Controller\InfoController::class => Controller\InfoFactory::class,
+            Controller\CaptchaController::class => Controller\CaptchaFactory::class,
         ],
     ],
     'view_helpers' => [
@@ -231,6 +244,7 @@ return [
             'serverInfoWidgetPServerCore' => Helper\ServerInfoWidget::class,
             'timerWidgetPServerCore' => Helper\TimerWidget::class,
             'coinsWidgetPServerCore' => Helper\CoinsWidget::class,
+            'captcha/image' => Helper\CaptchaImageReload::class, // overwrite
         ],
         'factories' => [
             Helper\FormError::class => InvokableFactory::class,
@@ -249,6 +263,7 @@ return [
             Helper\ServerInfoWidget::class => Helper\ServerInfoFactory::class,
             Helper\TimerWidget::class => Helper\TimerFactory::class,
             Helper\CoinsWidget::class => Helper\CoinsFactory::class,
+            Helper\CaptchaImageReload::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [
@@ -285,6 +300,7 @@ return [
             'small-user/logout-page' => __DIR__ . '/../view/p-server-core/auth/logout-page.twig',
             'p-server-core/paginator' => __DIR__ . '/../view/helper/paginator.phtml',
             'p-server-core/navigation' => __DIR__ . '/../view/helper/navigation.phtml',
+            'helper/captcha-image-reload' => __DIR__ . '/../view/helper/captcha-image-reload.phtml',
         ],
         'template_path_stack' => [
             'p-server-core' => __DIR__ . '/../view',
