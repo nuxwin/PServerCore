@@ -394,7 +394,7 @@ return [
                 ],
             ],
             'cache' => [
-                'enable' => false
+                'enable' => true,
             ],
             'max_player' => 1000,
             'image_player' => [
