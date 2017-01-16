@@ -1,3 +1,3 @@
 <?php if ($this->isAllowed('PServerCore/captcha')) : ?>
-<i class="fa-refresh fa captcha-reload"></i>
+    <i class="fa-refresh fa captcha-reload" data-url="<?= $this->url('PServerCore/captcha', ['action' => 'reload']); ?>"></i>
 <?php endif; ?>
