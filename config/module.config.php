@@ -112,6 +112,18 @@ return [
                             ],
                         ],
                     ],
+                    'coins' => [
+                        'type' => Http\Segment::class,
+                        'options' => [
+                            'route' => 'panel/coins[/:action].html',
+                            'constraints' => [
+                                'action' => '[a-zA-Z-]+',
+                            ],
+                            'defaults' => [
+                                'controller' => Controller\CoinsController::class,
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -224,6 +236,7 @@ return [
             Controller\DonateController::class => Controller\DonateFactory::class,
             Controller\InfoController::class => Controller\InfoFactory::class,
             Controller\CaptchaController::class => Controller\CaptchaFactory::class,
+            Controller\CoinsController::class => Controller\CoinsFactory::class,
         ],
     ],
     'view_helpers' => [
@@ -245,6 +258,7 @@ return [
             'timerWidgetPServerCore' => Helper\TimerWidget::class,
             'coinsWidgetPServerCore' => Helper\CoinsWidget::class,
             'captcha/image' => Helper\CaptchaImageReload::class, // overwrite
+            'coinsInfoWidgetPServerCore' => Helper\CoinsInfoWidget::class,
         ],
         'factories' => [
             Helper\FormError::class => InvokableFactory::class,
@@ -264,6 +278,7 @@ return [
             Helper\TimerWidget::class => Helper\TimerFactory::class,
             Helper\CoinsWidget::class => Helper\CoinsFactory::class,
             Helper\CaptchaImageReload::class => InvokableFactory::class,
+            Helper\CoinsInfoWidget::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [
@@ -301,6 +316,7 @@ return [
             'p-server-core/paginator' => __DIR__ . '/../view/helper/paginator.phtml',
             'p-server-core/navigation' => __DIR__ . '/../view/helper/navigation.phtml',
             'helper/captcha-image-reload' => __DIR__ . '/../view/helper/captcha-image-reload.phtml',
+            'helper/coins-info-widget' => __DIR__ . '/../view/helper/coins-info-widget.phtml',
         ],
         'template_path_stack' => [
             'p-server-core' => __DIR__ . '/../view',

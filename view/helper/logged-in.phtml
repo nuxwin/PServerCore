@@ -1,11 +1,16 @@
 <div class="margin-bottom-15">
-	<h3><?= $this->escapeHtml($this->user->getUsername()) ?> [<?= $this->coins ?>]</h3>
+	<h3><?= $this->escapeHtml($this->user->getUsername()) ?></h3>
 	<hr/>
+    <ul class="list-unstyled">
+        <?= $this->coinsInfoWidgetPServerCore() ?>
+        <li><i class="fa-refresh fa coins-widget-reload" data-url="<?= $this->url('PServerCore/coins', ['action' => 'reload-widget']); ?>"></i></li>
+    </ul>
+    <hr/>
 	<ul class="list-unstyled">
 		<?php foreach($this->loggedIn as $entry):
 
 			// we want to deactivate a entry
-			if ($entry === null) {
+			if (null === $entry) {
 				continue;
 			}
 

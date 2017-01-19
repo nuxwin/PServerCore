@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\View\Helper;
 
 use PServerCore\Service\Coin;
