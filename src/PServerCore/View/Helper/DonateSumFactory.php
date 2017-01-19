@@ -1,13 +1,10 @@
 <?php
 
-
 namespace PServerCore\View\Helper;
-
 
 use Interop\Container\ContainerInterface;
 use PServerCore\Service\Donate;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class DonateSumFactory implements FactoryInterface
 {

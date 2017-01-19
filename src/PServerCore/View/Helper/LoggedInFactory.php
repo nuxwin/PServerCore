@@ -1,12 +1,9 @@
 <?php
 
-
 namespace PServerCore\View\Helper;
-
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class LoggedInFactory implements FactoryInterface
 {
@@ -20,8 +17,7 @@ class LoggedInFactory implements FactoryInterface
     {
         return new LoggedInWidget(
             $container->get('small_user_auth_service'),
-            $container->get('config')['pserver'],
-            $container->get('gamebackend_dataservice')
+            $container->get('config')['pserver']
         );
     }
 

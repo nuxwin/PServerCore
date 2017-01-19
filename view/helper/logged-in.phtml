@@ -1,29 +1,31 @@
 <div class="margin-bottom-15">
-	<h3><?= $this->escapeHtml($this->user->getUsername()) ?></h3>
-	<hr/>
-    <ul class="list-unstyled">
-        <?= $this->coinsInfoWidgetPServerCore() ?>
-        <li><i class="fa-refresh fa coins-widget-reload" data-url="<?= $this->url('PServerCore/coins', ['action' => 'reload-widget']); ?>"></i></li>
-    </ul>
+    <h3><?= $this->escapeHtml($this->user->getUsername()) ?></h3>
     <hr/>
-	<ul class="list-unstyled">
-		<?php foreach($this->loggedIn as $entry):
+    <ul id="coinsWidgetSidebar" class="list-unstyled">
+        <?= $this->coinsInfoWidgetPServerCore() ?>
+    </ul>
+    <?php if ($this->isAllowed('PServerCore/coins')) : ?>
+        <i class="fa-refresh fa coins-widget-reload" data-url="<?= $this->url('PServerCore/coins', ['action' => 'reload-widget']); ?>"></i>
+    <?php endif; ?>
+    <hr/>
+    <ul class="list-unstyled">
+        <?php foreach($this->loggedIn as $entry):
 
-			// we want to deactivate a entry
-			if (null === $entry) {
-				continue;
-			}
+            // we want to deactivate a entry
+            if (null === $entry) {
+                continue;
+            }
 
-			$routeParams = isset($entry['route']['params'])?$entry['route']['params']:[];
-		?>
-			<?php if($this->isAllowed($entry['route']['name'])): ?>
-				<li>
-					<a href="<?= $this->url($entry['route']['name'], $routeParams) ?>" class="btn btn-info btn-block">
-						<i class="<?= $entry['class'] ?>"></i>
-						<?= $this->translate($entry['name']) ?>
-					</a>
-				</li>
-			<?php endif; ?>
-		<?php endforeach; ?>
-	</ul>
+            $routeParams = isset($entry['route']['params'])?$entry['route']['params']:[];
+            ?>
+            <?php if($this->isAllowed($entry['route']['name'])): ?>
+            <li>
+                <a href="<?= $this->url($entry['route']['name'], $routeParams) ?>" class="btn btn-info btn-block">
+                    <i class="<?= $entry['class'] ?>"></i>
+                    <?= $this->translate($entry['name']) ?>
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>
 </div>

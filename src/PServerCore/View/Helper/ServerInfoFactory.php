@@ -1,13 +1,10 @@
 <?php
 
-
 namespace PServerCore\View\Helper;
-
 
 use Interop\Container\ContainerInterface;
 use PServerCore\Service\ServerInfo;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class ServerInfoFactory implements FactoryInterface
 {
