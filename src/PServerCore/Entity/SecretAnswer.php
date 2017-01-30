@@ -23,7 +23,7 @@ class SecretAnswer
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="PServerCore\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user", referencedColumnName="usrId", nullable=false)
+     *   @ORM\JoinColumn(name="`user`", referencedColumnName="usrId", nullable=false)
      * })
      */
     private $user;
