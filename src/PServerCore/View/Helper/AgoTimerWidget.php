@@ -13,7 +13,7 @@ class AgoTimerWidget extends AbstractHelper
      */
     public function __invoke(DateTime $dateTime)
     {
-        $interval = ($dateTime)->diff(new DateTime());
+        $interval = $dateTime->diff(new DateTime());
 
         return $interval->format('%r%H:%I:%S');
     }
