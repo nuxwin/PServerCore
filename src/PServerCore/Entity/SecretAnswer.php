@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SecretAnswer
- * @ORM\Table(name="secret_answer", indexes={@ORM\Index(name="fk_secretAnswer_users1_idx", columns={"user"}), @ORM\Index * (name="fk_secretAnswer_secretQuestion_idx", columns={"question"})})
+ * @ORM\Table(name="secret_answer", indexes={@ORM\Index(name="fk_secretAnswer_users1_idx", columns={"users_usrId"}), @ORM\Index * (name="fk_secretAnswer_secretQuestion_idx", columns={"question"})})
  * @ORM\Entity(repositoryClass="PServerCore\Entity\Repository\SecretAnswer")
  */
 class SecretAnswer
@@ -23,7 +23,7 @@ class SecretAnswer
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="PServerCore\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="`user`", referencedColumnName="usrId", nullable=false)
+     *   @ORM\JoinColumn(name="users_usrId", referencedColumnName="usrId", nullable=false)
      * })
      */
     private $user;
