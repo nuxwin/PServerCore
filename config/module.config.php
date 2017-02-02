@@ -259,6 +259,7 @@ return [
             'coinsWidgetPServerCore' => Helper\CoinsWidget::class,
             'captcha/image' => Helper\CaptchaImageReload::class, // overwrite
             'coinsInfoWidgetPServerCore' => Helper\CoinsInfoWidget::class,
+            'agoTimerPServerCore' => Helper\AgoTimerWidget::class,
         ],
         'factories' => [
             Helper\FormError::class => InvokableFactory::class,
@@ -279,6 +280,7 @@ return [
             Helper\CoinsWidget::class => Helper\CoinsFactory::class,
             Helper\CaptchaImageReload::class => InvokableFactory::class,
             Helper\CoinsInfoWidget::class => InvokableFactory::class,
+            Helper\AgoTimerWidget::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [
