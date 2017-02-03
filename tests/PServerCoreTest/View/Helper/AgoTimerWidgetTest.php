@@ -48,6 +48,18 @@ class AgoTimerWidgetTest extends TestBase
                 '-2 hour',
                 '02:00:00'
             ],
+            [
+                '-3 day',
+                '3 days 00:00:00'
+            ],
+            [
+                '-40 day',
+                '40 days 00:00:00'
+            ],
+            [
+                '-1 day',
+                '1 day 00:00:00'
+            ],
         ];
     }
 }

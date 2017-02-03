@@ -15,7 +15,18 @@ class AgoTimerWidget extends AbstractHelper
     {
         $interval = $dateTime->diff(new DateTime());
 
-        return $interval->format('%r%H:%I:%S');
+        $result = $interval->format('%r%H:%I:%S');
+
+        if ($interval->days > 0) {
+            $result = sprintf(
+                '%s day%s %s',
+                $interval->days,
+                $interval->days > 1 ? 's' : '',
+                $result
+            );
+        }
+
+        return $result;
     }
 
 }
