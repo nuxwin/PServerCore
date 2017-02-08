@@ -13,8 +13,8 @@
 {% endblock content %}
 
 {% block script %}
-	<link rel="stylesheet" href="{{ basePath() }}/minified/themes/modern.min.css" type="text/css" media="all" />
-	<script type="text/javascript" src="{{ basePath() }}/minified/jquery.sceditor.bbcode.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sceditor/1.5.2/themes/modern.min.css" type="text/css" media="all" />
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sceditor/1.5.2/jquery.sceditor.bbcode.min.js"></script>
 
 	<script type="text/javascript">
 		jQuery(function() {
@@ -27,7 +27,7 @@
 				height: "100px",
 				resizeWidth: false,
 				emoticonsRoot : "{{ basePath() }}/minified/",
-				style: "{{ basePath() }}/minified/themes/modern.min.css",
+                style: "https://cdnjs.cloudflare.com/ajax/libs/sceditor/1.5.2/themes/modern.min.css",
 				locale: "no-NB",
 				bbcodeTrim: true
 			}).sceditor("instance").sourceMode(true);
