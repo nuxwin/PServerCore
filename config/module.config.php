@@ -2,6 +2,7 @@
 
 use PServerCore\Controller;
 use PServerCore\Entity;
+use PServerCore\Guard;
 use PServerCore\Options;
 use PServerCore\View\Helper;
 use PServerCore\Form;
@@ -222,6 +223,7 @@ return [
             Options\LoginOptions::class => Options\LoginOptionsFactory::class,
             Options\RegisterOptions::class => Options\RegisterOptionsFactory::class,
             Options\ValidationOptions::class => Options\ValidationOptionsFactory::class,
+            Guard\UserBlock::class => Guard\UserBlockFactory::class,
         ],
     ],
     'controllers' => [

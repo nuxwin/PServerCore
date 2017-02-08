@@ -2,22 +2,25 @@
 
 namespace PServerCore;
 
+use PServerCore\Guard\UserBlock;
 use PServerCore\Service\ServiceManager;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
+use Zend\EventManager\EventInterface;
 
 class Module
 {
     /**
-     * @param MvcEvent $e
+     * @param EventInterface $event
      */
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(EventInterface $event)
     {
-        $eventManager = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
+        /* @var $app \Zend\Mvc\ApplicationInterface */
+        $app = $event->getTarget();
+        $eventManager = $app->getEventManager();
+
+        $moduleRouteListener = $app->getServiceManager()->get(UserBlock::class);
         $moduleRouteListener->attach($eventManager);
 
-        ServiceManager::setInstance($e->getApplication()->getServiceManager());
+        ServiceManager::setInstance($app->getServiceManager());
     }
 
     /**

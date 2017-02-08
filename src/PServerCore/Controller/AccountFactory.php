@@ -3,7 +3,6 @@
 
 namespace PServerCore\Controller;
 
-
 use Interop\Container\ContainerInterface;
 use PServerCore\Service\Account;
 use SmallUser\Service\UserAuthFactory;
