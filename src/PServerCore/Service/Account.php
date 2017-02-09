@@ -56,8 +56,6 @@ class Account
      */
     public function changeWebPwd(array $data, UserInterface $user)
     {
-        $user = $this->userService->getUser4Id($user->getId());
-
         // check if we use different pw system
         if ($this->isSamePasswordOption()) {
             return false;
@@ -79,7 +77,6 @@ class Account
      */
     public function changeInGamePwd(array $data, UserInterface $user)
     {
-        $user = $this->userService->getUser4Id($user->getId());
         if (!$this->isPwdChangeAllowed($data, $user, 'InGame')) {
             return false;
         }

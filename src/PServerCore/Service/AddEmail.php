@@ -91,7 +91,6 @@ class AddEmail
             return false;
         }
 
-        $user = $this->getUser4Id($user->getId());
         if ($user->getEmail()) {
             $this->getFlashMessenger()
                 ->setNamespace(self::ERROR_NAMESPACE)
@@ -181,16 +180,4 @@ class AddEmail
         return $this->controllerPluginManager->get('flashMessenger');
     }
 
-    /**
-     * @param $userId
-     *
-     * @return null|\PServerCore\Entity\UserInterface
-     */
-    protected function getUser4Id($userId)
-    {
-        /** @var \PServerCore\Entity\Repository\User $userRepository */
-        $userRepository = $this->entityManager->getRepository($this->collectionOptions->getEntityOptions()->getUser());
-
-        return $userRepository->getUser4Id($userId);
-    }
 }

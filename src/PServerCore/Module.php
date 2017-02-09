@@ -2,7 +2,6 @@
 
 namespace PServerCore;
 
-use PServerCore\Guard\UserBlock;
 use PServerCore\Service\ServiceManager;
 use Zend\EventManager\EventInterface;
 
@@ -16,9 +15,11 @@ class Module
         /* @var $app \Zend\Mvc\ApplicationInterface */
         $app = $event->getTarget();
         $eventManager = $app->getEventManager();
+        $guardList = $app->getServiceManager()->get('config')['pserver']['guard'];
 
-        $moduleRouteListener = $app->getServiceManager()->get(UserBlock::class);
-        $moduleRouteListener->attach($eventManager);
+        foreach ($guardList as $guard) {
+            $app->getServiceManager()->get($guard)->attach($eventManager);
+        }
 
         ServiceManager::setInstance($app->getServiceManager());
     }

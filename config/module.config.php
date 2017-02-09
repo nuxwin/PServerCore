@@ -224,6 +224,7 @@ return [
             Options\RegisterOptions::class => Options\RegisterOptionsFactory::class,
             Options\ValidationOptions::class => Options\ValidationOptionsFactory::class,
             Guard\UserBlock::class => Guard\UserBlockFactory::class,
+            Guard\UserRefresh::class => Guard\UserRefreshFactory::class,
         ],
     ],
     'controllers' => [
@@ -722,6 +723,10 @@ return [
         ],
         'payment-api' => [
             'ban-time' => '946681200',
+        ],
+        'guard' => [
+            Guard\UserBlock::class,
+            Guard\UserRefresh::class,
         ],
     ],
     'authenticationadapter' => [
