@@ -3,11 +3,11 @@
 
 namespace PServerCoreTest\Entity;
 
-
+use PHPUnit\Framework\TestCase;
 use PServerCore\Entity\User;
 use PServerCore\Entity\UserRole;
 
-class UserRoleTest extends \PHPUnit_Framework_TestCase
+class UserRoleTest extends TestCase
 {
     public function testConstruct()
     {

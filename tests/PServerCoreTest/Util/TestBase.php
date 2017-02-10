@@ -3,8 +3,8 @@
 
 namespace PServerCoreTest\Util;
 
-use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 class TestBase extends TestCase
@@ -13,7 +13,7 @@ class TestBase extends TestCase
     protected $className;
     /** @var  array|null */
     protected $mockedMethodList = null;
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  MockObject */
     protected $class;
     /** @var array */
     protected $mockedConstructorArgList = [];
@@ -37,7 +37,7 @@ class TestBase extends TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     protected function getClass()
     {
