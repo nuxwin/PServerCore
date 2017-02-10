@@ -61,7 +61,11 @@ class UserRefresh extends AbstractListenerAggregate
         /** @var User $userRepository */
         $userRepository = $this->entityManager->getRepository($this->entityOption->getUser());
 
-        $user = $userRepository->getUser4Id($user->getId());
+        // fix if we have a proxy we don´t have a valid entity, so we have to clear before we can create a new select
+        $username = $user->getUsername();
+        $userRepository->clear();
+
+        $user = $userRepository->getUser4UserName($username);
 
         $this->authService->getStorage()->write($user);
     }
