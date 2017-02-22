@@ -185,7 +185,7 @@ class Mail
 
             // sometimes we want to log all emails
             if ($this->collectionOptions->getMailOptions()->isDebug()) {
-                $this->logMail($user, $body, 'debug');
+                $this->logMail($user, $bodyRender, 'debug');
             }
 
             $transport = new Smtp($this->getSMTPOptions());
