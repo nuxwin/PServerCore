@@ -21,6 +21,11 @@ class MailOptions extends AbstractOptions
     protected $fromName = 'team';
 
     /**
+     * @var bool
+     */
+    protected $debug = false;
+
+    /**
      * @var array
      */
     protected $subject = [
@@ -98,6 +103,24 @@ class MailOptions extends AbstractOptions
     {
         $this->subject = $subject;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
+     * @param bool $debug
+     * @return self
+     */
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
         return $this;
     }
 

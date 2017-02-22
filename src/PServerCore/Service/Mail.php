@@ -183,18 +183,16 @@ class Mail
             $mail->setTo($user->getEmail());
             $mail->setSubject($subject);
 
+            // sometimes we want to log all emails
+            if ($this->collectionOptions->getMailOptions()->isDebug()) {
+                $this->logMail($user, $body, 'debug');
+            }
+
             $transport = new Smtp($this->getSMTPOptions());
             $transport->send($mail);
         } catch (Exception $e) {
             // Logging if smth wrong in Configuration or SMTP Offline =)
-            $class = $this->collectionOptions->getEntityOptions()->getLogs();
-            /** @var \PServerCore\Entity\Logs $logEntity */
-            $logEntity = new $class();
-            $logEntity->setTopic('mail_faild');
-            $logEntity->setMemo($e->getMessage());
-            $logEntity->setUser($user);
-            $this->entityManager->persist($logEntity);
-            $this->entityManager->flush();
+            $this->logMail($user, $e->getMessage(), 'faild');
         }
     }
 
@@ -220,5 +218,22 @@ class Mail
         $subjectList = $this->collectionOptions->getMailOptions()->getSubject();
         // added fallback if the key not exists, in the config
         return isset($subjectList[$key]) ? $subjectList[$key] : $key;
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param string $message
+     * @param string $topic
+     */
+    protected function logMail(UserInterface $user, $message, $topic)
+    {
+        $class = $this->collectionOptions->getEntityOptions()->getLogs();
+        /** @var \PServerCore\Entity\Logs $logEntity */
+        $logEntity = new $class();
+        $logEntity->setTopic('mail_' . $topic);
+        $logEntity->setMemo($message);
+        $logEntity->setUser($user);
+        $this->entityManager->persist($logEntity);
+        $this->entityManager->flush();
     }
 }

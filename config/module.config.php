@@ -469,6 +469,10 @@ return [
                 'secretLogin' => 'SecretLoginMail',
                 'ticketAnswer' => 'TicketAnswer',
             ],
+            /**
+             * that log each mail in the web-log
+             */
+            'debug' => false,
             'basic' => [
                 'name' => 'localhost',
                 'host' => 'smtp.example.com',
