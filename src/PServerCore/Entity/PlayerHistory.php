@@ -55,6 +55,16 @@ class PlayerHistory
     }
 
     /**
+     * @ORM\PostRemove()
+     */
+    public function postRemove()
+    {
+        /** @var \PServerCore\Service\CachingHelper $cachingHelperService */
+        $cachingHelperService = ServiceManager::getInstance()->get('pserver_cachinghelper_service');
+        $cachingHelperService->delItem(Caching::PLAYER_HISTORY);
+    }
+
+    /**
      * @return int
      */
     public function getId()

@@ -63,6 +63,16 @@ class DownloadList
     }
 
     /**
+     * @ORM\PostRemove()
+     */
+    public function postRemove()
+    {
+        /** @var \PServerCore\Service\CachingHelper $cachingHelperService */
+        $cachingHelperService = ServiceManager::getInstance()->get('pserver_cachinghelper_service');
+        $cachingHelperService->delItem(Caching::DOWNLOAD);
+    }
+
+    /**
      * Get did
      * @return integer
      */

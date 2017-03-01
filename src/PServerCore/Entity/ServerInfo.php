@@ -63,6 +63,16 @@ class ServerInfo
     }
 
     /**
+     * @ORM\PostRemove()
+     */
+    public function postRemove()
+    {
+        /** @var \PServerCore\Service\CachingHelper $cachingHelperService */
+        $cachingHelperService = ServiceManager::getInstance()->get('pserver_cachinghelper_service');
+        $cachingHelperService->delItem(Caching::SERVER_INFO);
+    }
+
+    /**
      * @param string $active
      * @return ServerInfo
      */
