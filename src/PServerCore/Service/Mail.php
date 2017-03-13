@@ -67,7 +67,7 @@ class Mail
             'code' => $code
         ];
 
-        $this->send($this::SUBJECT_KEY_REGISTER, $user, $params);
+        $this->send(self::SUBJECT_KEY_REGISTER, $user, $params);
     }
 
     /**
@@ -81,7 +81,7 @@ class Mail
             'code' => $code
         ];
 
-        $this->send($this::SUBJECT_KEY_PASSWORD_LOST, $user, $params);
+        $this->send(self::SUBJECT_KEY_PASSWORD_LOST, $user, $params);
     }
 
     /**
@@ -95,7 +95,7 @@ class Mail
             'code' => $code
         ];
 
-        $this->send($this::SUBJECT_KEY_CONFIRM_COUNTRY, $user, $params);
+        $this->send(self::SUBJECT_KEY_CONFIRM_COUNTRY, $user, $params);
     }
 
     /**
@@ -109,7 +109,7 @@ class Mail
             'code' => $code
         ];
 
-        $this->send($this::SUBJECT_KEY_SECRET_LOGIN, $user, $params);
+        $this->send(self::SUBJECT_KEY_SECRET_LOGIN, $user, $params);
     }
 
     /**
@@ -125,7 +125,7 @@ class Mail
             'ticketEntry' => $ticketEntry,
         ];
 
-        $this->send($this::SUBJECT_KEY_TICKET_ANSWER, $user, $params);
+        $this->send(self::SUBJECT_KEY_TICKET_ANSWER, $user, $params);
     }
 
     /**
@@ -139,7 +139,7 @@ class Mail
             'code' => $code
         ];
 
-        $this->send($this::SUBJECT_KEY_ADD_EMAIL, $user, $params);
+        $this->send(self::SUBJECT_KEY_ADD_EMAIL, $user, $params);
     }
 
     /**

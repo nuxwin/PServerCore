@@ -24,23 +24,29 @@ class PaymentNotify implements LogInterface
     /** @var  UserBlock */
     protected $userBlockService;
 
+    /** @var  PaymentNotifyCoins */
+    protected $paymentNotifyCoins;
+
     /**
      * PaymentNotify constructor.
      * @param EntityManager $entityManager
      * @param Collection $collectionOptions
      * @param Coin $coinService
      * @param UserBlock $userBlockService
+     * @param PaymentNotifyCoins $paymentNotifyCoins
      */
     public function __construct(
         EntityManager $entityManager,
         Collection $collectionOptions,
         Coin $coinService,
-        UserBlock $userBlockService
+        UserBlock $userBlockService,
+        PaymentNotifyCoins $paymentNotifyCoins
     ) {
         $this->entityManager = $entityManager;
         $this->collectionOptions = $collectionOptions;
         $this->coinService = $coinService;
         $this->userBlockService = $userBlockService;
+        $this->paymentNotifyCoins = $paymentNotifyCoins;
     }
 
     /**
@@ -66,12 +72,12 @@ class PaymentNotify implements LogInterface
         // check if donate should add coins or remove
         $request->setAmount(abs($request->getAmount()));
         $coins = $this->isStatusSuccess($request) ? $request->getAmount() : -$request->getAmount();
-        $request->setAmount($coins);
+        $request->setAmount($this->paymentNotifyCoins->getAmount($user, (int)$coins));
 
         // save the message if gamebackend-service is unavailable
         $errorMessage = '';
         try {
-            $this->coinService->addCoins($user, $coins);
+            $this->coinService->addCoins($user, $request->getAmount());
         } catch (\Exception $e) {
             $request->setStatus($request::STATUS_ERROR);
             $errorMessage = $e->getMessage();
@@ -101,6 +107,8 @@ class PaymentNotify implements LogInterface
         $user = $this->getUser4Id($request->getUserId());
 
         $this->saveDonateLog($request, $user, $e->getMessage());
+
+        return true;
     }
 
     /**
@@ -197,9 +205,9 @@ class PaymentNotify implements LogInterface
     }
 
     /**
-     * @param $userId
+     * @param int $userId
      *
-     * @return null|\PServerCore\Entity\UserInterface
+     * @return null|\PServerCore\Entity\UserInterface|\SmallUser\Entity\UserInterface
      */
     protected function getUser4Id($userId)
     {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
@@ -22,7 +21,8 @@ class PaymentNotifyFactory implements FactoryInterface
             $container->get(EntityManager::class),
             $container->get(Options\Collection::class),
             $container->get(Coin::class),
-            $container->get(UserBlock::class)
+            $container->get(UserBlock::class),
+            $container->get(PaymentNotifyCoins::class)
         );
     }
 

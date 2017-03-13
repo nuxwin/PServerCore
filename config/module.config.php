@@ -205,6 +205,7 @@ return [
             Service\UserBlock::class => Service\UserBlockFactory::class,
             Service\UserRole::class => Service\UserRoleFactory::class,
             Service\PaymentNotify::class => Service\PaymentNotifyFactory::class,
+            Service\PaymentNotifyCoins::class => InvokableFactory::class,
             \PaymentAPI\Service\Log::class => Service\PaymentNotifyFactory::class,
             Service\User::class => Service\UserFactory::class,
             Form\Register::class => Form\RegisterFactory::class,

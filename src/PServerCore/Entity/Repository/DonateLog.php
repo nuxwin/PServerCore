@@ -46,9 +46,7 @@ class DonateLog extends EntityRepository
     public function getDonateHistorySuccess(\DateTime $dateTime)
     {
         $query = $this->createQueryBuilder('p')
-            ->select('
-                SUM(p.coins) as coins, p.type, COUNT(p.coins) as amount, p.created'
-            )
+            ->select('SUM(p.coins) as coins, p.type, COUNT(p.coins) as amount, p.created')
             ->where('p.success = :success')
             ->setParameter('success', Entity::STATUS_SUCCESS)
             ->andWhere('p.created >= :created')
@@ -131,4 +129,28 @@ class DonateLog extends EntityRepository
 
         return $query->getResult();
     }
-} 
+
+    /**
+     * @param UserInterface $user
+     * @return \int
+     */
+    public function getAlreadyGivenCoins(UserInterface $user)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('SUM(p.coins) as coins')
+            ->where('p.user = :user')
+            ->andWhere('p.type != :type')
+            ->setParameter('user', $user)
+            ->setParameter('type', Entity::TYPE_INTERNAL)
+            ->getQuery();
+
+        $data = $query->getOneOrNullResult();
+        $result = 0;
+
+        if (isset($data['coins'])) {
+            $result = $data['coins'];
+        }
+
+        return $result;
+    }
+}
