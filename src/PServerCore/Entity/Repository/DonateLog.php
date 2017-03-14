@@ -140,8 +140,10 @@ class DonateLog extends EntityRepository
             ->select('SUM(p.coins) as coins')
             ->where('p.user = :user')
             ->andWhere('p.type != :type')
+            ->andWhere('p.success = :success')
             ->setParameter('user', $user)
             ->setParameter('type', Entity::TYPE_INTERNAL)
+            ->setParameter('success', Entity::STATUS_SUCCESS)
             ->getQuery();
 
         $data = $query->getOneOrNullResult();
