@@ -7,6 +7,13 @@ use Exception;
 class NoRecordExists extends AbstractRecord
 {
     /**
+     * @var array Message templates
+     */
+    protected $messageTemplates = [
+        self::ERROR_RECORD_FOUND => "already in use",
+    ];
+
+    /**
      * @param mixed $value
      *
      * @return bool

@@ -13,11 +13,10 @@ class UserNameBackendNotExists extends AbstractValidator
     const ERROR_RECORD_FOUND = 'recordFound';
 
     /**
-     * TODO better message
      * @var array Message templates
      */
     protected $messageTemplates = [
-        self::ERROR_RECORD_FOUND => "A record matching the input was found",
+        self::ERROR_RECORD_FOUND => "already in use",
     ];
 
     /** @var  DataServiceInterface */
