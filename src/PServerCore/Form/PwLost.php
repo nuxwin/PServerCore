@@ -42,6 +42,7 @@ class PwLost extends Form\Form
                 'class' => 'form-control',
                 'type' => 'text',
                 'required' => true,
+                'autocomplete' => 'off',
             ]);
         $this->add($captcha);
 
