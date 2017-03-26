@@ -618,7 +618,7 @@ return [
                 ],
                 'children' => [
                     '1_position' => [
-                        'name' => 'TopPlayer',
+                        'name' => 'Top Player',
                         'route' => [
                             'name' => 'PServerRanking/ranking',
                             'params' => [
@@ -627,7 +627,7 @@ return [
                         ],
                     ],
                     '2_position' => [
-                        'name' => 'TopGuild',
+                        'name' => 'Top Guild',
                         'route' => [
                             'name' => 'PServerRanking/ranking',
                             'params' => [
