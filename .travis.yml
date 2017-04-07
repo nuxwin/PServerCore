@@ -49,8 +49,7 @@ matrix:
       env:
         - DEPS=latest
   allow_failures:
-    - php:
-        - nightly
+    - php: nightly
 
 notifications:
   webhooks:
