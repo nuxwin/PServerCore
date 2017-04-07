@@ -2,11 +2,6 @@ sudo: false
 
 language: php
 
-php:
-  - 7
-  - 7.1
-  - nightly
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -19,9 +14,43 @@ matrix:
 env:
   global:
     - COMPOSER_ARGS="--no-interaction"
-  matrix:
-    - DEPENDENCIES="--prefer-lowest --prefer-stable"
-    - DEPENDENCIES=""
+    - COVERAGE_DEPS="satooshi/php-coveralls"
+    - LEGACY_DEPS="phpunit/phpunit"
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7
+      env:
+        - DEPS=lowest
+    - php: 7
+      env:
+        - DEPS=locked
+    - php: 7
+      env:
+        - DEPS=latest
+        - TEST_COVERAGE=true
+    - php: 7.1
+      env:
+        - DEPS=lowest
+    - php: 7.1
+      env:
+        - DEPS=locked
+    - php: 7.1
+      env:
+        - DEPS=latest
+    - php: nightly
+      env:
+        - DEPS=lowest
+    - php: nightly
+      env:
+        - DEPS=locked
+    - php: nightly
+      env:
+        - DEPS=latest
+  allow_failures:
+    - php:
+        - nightly
 
 notifications:
   webhooks:
@@ -35,13 +64,15 @@ before_install:
   - travis_retry composer self-update
 
 install:
-  - travis_retry composer update -o --prefer-source $COMPOSER_ARGS $DEPENDENCIES
+  - travis_retry composer install $COMPOSER_ARGS
+  - if [[ $TRAVIS_PHP_VERSION =~ ^5.6 ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
+  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
+  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
   - composer show
 
 script:
-  - mkdir -p build/logs
-  # Run tests
-  - php ./vendor/bin/phpunit --configuration tests/phpunit.xml
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" = "7.0" ]; then php vendor/bin/coveralls -v; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi

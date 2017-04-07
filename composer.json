@@ -60,7 +60,17 @@
     "kokspflanze/zfc-twig": "^1.3 || ^2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0.6",
-    "satooshi/php-coveralls": "dev-master"
+    "phpunit/phpunit": "^6.0.6"
+  },
+  "scripts": {
+    "check": [
+      "@cs-check",
+      "@test"
+    ],
+    "cs-check": "phpcs",
+    "cs-fix": "phpcbf",
+    "test": "phpunit --colors=always",
+    "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+    "upload-coverage": "coveralls -v"
   }
 }
