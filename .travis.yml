@@ -7,10 +7,6 @@ cache:
     - $HOME/.composer/cache
     - vendor
 
-matrix:
-  allow_failures:
-    - php: nightly
-
 env:
   global:
     - COMPOSER_ARGS="--no-interaction"
