@@ -703,10 +703,12 @@ return [
             'home' => [
                 'label' => 'Home',
                 'route' => 'PServerCore',
+                'resource' => 'PServerCore',
             ],
             'download' => [
                 'label' => 'Download',
                 'route' => 'PServerCore/site-download',
+                'resource' => 'PServerCore/site-download',
             ],
             'ranking' => [
                 'label' => 'Ranking',
@@ -714,6 +716,7 @@ return [
                 'params' => [
                     'action' => 'top-player',
                 ],
+                'resource' => 'PServerRanking/ranking',
                 'pages' => [
                     '1_position' => [
                         'label' => 'Top Player',
@@ -721,6 +724,7 @@ return [
                         'params' => [
                             'action' => 'top-player',
                         ],
+                        'resource' => 'PServerRanking/ranking',
                     ],
                     '2_position' => [
                         'label' => 'Top Guild',
@@ -728,12 +732,14 @@ return [
                         'params' => [
                             'action' => 'top-guild',
                         ],
+                        'resource' => 'PServerRanking/ranking',
                     ],
                 ],
             ],
             'server-info' => [
                 'label' => 'ServerInfo',
                 'route' => 'PServerCore/site-detail',
+                'resource' => 'PServerCore/site-detail',
                 'pages' => [
                     '1_position' => [
                         'label' => 'FAQ',
@@ -741,6 +747,7 @@ return [
                         'params' => [
                             'type' => 'faq',
                         ],
+                        'resource' => 'PServerCore/site-detail',
                     ],
                     '2_position' => [
                         'label' => 'Rules',
@@ -748,6 +755,7 @@ return [
                         'params' => [
                             'type' => 'rules',
                         ],
+                        'resource' => 'PServerCore/site-detail',
                     ],
                     '3_position' => [
                         'label' => 'Guides',
@@ -755,6 +763,7 @@ return [
                         'params' => [
                             'type' => 'guides',
                         ],
+                        'resource' => 'PServerCore/site-detail',
                     ],
                     '4_position' => [
                         'label' => 'Events',
@@ -762,6 +771,7 @@ return [
                         'params' => [
                             'type' => 'events',
                         ],
+                        'resource' => 'PServerCore/site-detail',
                     ],
                 ],
             ],
