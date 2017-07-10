@@ -598,90 +598,6 @@ return [
             'user_extension' => Entity\UserExtension::class,
             'user_role' => Entity\UserRole::class,
         ],
-        'navigation' => [
-            'home' => [
-                'name' => 'Home',
-                'route' => [
-                    'name' => 'PServerCore',
-                ],
-            ],
-            'download' => [
-                'name' => 'Download',
-                'route' => [
-                    'name' => 'PServerCore/site-download',
-                ],
-            ],
-            'ranking' => [
-                'name' => 'Ranking',
-                'route' => [
-                    'name' => 'PServerRanking/ranking',
-                ],
-                'children' => [
-                    '1_position' => [
-                        'name' => 'Top Player',
-                        'route' => [
-                            'name' => 'PServerRanking/ranking',
-                            'params' => [
-                                'action' => 'top-player',
-                            ],
-                        ],
-                    ],
-                    '2_position' => [
-                        'name' => 'Top Guild',
-                        'route' => [
-                            'name' => 'PServerRanking/ranking',
-                            'params' => [
-                                'action' => 'top-guild',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'server-info' => [
-                'name' => 'ServerInfo',
-                'route' => [
-                    'name' => 'PServerCore/site-detail',
-                ],
-                'children' => [
-                    '1_position' => [
-                        'name' => 'FAQ',
-                        'route' => [
-                            'name' => 'PServerCore/site-detail',
-                            'params' => [
-                                'type' => 'faq',
-                            ],
-                        ],
-                    ],
-                    '2_position' => [
-                        'name' => 'Rules',
-                        'route' => [
-                            'name' => 'PServerCore/site-detail',
-                            'params' => [
-                                'type' => 'rules',
-                            ],
-                        ],
-                    ],
-                    '3_position' => [
-                        'name' => 'Guides',
-                        'route' => [
-                            'name' => 'PServerCore/site-detail',
-                            'params' => [
-                                'type' => 'guides',
-                            ],
-                        ],
-                    ],
-                    '4_position' => [
-                        'name' => 'Events',
-                        'route' => [
-                            'name' => 'PServerCore/site-detail',
-                            'params' => [
-                                'type' => 'events',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ],
         'logged_in' => [
             'character' => [
                 'name' => 'CharacterPanel',
@@ -781,4 +697,74 @@ return [
             ],
         ],
     ],
+
+    'navigation' => [
+        'default' => [
+            'home' => [
+                'label' => 'Home',
+                'route' => 'PServerCore',
+            ],
+            'download' => [
+                'label' => 'Download',
+                'route' => 'PServerCore/site-download',
+            ],
+            'ranking' => [
+                'label' => 'Ranking',
+                'route' => 'PServerRanking/ranking',
+                'params' => [
+                    'action' => 'top-player',
+                ],
+                'pages' => [
+                    '1_position' => [
+                        'label' => 'Top Player',
+                        'route' => 'PServerRanking/ranking',
+                        'params' => [
+                            'action' => 'top-player',
+                        ],
+                    ],
+                    '2_position' => [
+                        'label' => 'Top Guild',
+                        'route' => 'PServerRanking/ranking',
+                        'params' => [
+                            'action' => 'top-guild',
+                        ],
+                    ],
+                ],
+            ],
+            'server-info' => [
+                'label' => 'ServerInfo',
+                'route' => 'PServerCore/site-detail',
+                'pages' => [
+                    '1_position' => [
+                        'label' => 'FAQ',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'faq',
+                        ],
+                    ],
+                    '2_position' => [
+                        'label' => 'Rules',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'rules',
+                        ],
+                    ],
+                    '3_position' => [
+                        'label' => 'Guides',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'guides',
+                        ],
+                    ],
+                    '4_position' => [
+                        'label' => 'Events',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'events',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ]
 ];

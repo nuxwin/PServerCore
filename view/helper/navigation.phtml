@@ -1,78 +1,55 @@
-<nav class="navbar navbar-default" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-            <span class="sr-only"><?= $this->translate( 'Toggle navigation' ) ?></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="<?= $this->url( 'PServerCore' ) ?>"></a>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="nav navbar-nav navbar-right">
-            <?php foreach($this->navigation as $entry):
-
-                // skip empty navigation section
-                if (!$entry) {
-                    continue;
-                }
-
-                $routeParams = isset($entry['route']['params'])?$entry['route']['params']:[];
-                $hasChildren = isset($entry['children']);
-                $externalHref = isset($entry['external']);
-
-                if ($externalHref) {
-                    ?>
-                    <li class="navigation">
-                        <a href="<?= $entry['external'] ?>" target="_blank">
-                            <?= $this->translate($entry['name']) ?>
-                        </a>
-                    </li>
-                    <?php
-                } elseif ($this->isAllowed($entry['route']['name'])) {
-                    ?>
-                    <li class="
-                            navigation
-                            <?= $this->active($entry['route']['name'], $routeParams)?' active':'' ?>
-                            <?= $hasChildren?'dropdown':'' ?>
-                        ">
-                        <?php $url = $hasChildren?'#':$this->url($entry['route']['name'], $routeParams); ?>
-                        <a href="<?= $url ?>" <?= $hasChildren?'data-toggle="dropdown"':'' ?>>
-                            <?= $this->translate($entry['name']) ?> <?= $hasChildren?'<span class="caret"></span></a>':'' ?>
-                        </a>
-                        <?php
-                        // sub entries, alias children
-                        if ($hasChildren) :
-                            ?>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <?php foreach ($entry['children'] as $childrenEntry) :
-
-                                    // skip empty section
-                                    if (!$childrenEntry) {
-                                        continue;
-                                    }
-
-                                    $routeParams = isset($childrenEntry['route']['params'])?$childrenEntry['route']['params']:[];
-
-                                    if ($this->isAllowed($childrenEntry['route']['name'])) :
-                                        ?>
-                                        <li class="<?= $this->active($childrenEntry['route']['name'], $routeParams)?'active':'' ?>">
-                                            <?php $url = $this->url($childrenEntry['route']['name'], $routeParams); ?>
-                                            <a href="<?= $url ?>">
-                                                <?= $this->translate($childrenEntry['name']) ?>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endif;
-                                endforeach;
+<?php
+/* @var $container Zend\Navigation\Navigation */
+$container = $this->container;
+?>
+<ul class="nav navbar-nav navbar-right">
+    <?php foreach ($container as $page): ?>
+        <?php if (!$this->navigation()->accept($page)) {
+            continue;
+        }
+        $hasPages = $page->hasPages();
+        ?>
+        <li class="navigation<?= $hasPages ? ' dropdown' : ''; ?><?= $page->isActive(true) ? ' active' : '' ?>">
+            <a class="<?= $page->getClass() ?>"
+               href="<?= $hasPages ? '#' : $page->getHref() ?>"
+                <?php if (null !== $page->getTarget()): ?>
+                    target="<?= $page->getTarget(); ?>"
+                <?php endif; ?>
+                <?= $hasPages?'data-toggle="dropdown"':'' ?>
+            >
+                <?= $this->escapeHtml(
+                        $this->translate(
+                            $page->getLabel(),
+                            $this->navigation($container)->getTranslatorTextDomain()
+                        )
+                    );
+                ?>
+                <?= $hasPages ? '<span class="caret"></span></a>' : '' ?>
+            </a>
+            <?php if ($hasPages) : ?>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <?php /** @var Zend\Navigation\Page\AbstractPage $child */ ?>
+                    <?php foreach ($page->getPages() as $child): ?>
+                        <?php if (!$this->navigation()->accept($child)) {
+                            continue;
+                        } ?>
+                        <li<?php if ($child->isActive(true)) echo ' class="active"' ?>>
+                            <a href="<?= $child->getHref() ?>"
+                                <?php if (null !== $child->getTarget()): ?>
+                                    target="<?= $child->getTarget(); ?>"
+                                <?php endif; ?> >
+                                <?= $this->escapeHtml(
+                                        $this->translate(
+                                            $child->getLabel(),
+                                            $this->navigation($container)->getTranslatorTextDomain()
+                                        )
+                                    );
                                 ?>
-                            </ul>
-                        <?php endif; ?>
-                    </li>
-                <?php
-                }
-            endforeach;
-            ?>
-        </ul>
-    </div>
-</nav>
+                            </a>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+            <?php endif; ?>
+        </li>
+    <?php endforeach ?>
+</ul>

@@ -3,33 +3,34 @@
 
 namespace PServerCore\View\Helper;
 
+use BjyAuthorize\Service\Authorize;
 use Zend\View\Helper\AbstractHelper;
-use Zend\View\Model\ViewModel;
+use Zend\View\Helper\Navigation;
 
 class NavigationWidget extends AbstractHelper
 {
-    /** @var  array */
-    protected $config;
+    /** @var Authorize */
+    protected $authorize;
 
     /**
      * NavigationWidget constructor.
-     * @param array $config
+     * @param Authorize $authorize
      */
-    public function __construct(array $config)
+    public function __construct(Authorize $authorize)
     {
-        $this->config = $config;
+        $this->authorize = $authorize;
     }
 
     /**
-     * @return string
+     * @return Navigation
      */
     public function __invoke()
     {
-        $viewModel = new ViewModel([
-            'navigation' => $this->config['navigation']
-        ]);
-        $viewModel->setTemplate('p-server-core/navigation');
+        /** @var Navigation $navigation */
+        $navigation = $this->getView()->navigation();
+        $navigation->setAcl($this->authorize->getAcl());
+        $navigation->setRole($this->authorize->getIdentity());
 
-        return $this->getView()->render($viewModel);
+        return $navigation;
     }
 }

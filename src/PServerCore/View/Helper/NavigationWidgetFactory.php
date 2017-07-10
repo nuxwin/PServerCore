@@ -2,6 +2,7 @@
 
 namespace PServerCore\View\Helper;
 
+use BjyAuthorize\Service\Authorize;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -16,7 +17,7 @@ class NavigationWidgetFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new NavigationWidget(
-            $container->get('config')['pserver']
+            $container->get(Authorize::class)
         );
     }
 
