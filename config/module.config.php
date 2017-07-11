@@ -254,6 +254,7 @@ return [
             'donateSum' => Helper\DonateSum::class,
             'donateCounter' => Helper\DonateCounter::class,
             'navigationWidgetPServerCore' => Helper\NavigationWidget::class,
+            'accountNavigationWidgetPServerCore' => Helper\AccountNavigationWidget::class,
             'dateTimeFormatTime' => Helper\DateTimeFormat::class,
             'newsWidget' => Helper\NewsWidget::class,
             'loggedInWidgetPServerCore' => Helper\LoggedInWidget::class,
@@ -275,6 +276,7 @@ return [
             Helper\DonateSum::class => Helper\DonateSumFactory::class,
             Helper\DonateCounter::class => Helper\DonateCounterFactory::class,
             Helper\NavigationWidget::class => Helper\NavigationWidgetFactory::class,
+            Helper\AccountNavigationWidget::class => Helper\AccountNavigationFactory::class,
             Helper\DateTimeFormat::class => Helper\DateTimeFormatFactory::class,
             Helper\NewsWidget::class => Helper\NewsFactory::class,
             Helper\LoggedInWidget::class => Helper\LoggedInFactory::class,
@@ -321,6 +323,7 @@ return [
             'small-user/logout-page' => __DIR__ . '/../view/p-server-core/auth/logout-page.twig',
             'p-server-core/paginator' => __DIR__ . '/../view/helper/paginator.phtml',
             'p-server-core/navigation' => __DIR__ . '/../view/helper/navigation.phtml',
+            'p-server-core/account-navigation' => __DIR__ . '/../view/helper/account-navigation.phtml',
             'helper/captcha-image-reload' => __DIR__ . '/../view/helper/captcha-image-reload.phtml',
             'helper/coins-info-widget' => __DIR__ . '/../view/helper/coins-info-widget.phtml',
         ],
@@ -598,50 +601,6 @@ return [
             'user_extension' => Entity\UserExtension::class,
             'user_role' => Entity\UserRole::class,
         ],
-        'logged_in' => [
-            'character' => [
-                'name' => 'CharacterPanel',
-                'route' => [
-                    'name' => 'PServerPanel/character',
-                ],
-                'class' => 'fa fa-diamond'
-            ],
-            'account_panel' => [
-                'name' => 'AccountPanel',
-                'route' => [
-                    'name' => 'PServerCore/user',
-                ],
-                'class' => 'glyphicon glyphicon-user'
-            ],
-            'ticket_system' => [
-                'name' => 'TicketSystem',
-                'route' => [
-                    'name' => 'zfc-ticketsystem',
-                ],
-                'class' => 'fa fa-graduation-cap'
-            ],
-            'donate' => [
-                'name' => 'Donate',
-                'route' => [
-                    'name' => 'PServerCore/panel_donate',
-                ],
-                'class' => 'fa fa-usd'
-            ],
-            'vote4coins' => [
-                'name' => 'Vote4Coins',
-                'route' => [
-                    'name' => 'PServerPanel/vote',
-                ],
-                'class' => 'fa fa-gamepad'
-            ],
-            'admin_panel' => [
-                'name' => 'AdminPanel',
-                'route' => [
-                    'name' => 'PServerAdmin/home',
-                ],
-                'class' => 'fa fa-graduation-cap'
-            ],
-        ],
         'payment-api' => [
             'ban-time' => '946681200',
         ],
@@ -776,5 +735,43 @@ return [
                 ],
             ],
         ],
-    ]
+        'account' => [
+            'character' => [
+                'label' => 'CharacterPanel',
+                'route' => 'PServerPanel/character',
+                'resource' => 'PServerPanel/character',
+                'icon' => 'fa fa-diamond',
+            ],
+            'account_panel' => [
+                'label' => 'AccountPanel',
+                'route' => 'PServerCore/user',
+                'resource' => 'PServerCore/user',
+                'icon' => 'glyphicon glyphicon-user',
+            ],
+            'ticket_system' => [
+                'label' => 'TicketSystem',
+                'route' => 'zfc-ticketsystem',
+                'resource' => 'zfc-ticketsystem',
+                'icon' => 'fa fa-graduation-cap',
+            ],
+            'donate' => [
+                'label' => 'Donate',
+                'route' => 'PServerCore/panel_donate',
+                'resource' => 'PServerCore/panel_donate',
+                'icon' => 'fa fa-usd',
+            ],
+            'vote4coins' => [
+                'label' => 'Vote4Coins',
+                'route' => 'PServerPanel/vote',
+                'resource' => 'PServerPanel/vote',
+                'icon' => 'fa fa-gamepad',
+            ],
+            'admin_panel' => [
+                'label' => 'AdminPanel',
+                'route' => 'PServerAdmin/home',
+                'resource' => 'PServerAdmin/home',
+                'icon' => 'fa fa-graduation-cap',
+            ],
+        ],
+    ],
 ];

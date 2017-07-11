@@ -8,24 +8,11 @@
         <i class="fa-refresh fa coins-widget-reload" data-url="<?= $this->url('PServerCore/coins', ['action' => 'reload-widget']); ?>"></i>
     <?php endif; ?>
     <hr/>
-    <ul class="list-unstyled">
-        <?php foreach($this->loggedIn as $entry):
-
-            // we want to deactivate a entry
-            if (null === $entry) {
-                continue;
-            }
-
-            $routeParams = isset($entry['route']['params'])?$entry['route']['params']:[];
-            ?>
-            <?php if($this->isAllowed($entry['route']['name'])): ?>
-            <li>
-                <a href="<?= $this->url($entry['route']['name'], $routeParams) ?>" class="btn btn-info btn-block">
-                    <i class="<?= $entry['class'] ?>"></i>
-                    <?= $this->translate($entry['name']) ?>
-                </a>
-            </li>
-        <?php endif; ?>
-        <?php endforeach; ?>
-    </ul>
+    <div class="sidebar-nav">
+        <div class="navbar navbar-default" role="navigation">
+            <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                <?= $this->navigation()->menu('Zend\\Navigation\\Account')->setPartial('p-server-core/account-navigation') ?>
+            </div>
+        </div>
+    </div>
 </div>

@@ -10,20 +10,14 @@ class LoggedInWidget extends AbstractHelper
 {
     /** @var  AuthenticationService */
     protected $authService;
-    /** @var  array */
-    protected $config;
 
     /**
      * LoggedInWidget constructor.
      * @param AuthenticationService $authService
-     * @param array $config
      */
-    public function __construct(
-        AuthenticationService $authService,
-        array $config
-    ) {
+    public function __construct(AuthenticationService $authService)
+    {
         $this->authService = $authService;
-        $this->config = $config;
     }
 
     /**
@@ -37,7 +31,6 @@ class LoggedInWidget extends AbstractHelper
             $user = $this->authService->getIdentity();
             $viewModel = new ViewModel([
                 'user' => $user,
-                'loggedIn' => $this->config['logged_in']
             ]);
             $viewModel->setTemplate('helper/sidebarLoggedInWidget');
             $template = $this->getView()->render($viewModel);

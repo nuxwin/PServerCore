@@ -16,8 +16,7 @@ class LoggedInFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new LoggedInWidget(
-            $container->get('small_user_auth_service'),
-            $container->get('config')['pserver']
+            $container->get('small_user_auth_service')
         );
     }
 
