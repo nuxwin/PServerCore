@@ -11,7 +11,7 @@ $container = $this->container;
         ?>
         <li class="navigation<?= $hasPages ? ' dropdown' : ''; ?><?= $page->isActive(true) ? ' active' : '' ?>">
             <a class="<?= $page->getClass() ?>"
-               href="<?= $hasPages ? '#' : $page->getHref() ?>"
+               href="<?= $page->getHref() ?>"
                 <?php if (null !== $page->getTarget()): ?>
                     target="<?= $page->getTarget(); ?>"
                 <?php endif; ?>

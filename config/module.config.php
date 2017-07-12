@@ -254,7 +254,6 @@ return [
             'donateSum' => Helper\DonateSum::class,
             'donateCounter' => Helper\DonateCounter::class,
             'navigationWidgetPServerCore' => Helper\NavigationWidget::class,
-            'accountNavigationWidgetPServerCore' => Helper\AccountNavigationWidget::class,
             'dateTimeFormatTime' => Helper\DateTimeFormat::class,
             'newsWidget' => Helper\NewsWidget::class,
             'loggedInWidgetPServerCore' => Helper\LoggedInWidget::class,
@@ -276,7 +275,6 @@ return [
             Helper\DonateSum::class => Helper\DonateSumFactory::class,
             Helper\DonateCounter::class => Helper\DonateCounterFactory::class,
             Helper\NavigationWidget::class => Helper\NavigationWidgetFactory::class,
-            Helper\AccountNavigationWidget::class => Helper\AccountNavigationFactory::class,
             Helper\DateTimeFormat::class => Helper\DateTimeFormatFactory::class,
             Helper\NewsWidget::class => Helper\NewsFactory::class,
             Helper\LoggedInWidget::class => Helper\LoggedInFactory::class,
@@ -324,6 +322,7 @@ return [
             'p-server-core/paginator' => __DIR__ . '/../view/helper/paginator.phtml',
             'p-server-core/navigation' => __DIR__ . '/../view/helper/navigation.phtml',
             'p-server-core/account-navigation' => __DIR__ . '/../view/helper/account-navigation.phtml',
+            'p-server-core/footer-navigation' => __DIR__ . '/../view/helper/footer-navigation.phtml',
             'helper/captcha-image-reload' => __DIR__ . '/../view/helper/captcha-image-reload.phtml',
             'helper/coins-info-widget' => __DIR__ . '/../view/helper/coins-info-widget.phtml',
         ],
@@ -656,7 +655,6 @@ return [
             ],
         ],
     ],
-
     'navigation' => [
         'default' => [
             'home' => [
@@ -671,10 +669,7 @@ return [
             ],
             'ranking' => [
                 'label' => 'Ranking',
-                'route' => 'PServerRanking/ranking',
-                'params' => [
-                    'action' => 'top-player',
-                ],
+                'uri' => '#',
                 'resource' => 'PServerRanking/ranking',
                 'pages' => [
                     '1_position' => [
@@ -697,8 +692,7 @@ return [
             ],
             'server-info' => [
                 'label' => 'ServerInfo',
-                'route' => 'PServerCore/site-detail',
-                'resource' => 'PServerCore/site-detail',
+                'uri' => '#',
                 'pages' => [
                     '1_position' => [
                         'label' => 'FAQ',
@@ -771,6 +765,86 @@ return [
                 'route' => 'PServerAdmin/home',
                 'resource' => 'PServerAdmin/home',
                 'icon' => 'fa fa-graduation-cap',
+            ],
+        ],
+        'footer' => [
+            'server-info' => [
+                'label' => 'ServerInfo',
+                'uri' => '#',
+                'pages' => [
+                    '1_position' => [
+                        'label' => 'FAQ',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'faq',
+                        ],
+                        'resource' => 'PServerCore/site-detail',
+                    ],
+                    '2_position' => [
+                        'label' => 'Rules',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'rules',
+                        ],
+                        'resource' => 'PServerCore/site-detail',
+                    ],
+                    '3_position' => [
+                        'label' => 'Guides',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'guides',
+                        ],
+                        'resource' => 'PServerCore/site-detail',
+                    ],
+                    '4_position' => [
+                        'label' => 'Events',
+                        'route' => 'PServerCore/site-detail',
+                        'params' => [
+                            'type' => 'events',
+                        ],
+                        'resource' => 'PServerCore/site-detail',
+                    ],
+                ],
+            ],
+            'policies' => [
+                'label' => 'Policy',
+                'uri' => '#',
+                'pages' => [
+                    'terms' => [
+                        'label' => 'Terms & conditions',
+                        'uri' => '#'
+                    ],
+                    'policy' => [
+                        'label' => 'Privacy policy',
+                        'uri' => '#'
+                    ],
+                ],
+            ],
+            'social' => [
+                'label' => 'Social',
+                'uri' => '#',
+                'pages' => [
+                    'facebook' => [
+                        'label' => 'Facebook',
+                        'target' => '_blank',
+                        'uri' => '#'
+                    ],
+                    'youtube' => [
+                        'label' => 'Youtube',
+                        'target' => '_blank',
+                        'uri' => 'https://www.youtube.com/'
+                    ],
+                    'github' => [
+                        'label' => 'KoKsPfLaNzE',
+                        'target' => '_blank',
+                        'uri' => 'https://github.com/kokspflanze',
+                    ],
+                    'forum' => [
+                        'label' => 'Forum',
+                        'target' => '_blank',
+                        'uri' => '#'
+                    ],
+                ],
             ],
         ],
     ],
