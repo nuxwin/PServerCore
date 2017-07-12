@@ -7,6 +7,7 @@ use PServerCore\Options;
 use PServerCore\View\Helper;
 use PServerCore\Form;
 use PServerCore\Service;
+use Zend\Navigation\Service\NavigationAbstractServiceFactory;
 use Zend\Router\Http;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -133,6 +134,7 @@ return [
         'abstract_factories' => [
             \Zend\Cache\Service\StorageCacheAbstractServiceFactory::class,
             \Zend\Log\LoggerAbstractServiceFactory::class,
+            NavigationAbstractServiceFactory::class => NavigationAbstractServiceFactory::class,
         ],
         'aliases' => [
             'translator' => 'MvcTranslator',
