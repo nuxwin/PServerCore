@@ -8,7 +8,7 @@ use Zend\Form\Element\DateTimeLocal;
 class DateTimeJQuery extends DateTimeLocal
 {
     /** @var string */
-    const DATETIME_LOCAL_FORMAT = 'Y-m-d';
+    const DATETIME_FORMAT = 'Y-m-d';
 
     /**
      * Seed attributes
@@ -20,6 +20,6 @@ class DateTimeJQuery extends DateTimeLocal
     ];
 
     /** @var string */
-    protected $format = self::DATETIME_LOCAL_FORMAT;
+    protected $format = self::DATETIME_FORMAT;
 
 }
