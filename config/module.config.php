@@ -767,7 +767,7 @@ return [
                 'route' => 'PServerAdmin/home',
                 'resource' => 'PServerAdmin/home',
                 'icon' => 'fa fa-graduation-cap',
-                'order' => -100,
+                'order' => 100,
             ],
         ],
         'footer' => [
