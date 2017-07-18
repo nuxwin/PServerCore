@@ -716,35 +716,26 @@ return [
                 'uri' => '#',
                 'visible' => false,
                 'pages' => [
-                    'character' => [
-                        'label' => 'CharacterPanel',
-                        'route' => 'PServerPanel/character',
-                        'resource' => 'PServerPanel/character',
-                        'icon' => 'fa fa-diamond',
-                    ],
                     'account_panel' => [
                         'label' => 'AccountPanel',
                         'route' => 'PServerCore/user',
                         'resource' => 'PServerCore/user',
                         'icon' => 'glyphicon glyphicon-user',
+                        'order' => -30,
                     ],
                     'ticket_system' => [
                         'label' => 'TicketSystem',
                         'route' => 'zfc-ticketsystem',
                         'resource' => 'zfc-ticketsystem',
                         'icon' => 'fa fa-graduation-cap',
+                        'order' => -20,
                     ],
                     'donate' => [
                         'label' => 'Donate',
                         'route' => 'PServerCore/panel_donate',
                         'resource' => 'PServerCore/panel_donate',
                         'icon' => 'fa fa-usd',
-                    ],
-                    'vote4coins' => [
-                        'label' => 'Vote4Coins',
-                        'route' => 'PServerPanel/vote',
-                        'resource' => 'PServerPanel/vote',
-                        'icon' => 'fa fa-gamepad',
+                        'order' => -10,
                     ],
                     'admin_panel' => [
                         'label' => 'AdminPanel',
