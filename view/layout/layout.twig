@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>
-        {% block title %}{{ navigationWidgetPServerCore().findOneBy('active', 1).getLabel }}{% endblock title %} >> {{ translate('PServerCore') }}
+        {% block title %}{{ navigationWidgetPServerCore().menu('Zend\\Navigation\\Default').getContainer().findOneBy('active', true).getLabel }}{% endblock title %} >> {{ translate('PServerCore') }}
 	</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">

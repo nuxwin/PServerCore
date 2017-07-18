@@ -663,34 +663,13 @@ return [
                 'label' => 'Home',
                 'route' => 'PServerCore',
                 'resource' => 'PServerCore',
+                'order' => -9999,
             ],
             'download' => [
                 'label' => 'Download',
                 'route' => 'PServerCore/site-download',
                 'resource' => 'PServerCore/site-download',
-            ],
-            'ranking' => [
-                'label' => 'Ranking',
-                'uri' => '#',
-                'resource' => 'PServerRanking/ranking',
-                'pages' => [
-                    '1_position' => [
-                        'label' => 'Top Player',
-                        'route' => 'PServerRanking/ranking',
-                        'params' => [
-                            'action' => 'top-player',
-                        ],
-                        'resource' => 'PServerRanking/ranking',
-                    ],
-                    '2_position' => [
-                        'label' => 'Top Guild',
-                        'route' => 'PServerRanking/ranking',
-                        'params' => [
-                            'action' => 'top-guild',
-                        ],
-                        'resource' => 'PServerRanking/ranking',
-                    ],
-                ],
+                'order' => -100,
             ],
             'server-info' => [
                 'label' => 'ServerInfo',
@@ -729,6 +708,7 @@ return [
                         'resource' => 'PServerCore/site-detail',
                     ],
                 ],
+                'order' => 0,
             ],
             'account' => [
                 'id' => 'account',
