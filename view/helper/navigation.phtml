@@ -7,7 +7,16 @@ $container = $this->container;
         <?php if (!$this->navigation()->accept($page)) {
             continue;
         }
-        $hasPages = $page->hasPages();
+        $hasPages = false;
+
+        if ($page->hasPages()) :
+            foreach ($page->getPages() as $child) :
+                if ($this->navigation()->accept($child)) :
+                    $hasPages = true;
+                    break;
+                endif;
+            endforeach;
+        endif;
         ?>
         <li class="navigation<?= $hasPages ? ' dropdown' : ''; ?><?= $page->isActive(true) ? ' active' : '' ?>">
             <a class="<?= $page->getClass() ?>"
