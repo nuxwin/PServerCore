@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>
-		{% block title %}{% endblock title %} >> {{ translate('PServerCore') }}
+        {% block title %}{{ navigationWidgetPServerCore().findOneBy('active', 1).getLabel }}{% endblock title %} >> {{ translate('PServerCore') }}
 	</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,7 +64,11 @@
 	<!--=== Breadcrumbs ===-->
 	<div class="breadcrumbs margin-bottom-30">
 		<div class="container">
-			<h1 class="pull-left">{{ block('title') }}</h1>
+			<h1>
+				{{ block('title') }}
+				<small class="pull-right">{{ navigationWidgetPServerCore().breadcrumbs().setMinDepth(0).setRenderInvisible(true).setSeparator(' / ')|raw }}</small>
+				<span class="clearfix"></span>
+			</h1>
 		</div><!--/container-->
 	</div><!--/breadcrumbs-->
 	<div class="clearfix"></div>

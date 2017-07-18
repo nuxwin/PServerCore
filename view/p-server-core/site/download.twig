@@ -1,9 +1,5 @@
 {% extends 'layout/layout' %}
 
-{% block title %}
-	{{ translate('Download') }}
-{% endblock title %}
-
 {% block content %}
 	{% for key, download in downloadList %}
 		<a href="{{ download.getLink }}" target="_blank">
