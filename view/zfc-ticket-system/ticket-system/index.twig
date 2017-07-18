@@ -1,9 +1,5 @@
 {% extends 'layout/layout' %}
 
-{% block title %}
-	{{ translate('TicketSystem') }}
-{% endblock title %}
-
 {% block content %}
 	<a href="{{ url('zfc-ticketsystem', {'action':'new'}) }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ translate('new ticket') }}</a>
 	<div class="clearfix"></div>

@@ -1,31 +1,36 @@
 <?php
 /* @var $container Zend\Navigation\Navigation */
 $container = $this->container;
-?>
-<ul class="nav navbar-nav">
-    <?php foreach ($container as $page): ?>
-        <?php if (!$this->navigation()->accept($page)) {
-            continue;
-        }
-        ?>
-        <li class="<?= $page->isActive(true) ? 'active' : '' ?>">
-            <a class="<?= $page->getClass() ?>"
-               href="<?= $page->getHref() ?>"
-                <?php if (null !== $page->getTarget()): ?>
-                    target="<?= $page->getTarget(); ?>"
-                <?php endif; ?>
-            >
-                <?php if (isset($page->icon)) : ?>
-                    <i class="<?= $page->get('icon') ?>"></i>
-                <?php endif; ?>
-                <?= $this->escapeHtml(
-                    $this->translate(
-                        $page->getLabel(),
-                        $this->navigation($container)->getTranslatorTextDomain()
-                    )
-                );
-                ?>
-            </a>
-        </li>
-    <?php endforeach ?>
-</ul>
+$accountPage = $container->findOneBy('id', 'account');
+if ($accountPage):
+    ?>
+    <ul class="nav navbar-nav">
+        <?php
+        /** @var \Zend\Navigation\Page\AbstractPage $page */
+        foreach ($accountPage->getPages() as $page): ?>
+            <?php if (!$this->navigation()->accept($page, false)) {
+                continue;
+            }
+            ?>
+            <li class="<?= $page->isActive(true) ? 'active' : '' ?>">
+                <a class="<?= $page->getClass() ?>"
+                   href="<?= $page->getHref() ?>"
+                    <?php if (null !== $page->getTarget()): ?>
+                        target="<?= $page->getTarget(); ?>"
+                    <?php endif; ?>
+                >
+                    <?php if (isset($page->icon)) : ?>
+                        <i class="<?= $page->get('icon') ?>"></i>
+                    <?php endif; ?>
+                    <?= $this->escapeHtml(
+                        $this->translate(
+                            $page->getLabel(),
+                            $this->navigation($container)->getTranslatorTextDomain()
+                        )
+                    );
+                    ?>
+                </a>
+            </li>
+        <?php endforeach ?>
+    </ul>
+<?php endif; ?>
