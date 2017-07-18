@@ -1,9 +1,5 @@
 {% extends 'layout/layout' %}
 
-{% block title %}
-    {{ translate('TicketSystem') }}
-{% endblock title %}
-
 {% block content %}
 	{{ formWidget(form) }}
 	{% for key, curEntry in entry %}

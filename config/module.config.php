@@ -729,6 +729,20 @@ return [
                         'resource' => 'zfc-ticketsystem',
                         'icon' => 'fa fa-graduation-cap',
                         'order' => -20,
+                        'pages' => [
+                            'details' => [
+                                'label' => 'Details',
+                                'action' => 'view',
+                                'route' => 'zfc-ticketsystem',
+                                'visible' => false,
+                            ],
+                            'new' => [
+                                'label' => 'New',
+                                'action' => 'new',
+                                'route' => 'zfc-ticketsystem',
+                                'visible' => false,
+                            ],
+                        ],
                     ],
                     'donate' => [
                         'label' => 'Donate',
