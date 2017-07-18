@@ -7,7 +7,7 @@ if ($accountPage):
     <ul class="nav navbar-nav">
         <?php
         /** @var \Zend\Navigation\Page\AbstractPage $page */
-        foreach ($accountPage->getPages() as $page): ?>
+        foreach ($accountPage as $page): ?>
             <?php if (!$this->navigation()->accept($page, false)) {
                 continue;
             }

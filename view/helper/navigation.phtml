@@ -38,7 +38,7 @@ $container = $this->container;
             <?php if ($hasPages) : ?>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                     <?php /** @var Zend\Navigation\Page\AbstractPage $child */ ?>
-                    <?php foreach ($page->getPages() as $child): ?>
+                    <?php foreach ($page as $child): ?>
                         <?php if (!$this->navigation()->accept($child)) {
                             continue;
                         } ?>
