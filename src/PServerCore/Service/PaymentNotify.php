@@ -175,6 +175,9 @@ class PaymentNotify implements LogInterface
             case Request::PROVIDER_PAY_PAL:
                 $result = DonateLog::TYPE_PAY_PAL;
                 break;
+            case Request::PROVIDER_SOFORT:
+                $result = DonateLog::TYPE_SOFORT;
+                break;
         }
 
         return $result;

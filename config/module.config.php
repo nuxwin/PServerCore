@@ -609,6 +609,21 @@ return [
             Guard\UserBlock::class,
             Guard\UserRefresh::class,
         ],
+        'donate' => [
+            'sofort' => [
+                /**
+                 *  example packages
+                'package_1' => [
+                    'price' => 12.4, // must be a float
+                    'amount' => 100, // must be a integer
+                ],
+                'package_2' => [
+                    'price' => 12., // that is a float with a "." at the end
+                    'amount' => 100,
+                ],
+                 */
+            ],
+        ],
     ],
     'authenticationadapter' => [
         'odm_default' => [

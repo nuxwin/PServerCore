@@ -16,6 +16,7 @@ class DonateLog
     const TYPE_SUPER_REWARD = 'superreward';
     const TYPE_XSOLLA = 'xsolla';
     const TYPE_PAY_PAL = 'paypal';
+    const TYPE_SOFORT = 'sofort';
     const TYPE_INTERNAL = 'internal';
 
     const STATUS_SUCCESS = 1;
