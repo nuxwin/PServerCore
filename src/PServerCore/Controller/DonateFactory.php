@@ -19,7 +19,7 @@ class DonateFactory implements FactoryInterface
         return new DonateController(
             $container->get('small_user_service'),
             $container->get(Sofortueberweisung::class),
-            $container->get('config')['p-server']['donate']['sofort']
+            $container->get('config')['pserver']['donate']['sofort']
         );
     }
 
