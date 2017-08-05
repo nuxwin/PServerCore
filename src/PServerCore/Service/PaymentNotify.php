@@ -3,12 +3,11 @@
 namespace PServerCore\Service;
 
 use Doctrine\ORM\EntityManager;
-use Exception;
 use PaymentAPI\Provider\Request;
-use PaymentAPI\Service\AlreadyAddedException;
-use PaymentAPI\Service\LogInterface;
+use PaymentAPI\Service\{AlreadyAddedException, InValidUserException, LogInterface};
 use PServerCore\Entity\DonateLog;
 use PServerCore\Options\Collection;
+use Throwable;
 
 class PaymentNotify implements LogInterface
 {
@@ -60,7 +59,7 @@ class PaymentNotify implements LogInterface
     {
         $user = $this->getUser4Id($request->getUserId());
         if (!$user) {
-            throw new \Exception('User not found');
+            throw new InValidUserException('User not found');
         }
 
         // we already added add the reward, so skip this =)
@@ -78,7 +77,7 @@ class PaymentNotify implements LogInterface
         $errorMessage = '';
         try {
             $this->coinService->addCoins($user, $request->getAmount());
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $request->setStatus($request::STATUS_ERROR);
             $errorMessage = $e->getMessage();
         }
@@ -99,10 +98,10 @@ class PaymentNotify implements LogInterface
      * Method to log the error
      *
      * @param Request $request
-     * @param Exception $e
+     * @param Throwable $e
      * @return bool
      */
-    public function error(Request $request, Exception $e)
+    public function error(Request $request, Throwable $e)
     {
         $user = $this->getUser4Id($request->getUserId());
 
