@@ -52,7 +52,7 @@
     "zendframework/zend-navigation": "^2.8.2",
     "doctrine/doctrine-orm-module": "^1.1.3",
     "kokspflanze/game-backend": "~0.9",
-    "kokspflanze/payment-api": "^1.4.0",
+    "kokspflanze/payment-api": "^1.5.0",
     "kokspflanze/zfc-bbcode": "^2.1.1",
     "san/san-captcha": "^0.0.4",
     "kokspflanze/small-user": "^1.1.0",
