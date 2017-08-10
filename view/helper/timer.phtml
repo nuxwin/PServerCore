@@ -14,7 +14,7 @@
                         <?= $this->escapeHtml($curTimer['text']) ?>
                     <?php endif; ?>
                     <?php if (isset($curTimer['timers'])) : ?>
-                        <ul>
+                        <ul style="list-style: none;">
                             <?php foreach ($curTimer['timers'] as $subTimer) : ?>
                                 <li><i class="<?= $this->escapeHtml($subTimer['icon']) ?>"></i>
                                     <?= $subTimer['name'] ?>:
