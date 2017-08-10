@@ -2,14 +2,14 @@
     <h3><?= $this->translate('Servertime') ?></h3>
     <hr/>
     <ul class="list-unstyled">
-        <li><i class="fa fa-clock-o"></i> <?= $this->translate('Servertime') ?>: <span id="idTimerClock"><?php echo date('H:i:s') ?></span></li>
+        <li><i class="fa fa-clock-o"></i> <?= $this->translate('Servertime') ?>: <span id="idTimerClock"><?= date('H:i:s') ?></span></li>
         <?php $i = 0; ?>
-        <?php if ((bool)$this->timer ): ?>
+        <?php if ((bool)$this->timer): ?>
             <?php foreach ($this->timer as $curTimer) : ?>
                 <li><i class="<?= $this->escapeHtml($curTimer['icon']) ?>"></i>
                     <?= $curTimer['name'] ?>:
                     <?php if ($curTimer['time'] > 0): ?>
-                        <span class="timerCountdown" id="<?php echo 'idTimeCountdown_' . $i++; ?>" data-time="<?= $curTimer['time'] ?>"></span>
+                        <span class="timerCountdown" id="<?= 'idTimeCountdown_' . $i++; ?>" data-time="<?= $curTimer['time'] ?>"></span>
                     <?php else: ?>
                         <?= $this->escapeHtml($curTimer['text']) ?>
                     <?php endif; ?>
@@ -19,7 +19,7 @@
                                 <li><i class="<?= $this->escapeHtml($subTimer['icon']) ?>"></i>
                                     <?= $subTimer['name'] ?>:
                                     <?php if ($subTimer['time'] > 0): ?>
-                                        <span class="timerCountdown" id="<?php echo 'idTimeCountdown_' . $i++; ?>" data-time="<?= $subTimer['time'] ?>"></span>
+                                        <span class="timerCountdown" id="<?= 'idTimeCountdown_' . $i++; ?>" data-time="<?= $subTimer['time'] ?>"></span>
                                     <?php else: ?>
                                         <?= $this->escapeHtml($subTimer['text']) ?>
                                     <?php endif; ?>
