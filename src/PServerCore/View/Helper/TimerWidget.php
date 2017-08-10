@@ -48,34 +48,59 @@ class TimerWidget extends AbstractHelper
     protected function getTimer()
     {
         if (!$this->timeCache) {
-            $timerConfig = isset($this->config['timer']) ? $this->config['timer'] : [];
+            $timerConfig = $this->config['timer'] ?? [];
 
             if ($timerConfig) {
                 foreach ($timerConfig as $data) {
-                    $time = 0;
-                    $text = '';
-
-                    if (!isset($data['type'])) {
-                        if (isset($data['days'])) {
-                            $time = $this->timeService->getNextTimeDay($data['days'], $data['hour'],
-                                $data['min']);
-                        } else {
-                            $time = $this->timeService->getNextTime($data['hours'], $data['min']);
-                        }
-                    } else {
-                        $text = $data['time'];
-                    }
-
-                    $this->timeCache[] = [
-                        'time' => $time,
-                        'text' => $text,
-                        'name' => $data['name'],
-                        'icon' => $data['icon']
-                    ];
+                    $this->timeCache[] = $this->getTimeData($data);
                 }
             }
         }
 
         return $this->timeCache;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function getTimeData(array $data)
+    {
+        $time = 0;
+        $text = '';
+
+        if (!isset($data['type'])) {
+            if (isset($data['days'])) {
+                $time = $this->timeService->getNextTimeDay(
+                    $data['days'],
+                    $data['hour'],
+                    $data['min']
+                );
+            } else {
+                $time = $this->timeService->getNextTime($data['hours'], $data['min']);
+            }
+        } else {
+            $text = $data['time'];
+        }
+
+        $timerList = [];
+        if (!empty($data['timers'])) {
+            foreach ($data['timers'] as $timers) {
+                $timerList[] = $this->getTimeData($timers);
+            }
+        }
+
+        $result = [
+            'time' => $time,
+            'text' => $text,
+            'name' => $data['name'],
+            'icon' => $data['icon'],
+        ];
+
+        if ($timerList) {
+            $result['timers'] = $timerList;
+        }
+
+        return $result;
     }
 }
