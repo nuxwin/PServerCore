@@ -48,10 +48,8 @@ class TimerWidget extends AbstractHelper
     protected function getTimer()
     {
         if (!$this->timeCache) {
-            $timerConfig = $this->config['timer'] ?? [];
-
-            if ($timerConfig) {
-                foreach ($timerConfig as $data) {
+            if ($this->config) {
+                foreach ($this->config as $data) {
                     $this->timeCache[] = $this->getTimeData($data);
                 }
             }

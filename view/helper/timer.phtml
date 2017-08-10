@@ -15,7 +15,7 @@
                     <?php endif; ?>
                     <?php if (isset($curTimer['timers'])) : ?>
                         <ul>
-                            <?php foreach ($curTimer as $subTimer) : ?>
+                            <?php foreach ($curTimer['timers'] as $subTimer) : ?>
                                 <li><i class="<?= $this->escapeHtml($subTimer['icon']) ?>"></i>
                                     <?= $subTimer['name'] ?>:
                                     <?php if ($subTimer['time'] > 0): ?>

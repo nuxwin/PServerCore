@@ -624,6 +624,7 @@ return [
                  */
             ],
         ],
+        'timer' => [],
     ],
     'authenticationadapter' => [
         'odm_default' => [

@@ -17,7 +17,7 @@ class TimerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new TimerWidget(
-            $container->get('config')['pserver'],
+            $container->get('config')['pserver']['timer'],
             $container->get(Timer::class)
         );
     }
