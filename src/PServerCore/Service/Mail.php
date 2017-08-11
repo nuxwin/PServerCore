@@ -216,7 +216,7 @@ class Mail
     {
         $subjectList = $this->collectionOptions->getMailOptions()->getSubject();
         // added fallback if the key not exists, in the config
-        return isset($subjectList[$key]) ? $subjectList[$key] : $key;
+        return $subjectList[$key] ?? $key;
     }
 
     /**

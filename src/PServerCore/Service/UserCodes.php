@@ -66,11 +66,7 @@ class UserCodes
 
         if (!$expire) {
             $expireOption = $this->collectionOptions->getUserCodesOptions()->getExpire();
-            if (isset($expireOption[$type])) {
-                $expire = $expireOption[$type];
-            } else {
-                $expire = $expireOption['general'];
-            }
+            $expire = $expireOption[$type] ?? $expireOption['general'];
         }
 
         if ($expire) {

@@ -149,11 +149,7 @@ class DonateLog extends EntityRepository
             ->getQuery();
 
         $data = $query->getOneOrNullResult();
-        $result = 0;
-
-        if (isset($data['coins'])) {
-            $result = $data['coins'];
-        }
+        $result = $data['coins'] ?? 0;
 
         return $result;
     }
