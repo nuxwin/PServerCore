@@ -7,7 +7,9 @@ use PServerCore\Options\PasswordOptions;
 use PServerCore\Service\SecretQuestion;
 use PServerCore\Validator\PasswordRules;
 use PServerCore\Validator\SimilarText;
+use Zend\Filter;
 use Zend\InputFilter\InputFilter;
+use Zend\Validator;
 
 class PasswordFilter extends InputFilter
 {
@@ -39,10 +41,12 @@ class PasswordFilter extends InputFilter
         $this->add([
             'name' => 'password',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => Validator\StringLength::class,
                     'options' => [
                         'min' => $passwordLengthOptions['min'],
                         'max' => $passwordLengthOptions['max'],
@@ -55,17 +59,19 @@ class PasswordFilter extends InputFilter
         $this->add([
             'name' => 'passwordVerify',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => Validator\StringLength::class,
                     'options' => [
                         'min' => $passwordLengthOptions['min'],
                         'max' => $passwordLengthOptions['max'],
                     ],
                 ],
                 [
-                    'name' => 'Identical',
+                    'name' => Validator\Identical::class,
                     'options' => [
                         'token' => 'password',
                     ],
@@ -90,7 +96,9 @@ class PasswordFilter extends InputFilter
         $this->add([
             'name' => 'answer',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 $similarText,
             ],

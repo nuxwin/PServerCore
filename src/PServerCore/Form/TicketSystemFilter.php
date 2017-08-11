@@ -1,15 +1,14 @@
 <?php
 
-
 namespace PServerCore\Form;
-
 
 use Doctrine\ORM\EntityManager;
 use ZfcBBCode\Service\ParserInterface;
 use ZfcBBCode\Validator\BBCodeValid;
+use ZfcTicketSystem\Form\TicketSystemFilter as ZfcTicketSystemFilter;
 use ZfcTicketSystem\Options\EntityOptions;
 
-class TicketSystemFilter extends \ZfcTicketSystem\Form\TicketSystemFilter
+class TicketSystemFilter extends ZfcTicketSystemFilter
 {
     /**
      * @var EntityManager

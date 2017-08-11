@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Form;
 
 use ZfcBBCode\Service\ParserInterface;

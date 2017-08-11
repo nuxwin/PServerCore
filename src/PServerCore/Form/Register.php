@@ -3,6 +3,7 @@
 namespace PServerCore\Form;
 
 use Doctrine\ORM\EntityManager;
+use DoctrineModule\Form\Element\ObjectSelect;
 use PServerCore\Options\Collection;
 use Zend\Captcha\AdapterInterface;
 use Zend\Form;
@@ -106,7 +107,7 @@ class Register extends Form\Form
 
             $this->add([
                 'name' => 'question',
-                'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+                'type' => ObjectSelect::class,
                 'options' => [
                     'object_manager' => $this->entityManager,
                     'target_class' => $entityOptions->getSecretQuestion(),

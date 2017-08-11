@@ -4,6 +4,7 @@ namespace PServerCore\Form;
 
 use PServerCore\Validator\AbstractRecord;
 use Zend\InputFilter\InputFilter;
+use Zend\Validator;
 
 class PwLostFilter extends InputFilter
 {
@@ -22,7 +23,7 @@ class PwLostFilter extends InputFilter
             'required' => true,
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => Validator\StringLength::class,
                     'options' => [
                         'min' => 3,
                         'max' => 16,

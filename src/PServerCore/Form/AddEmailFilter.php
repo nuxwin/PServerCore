@@ -1,14 +1,14 @@
 <?php
 
-
 namespace PServerCore\Form;
 
 use Doctrine\ORM\EntityManager;
 use PServerCore\Options\Collection;
 use PServerCore\Validator;
 use PServerCore\Validator\AbstractRecord;
+use Zend\Filter;
 use Zend\InputFilter\InputFilter;
-use Zend\Validator\Hostname;
+use Zend\Validator as ZendValidator;
 
 class AddEmailFilter extends InputFilter
 {
@@ -36,12 +36,14 @@ class AddEmailFilter extends InputFilter
         $this->add([
             'name' => 'email',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class]
+            ],
             'validators' => [
                 [
-                    'name' => 'EmailAddress',
+                    'name' => ZendValidator\EmailAddress::class,
                     'options' => [
-                        'allow' => Hostname::ALLOW_DNS,
+                        'allow' => ZendValidator\Hostname::ALLOW_DNS,
                         'useMxCheck' => true,
                         'useDeepMxCheck' => true
                     ]
@@ -61,17 +63,19 @@ class AddEmailFilter extends InputFilter
         $this->add([
             'name' => 'emailVerify',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class]
+            ],
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => ZendValidator\StringLength::class,
                     'options' => [
                         'min' => 6,
                         'max' => 255,
                     ],
                 ],
                 [
-                    'name' => 'Identical',
+                    'name' => ZendValidator\Identical::class,
                     'options' => [
                         'token' => 'email',
                     ],

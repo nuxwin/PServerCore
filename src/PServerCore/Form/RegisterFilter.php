@@ -7,8 +7,10 @@ use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Options\Collection;
 use PServerCore\Validator;
 use PServerCore\Validator\AbstractRecord;
+use Zend\Filter;
+use Zend\I18n\Validator\Alnum;
 use Zend\InputFilter\InputFilter;
-use Zend\Validator\Hostname;
+use Zend\Validator as ZendValidator;
 
 class RegisterFilter extends InputFilter
 {
@@ -41,17 +43,19 @@ class RegisterFilter extends InputFilter
         $this->add([
             'name' => 'username',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => ZendValidator\StringLength::class,
                     'options' => [
                         'min' => $validationUsernameOptions['length']['min'],
                         'max' => $validationUsernameOptions['length']['max'],
                     ],
                 ],
                 [
-                    'name' => 'Alnum',
+                    'name' => Alnum::class,
                 ],
                 $this->getUsernameValidator(),
                 $this->getUserNameBackendNotExistsValidator()
@@ -61,12 +65,14 @@ class RegisterFilter extends InputFilter
         $this->add([
             'name' => 'email',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 [
-                    'name' => 'EmailAddress',
+                    'name' => ZendValidator\EmailAddress::class,
                     'options' => [
-                        'allow' => Hostname::ALLOW_DNS,
+                        'allow' => ZendValidator\Hostname::ALLOW_DNS,
                         'useMxCheck' => true,
                         'useDeepMxCheck' => true
                     ]
@@ -86,17 +92,19 @@ class RegisterFilter extends InputFilter
         $this->add([
             'name' => 'emailVerify',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => ZendValidator\StringLength::class,
                     'options' => [
                         'min' => 6,
                         'max' => 255,
                     ],
                 ],
                 [
-                    'name' => 'Identical',
+                    'name' => ZendValidator\Identical::class,
                     'options' => [
                         'token' => 'email',
                     ],
@@ -109,10 +117,12 @@ class RegisterFilter extends InputFilter
         $this->add([
             'name' => 'password',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => ZendValidator\StringLength::class,
                     'options' => [
                         'min' => $passwordLengthOptions['min'],
                         'max' => $passwordLengthOptions['max'],
@@ -125,17 +135,19 @@ class RegisterFilter extends InputFilter
         $this->add([
             'name' => 'passwordVerify',
             'required' => true,
-            'filters' => [['name' => 'StringTrim']],
+            'filters' => [
+                ['name' => Filter\StringTrim::class],
+            ],
             'validators' => [
                 [
-                    'name' => 'StringLength',
+                    'name' => ZendValidator\StringLength::class,
                     'options' => [
                         'min' => $passwordLengthOptions['min'],
                         'max' => $passwordLengthOptions['max'],
                     ],
                 ],
                 [
-                    'name' => 'Identical',
+                    'name' => ZendValidator\Identical::class,
                     'options' => [
                         'token' => 'password',
                     ],
@@ -150,7 +162,7 @@ class RegisterFilter extends InputFilter
                 'required' => true,
                 'validators' => [
                     [
-                        'name' => 'InArray',
+                        'name' => ZendValidator\InArray::class,
                         'options' => [
                             'haystack' => $this->getSecretQuestionList(),
                         ],
@@ -160,10 +172,12 @@ class RegisterFilter extends InputFilter
             $this->add([
                 'name' => 'answer',
                 'required' => true,
-                'filters' => [['name' => 'StringTrim']],
+                'filters' => [
+                    ['name' => Filter\StringTrim::class],
+                ],
                 'validators' => [
                     [
-                        'name' => 'StringLength',
+                        'name' => ZendValidator\StringLength::class,
                         'options' => [
                             'min' => 3,
                             'max' => 255,
