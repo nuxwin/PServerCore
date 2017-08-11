@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCoreTest\Validator;
-
 
 use PServerCore\Options\PasswordOptions;
 use PServerCore\Validator\PasswordRules;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCoreTest\Util;
 
 use PHPUnit_Framework_MockObject_MockObject as MockObject;

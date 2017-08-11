@@ -2,7 +2,6 @@
 
 namespace PServerCore\Service;
 
-
 use Doctrine\ORM\EntityManager;
 use Exception;
 use PServerCore\Entity\UserInterface;

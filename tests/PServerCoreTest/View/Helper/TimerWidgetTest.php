@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCoreTest\View\Helper;
 
 use PServerCoreTest\Util\TestBase;

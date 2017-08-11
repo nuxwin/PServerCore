@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCore\Entity\Repository;
-
 
 class UserRole extends \SmallUser\Entity\Repository\UserRole
 {

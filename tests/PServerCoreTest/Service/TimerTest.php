@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCoreTest\Service;
-
 
 use PServerCoreTest\Util\TestBase;
 

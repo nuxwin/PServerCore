@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCore\Entity;
-
 
 use SmallUser\Entity\UserRoleInterface as SmallUserUserRoleInterface;
 

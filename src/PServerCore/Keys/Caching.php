@@ -2,7 +2,6 @@
 
 namespace PServerCore\Keys;
 
-
 class Caching
 {
 

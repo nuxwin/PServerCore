@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Entity;
 
 use GameBackend\Entity\User\UserInterface as GameUserInterface;

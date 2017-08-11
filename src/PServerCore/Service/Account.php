@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Service;
 
 use GameBackend\DataService\DataServiceInterface;

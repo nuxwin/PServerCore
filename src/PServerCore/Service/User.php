@@ -2,7 +2,6 @@
 
 namespace PServerCore\Service;
 
-
 use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Entity\Repository\AvailableCountries as RepositoryAvailableCountries;

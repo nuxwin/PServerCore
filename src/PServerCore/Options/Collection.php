@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Options;
 
 class Collection

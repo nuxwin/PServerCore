@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Controller;
 
 use PServerCore\Service\PlayerHistory;

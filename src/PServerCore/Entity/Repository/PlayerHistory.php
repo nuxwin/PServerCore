@@ -2,7 +2,6 @@
 
 namespace PServerCore\Entity\Repository;
 
-
 use Doctrine\ORM\EntityRepository;
 
 class PlayerHistory extends EntityRepository

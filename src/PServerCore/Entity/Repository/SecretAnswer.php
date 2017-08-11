@@ -5,7 +5,6 @@ namespace PServerCore\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use PServerCore\Entity\UserInterface;
 
-
 class SecretAnswer extends EntityRepository
 {
     /**

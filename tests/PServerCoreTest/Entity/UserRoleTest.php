@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCoreTest\Entity;
 
 use PHPUnit\Framework\TestCase;

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCore\Options;
-
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

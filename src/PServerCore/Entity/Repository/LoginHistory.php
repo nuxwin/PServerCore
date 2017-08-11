@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;

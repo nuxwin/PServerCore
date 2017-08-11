@@ -2,7 +2,6 @@
 
 namespace PServerCore\Service;
 
-
 use Closure;
 use PServerCore\Options\GeneralOptions;
 use Zend\Cache\Storage\StorageInterface;

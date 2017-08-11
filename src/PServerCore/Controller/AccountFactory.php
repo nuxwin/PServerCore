@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Controller;
 
 use Interop\Container\ContainerInterface;

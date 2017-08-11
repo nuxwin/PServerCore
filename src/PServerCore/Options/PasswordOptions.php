@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Options;
 
 use Zend\Stdlib\AbstractOptions;

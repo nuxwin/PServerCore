@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCoreTest\View\Helper;
 
 use PServerCore\Options\GeneralOptions;

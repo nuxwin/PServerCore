@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Service;
 
 use PaymentAPI\Service\Ip as PaymentApiIp;

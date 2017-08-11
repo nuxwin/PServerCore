@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Service;
 
 use PServerCore\Entity\TicketSystem\TicketSubject as PServerTicketSubject;

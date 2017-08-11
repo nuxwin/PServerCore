@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PServerCore\Validator;
 
 use PServerCore\Options\PasswordOptions;

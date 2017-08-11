@@ -1,10 +1,8 @@
 <?php
 
-
 namespace PServerCore\Entity\Repository;
 
 use PServerCore\Entity\UserInterface;
-
 
 class User extends \SmallUser\Entity\Repository\User
 {

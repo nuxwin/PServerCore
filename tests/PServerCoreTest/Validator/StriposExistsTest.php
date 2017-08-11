@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCoreTest\Validator;
-
 
 use PServerCoreTest\Util\TestBase;
 

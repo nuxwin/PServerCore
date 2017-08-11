@@ -2,7 +2,6 @@
 
 namespace PServerCore\Service;
 
-
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;

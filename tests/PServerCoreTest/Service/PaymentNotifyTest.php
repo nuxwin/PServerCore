@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCoreTest\Service;
-
 
 use PaymentAPI\Provider\Request;
 use PServerCoreTest\Util\TestBase;

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PServerCore\View\Helper;
-
 
 use PServerCore\Service\Donate;
 use Zend\View\Helper\AbstractHelper;

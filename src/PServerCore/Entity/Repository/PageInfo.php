@@ -4,7 +4,6 @@ namespace PServerCore\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-
 class PageInfo extends EntityRepository
 {
 
