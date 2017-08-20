@@ -53,6 +53,7 @@ matrix:
       env:
         - DEPS=latest
   allow_failures:
+    - php: 7.2
     - php: nightly
 
 notifications:
