@@ -2,6 +2,7 @@
 
 namespace PServerCore\Service;
 
+use DateInterval, DateTime;
 use Doctrine\ORM\EntityManager;
 use GameBackend\DataService\DataServiceInterface;
 use PServerCore\Entity\Repository\AvailableCountries as RepositoryAvailableCountries;
@@ -9,7 +10,6 @@ use PServerCore\Entity\Repository\CountryList;
 use PServerCore\Entity\User as Entity;
 use PServerCore\Entity\UserCodes as UserCodesEntity;
 use PServerCore\Entity\UserInterface;
-use PServerCore\Helper\DateTimer;
 use PServerCore\Options\Collection;
 use PServerCore\Service\UserCodes as UserCodesService;
 use PServerCore\Validator\AbstractRecord;
@@ -582,7 +582,7 @@ class User extends SmallUser
             $class = $this->collectionOptions->getEntityOptions()->getIpBlock();
             /** @var \PServerCore\Entity\IpBlock $ipBlock */
             $ipBlock = new $class();
-            $ipBlock->setExpire(DateTimer::getDateTime4TimeStamp(time() + $time));
+            $ipBlock->setExpire((new DateTime())->add(new DateInterval(sprintf('PT%sS', $time))));
             $ipBlock->setIp($this->ipService->getIp());
             $entityManager->persist($ipBlock);
             $entityManager->flush();
