@@ -2,8 +2,8 @@
 
 namespace PServerCore\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use PServerCore\Helper\DateTimer;
 
 /**
  * UserBlock
@@ -27,13 +27,13 @@ class UserBlock
     private $reason;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(name="expire", type="datetime", nullable=false)
      */
     private $expire;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(name="created", type="datetime", nullable=false)
      */
     private $created;
@@ -61,7 +61,7 @@ class UserBlock
      */
     public function __construct()
     {
-        $this->created = new \DateTime();
+        $this->created = new DateTime();
     }
 
     /**
@@ -101,11 +101,11 @@ class UserBlock
      */
     public function setExpire($expire)
     {
-        if (!$expire instanceof \DateTime) {
+        if (!$expire instanceof DateTime) {
             if (is_integer($expire)) {
-                $expire = DateTimer::getDateTime4TimeStamp($expire);
+                $expire = (new DateTime())->setTimestamp($expire);
             } else {
-                $expire = new \DateTime($expire);
+                $expire = new DateTime($expire);
             }
         }
         $this->expire = $expire;
@@ -115,7 +115,7 @@ class UserBlock
 
     /**
      * Get expire
-     * @return \DateTime
+     * @return DateTime
      */
     public function getExpire()
     {
@@ -124,7 +124,7 @@ class UserBlock
 
     /**
      * Set created
-     * @param \DateTime $created
+     * @param DateTime $created
      * @return self
      */
     public function setCreated($created)
@@ -136,7 +136,7 @@ class UserBlock
 
     /**
      * Get created
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreated()
     {

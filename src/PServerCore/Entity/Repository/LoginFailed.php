@@ -3,7 +3,9 @@
 namespace PServerCore\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use PServerCore\Helper\DateTimer;
+use DateTime, DateInterval;
+
+use function sprintf;
 
 /**
  * LoginFailed
@@ -24,7 +26,7 @@ class LoginFailed extends EntityRepository
             ->where('p.ip = :ipString')
             ->setParameter('ipString', $ip)
             ->andWhere('p.created >= :expireTime')
-            ->setParameter('expireTime', DateTimer::getDateTime4TimeStamp(time() - $timeInterVal))
+            ->setParameter('expireTime', (new DateTime())->sub(new DateInterval(sprintf('PT%sS', $timeInterVal))))
             ->getQuery();
         /**
          * TODO remove count
