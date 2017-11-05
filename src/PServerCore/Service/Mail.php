@@ -57,9 +57,9 @@ class Mail
      * RegisterMail
      *
      * @param UserInterface $user
-     * @param       $code
+     * @param string $code
      */
-    public function register(UserInterface $user, $code)
+    public function register(UserInterface $user, string $code)
     {
         $params = [
             'user' => $user,
@@ -71,9 +71,9 @@ class Mail
 
     /**
      * @param UserInterface $user
-     * @param       $code
+     * @param string $code
      */
-    public function lostPw(UserInterface $user, $code)
+    public function lostPw(UserInterface $user, string $code)
     {
         $params = [
             'user' => $user,
@@ -85,9 +85,9 @@ class Mail
 
     /**
      * @param UserInterface $user
-     * @param $code
+     * @param string $code
      */
-    public function confirmCountry(UserInterface $user, $code)
+    public function confirmCountry(UserInterface $user, string $code)
     {
         $params = [
             'user' => $user,
@@ -99,9 +99,9 @@ class Mail
 
     /**
      * @param UserInterface $user
-     * @param $code
+     * @param string $code
      */
-    public function secretLogin(UserInterface $user, $code)
+    public function secretLogin(UserInterface $user, string $code)
     {
         $params = [
             'user' => $user,
@@ -129,9 +129,9 @@ class Mail
 
     /**
      * @param UserInterface $user
-     * @param $code
+     * @param string $code
      */
-    public function addEmail(UserInterface $user, $code)
+    public function addEmail(UserInterface $user, string $code)
     {
         $params = [
             'user' => $user,
@@ -142,11 +142,11 @@ class Mail
     }
 
     /**
-     * @param $subjectKey
+     * @param string $subjectKey
      * @param UserInterface $user
-     * @param $params
+     * @param array $params
      */
-    protected function send($subjectKey, UserInterface $user, $params)
+    protected function send(string $subjectKey, UserInterface $user, array $params)
     {
         // we have no mail, so we can skip it
         if (!$user->getEmail()) {
@@ -208,11 +208,11 @@ class Mail
     }
 
     /**
-     * @param $key
+     * @param string $key
      *
      * @return string
      */
-    public function getSubject4Key($key)
+    public function getSubject4Key(string $key)
     {
         $subjectList = $this->collectionOptions->getMailOptions()->getSubject();
         // added fallback if the key not exists, in the config
@@ -224,7 +224,7 @@ class Mail
      * @param string $message
      * @param string $topic
      */
-    protected function logMail(UserInterface $user, $message, $topic)
+    protected function logMail(UserInterface $user, string $message, string $topic)
     {
         $class = $this->collectionOptions->getEntityOptions()->getLogs();
         /** @var \PServerCore\Entity\Logs $logEntity */
