@@ -10,13 +10,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class CountryList extends EntityRepository
 {
-
     /**
      * @param int $decimalIp
      *
      * @return string
      */
-    public function getCountryCode4Ip($decimalIp)
+    public function getCountryCode4Ip(int $decimalIp): string
     {
         $query = $this->createQueryBuilder('p')
             ->select('p')
@@ -38,9 +37,8 @@ class CountryList extends EntityRepository
      *
      * @return string
      */
-    public function getDescription4CountryCode($cntry)
+    public function getDescription4CountryCode(string $cntry): string
     {
-
         $query = $this->createQueryBuilder('p')
             ->select('p')
             ->where('p.cntry = :sCntry')
