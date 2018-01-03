@@ -77,7 +77,7 @@ class TimerWidget extends AbstractHelper
                 $time = $this->timeService->getNextTime($data['hours'], $data['min']);
             }
         } else {
-            $text = $data['time'];
+            $text = $data['time'] ?? '';
         }
 
         $timerList = [];
