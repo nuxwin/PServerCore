@@ -248,7 +248,7 @@ return [
     'view_helpers' => [
         'aliases' => [
             'pserverformerrors' => Helper\FormError::class,
-            'formlabel' => Helper\FormLabel::class,
+            'formLabel' => Helper\FormLabel::class,
             'formWidget' => Helper\FormWidget::class,
             'sidebarWidget' => Helper\SideBarWidget::class,
             'playerHistory' => Helper\PlayerHistory::class,
