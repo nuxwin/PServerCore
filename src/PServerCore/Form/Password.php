@@ -58,7 +58,7 @@ class Password extends Form\Form
         $submitElement
             ->setLabel('Submit')
             ->setAttributes([
-                'class' => 'btn btn-default',
+                'class' => 'btn btn-secondary',
                 'type' => 'submit',
             ]);
 

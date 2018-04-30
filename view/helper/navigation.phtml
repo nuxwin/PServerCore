@@ -18,8 +18,8 @@ $container = $this->container;
             endforeach;
         endif;
         ?>
-        <li class="navigation<?= $hasPages ? ' dropdown' : ''; ?><?= $page->isActive(true) ? ' active' : '' ?>">
-            <a class="<?= $page->getClass() ?>"
+        <li class="nav-item navigation<?= $hasPages ? ' dropdown' : ''; ?><?= $page->isActive(true) ? ' active' : '' ?>">
+            <a class="nav-link <?= $page->getClass() ?>"
                href="<?= $page->getHref() ?>"
                 <?php if (null !== $page->getTarget()): ?>
                     target="<?= $page->getTarget(); ?>"

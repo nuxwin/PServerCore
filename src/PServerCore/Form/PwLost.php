@@ -50,7 +50,7 @@ class PwLost extends Form\Form
         $submitElement
             ->setLabel('PwLost')
             ->setAttributes([
-                'class' => 'btn btn-default',
+                'class' => 'btn btn-secondary',
                 'type' => 'submit',
             ]);
 

@@ -159,7 +159,7 @@ class Register extends Form\Form
         $submitElement
             ->setLabel('Register')
             ->setAttributes([
-                'class' => 'btn btn-default',
+                'class' => 'btn btn-secondary',
                 'type' => 'submit',
             ]);
 

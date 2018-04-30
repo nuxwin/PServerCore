@@ -3,7 +3,6 @@
 $form = $this->formWidget;
 $form->prepare();
 $form->setAttribute('method', 'post');
-$form->setAttribute('class', 'form-horizontal');
 ?>
 
 <?= $this->form()->openTag($form) ?>
@@ -16,7 +15,7 @@ $form->setAttribute('class', 'form-horizontal');
 	 	continue;
 	 endif;
 	?>
-    <div class="form-group">
+    <div class="form-control">
         <?php if ($element instanceof Zend\Form\Element\Button): ?>
             <div class="col-sm-12">
                 <?= $this->formButton($element) ?>
@@ -47,7 +46,7 @@ $form->setAttribute('class', 'form-horizontal');
 			</div>
 		<?php elseif ($element instanceof Zend\Form\Element\Checkbox): ?>
 			<div class="col-sm-12">
-				<div class="checkbox">
+				<div class="form-check">
 					<label>
 						<?= $this->formCheckbox($element) . $this->formLabel($element) . $this->pserverformerrors($element) ?>
 					</label>
