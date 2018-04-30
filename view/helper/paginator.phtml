@@ -5,54 +5,52 @@ $button = isset($this->ajax)?'<a class="page-link" onclick="%s" >%s</a>':'<a cla
 ?>
 
 <?php if ($this->pageCount): ?>
-    <div class="text-center">
-        <ul class="pagination">
-            <!-- Previous page link -->
-            <?php if (isset($this->previous)): ?>
+    <ul class="pagination justify-content-center">
+        <!-- Previous page link -->
+        <?php if (isset($this->previous)): ?>
+            <?php
+            $params['page'] = $this->previous;
+            $url = sprintf($format, $this->url($this->route, $params));
+            ?>
+            <li class="page-item">
+                <?= sprintf($button, $url, '<<') ?>
+            </li>
+        <?php else: ?>
+            <li class="page-item disabled">
+                <?= sprintf($button, '#', '<<') ?>
+            </li>
+        <?php endif; ?>
+
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+            <?php if ($page != $this->current): ?>
                 <?php
-                $params['page'] = $this->previous;
+                $params['page'] = $page;
                 $url = sprintf($format, $this->url($this->route, $params));
                 ?>
                 <li class="page-item">
-                    <?= sprintf($button, $url, '<<') ?>
+                    <?= sprintf($button, $url, $page) ?>
                 </li>
             <?php else: ?>
-                <li class="page-item disabled">
-                    <?= sprintf($button, '#', '<<') ?>
+                <li class="page-item active">
+                    <?= sprintf($button, '#', $page) ?>
                 </li>
             <?php endif; ?>
+        <?php endforeach; ?>
 
-            <!-- Numbered page links -->
-            <?php foreach ($this->pagesInRange as $page): ?>
-                <?php if ($page != $this->current): ?>
-                    <?php
-                    $params['page'] = $page;
-                    $url = sprintf($format, $this->url($this->route, $params));
-                    ?>
-                    <li class="page-item">
-                        <?= sprintf($button, $url, $page) ?>
-                    </li>
-                <?php else: ?>
-                    <li class="page-item active">
-                        <?= sprintf($button, '#', $page) ?>
-                    </li>
-                <?php endif; ?>
-            <?php endforeach; ?>
-
-            <!-- Next page link -->
-            <?php if (isset($this->next)): ?>
-                <?php
-                $params['page'] = $this->next;
-                $url = sprintf($format, $this->url($this->route, $params));
-                ?>
-                <li class="page-item">
-                    <?= sprintf($button, $url, '>>') ?>
-                </li>
-            <?php else: ?>
-                <li class="page-item disabled">
-                    <?= sprintf($button, '#', '>>') ?>
-                </li>
-            <?php endif; ?>
-        </ul>
-    </div>
+        <!-- Next page link -->
+        <?php if (isset($this->next)): ?>
+            <?php
+            $params['page'] = $this->next;
+            $url = sprintf($format, $this->url($this->route, $params));
+            ?>
+            <li class="page-item">
+                <?= sprintf($button, $url, '>>') ?>
+            </li>
+        <?php else: ?>
+            <li class="page-item disabled">
+                <?= sprintf($button, '#', '>>') ?>
+            </li>
+        <?php endif; ?>
+    </ul>
 <?php endif; ?>
