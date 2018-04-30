@@ -76,8 +76,10 @@
 </div>
 <div class="footer">
 	<div class="container">
-		<a class="col-sm-3 margin-top-20" href="{{ url('PServerCore') }}"><img src="{{ basePath() }}/images/logo-default.png" alt="..."></a>
-        {{ navigationWidgetPServerCore().menu('Zend\\Navigation\\Footer').setPartial('p-server-core/footer-navigation')|raw }}
+		<div class="row">
+			<a class="col-sm-3 margin-top-20" href="{{ url('PServerCore') }}"><img src="{{ basePath() }}/images/logo-default.png" alt="..."></a>
+            {{ navigationWidgetPServerCore().menu('Zend\\Navigation\\Footer').setPartial('p-server-core/footer-navigation')|raw }}
+		</div>
 	</div>
 </div>
 
