@@ -37,9 +37,12 @@
 
 <div class="header">
 	<div class="container">
-		<nav class="nav" role="navigation">
-			<a class="navbar-brand" style="height: 53px;" href="{{ url( 'PServerCore' ) }}"></a>
-			<div>
+		<nav class="navbar-default navbar navbar-expand-lg navbar-light">
+			<a class="navbar-brand" href="{{ url( 'PServerCore' ) }}"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 {{ navigationWidgetPServerCore().menu('default').setPartial('p-server-core/navigation')|raw }}
 			</div>
 		</nav>
