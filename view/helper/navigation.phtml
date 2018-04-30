@@ -2,7 +2,7 @@
 /* @var $container Zend\Navigation\Navigation */
 $container = $this->container;
 ?>
-<ul class="nav navbar-nav navbar-right">
+<ul class="navbar-nav justify-content-end">
     <?php foreach ($container as $page): ?>
         <?php if (!$this->navigation()->accept($page)) {
             continue;
@@ -27,11 +27,11 @@ $container = $this->container;
                 <?= $hasPages?'data-toggle="dropdown"':'' ?>
             >
                 <?= $this->escapeHtml(
-                        $this->translate(
-                            $page->getLabel(),
-                            $this->navigation($container)->getTranslatorTextDomain()
-                        )
-                    );
+                    $this->translate(
+                        $page->getLabel(),
+                        $this->navigation($container)->getTranslatorTextDomain()
+                    )
+                );
                 ?>
                 <?= $hasPages ? '<span class="caret"></span>' : '' ?>
             </a>
@@ -48,11 +48,11 @@ $container = $this->container;
                                     target="<?= $child->getTarget(); ?>"
                                 <?php endif; ?> >
                                 <?= $this->escapeHtml(
-                                        $this->translate(
-                                            $child->getLabel(),
-                                            $this->navigation($container)->getTranslatorTextDomain()
-                                        )
-                                    );
+                                    $this->translate(
+                                        $child->getLabel(),
+                                        $this->navigation($container)->getTranslatorTextDomain()
+                                    )
+                                );
                                 ?>
                             </a>
                         </li>

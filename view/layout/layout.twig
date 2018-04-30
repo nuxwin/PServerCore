@@ -7,7 +7,7 @@
 	</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	{% block meta %}{% endblock meta %}
+    {% block meta %}{% endblock meta %}
 
 	<!-- styles -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
@@ -15,21 +15,21 @@
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/blitzer/jquery-ui.min.css" type="text/css" crossorigin="anonymous"/>
 
-	{% block style %}{% endblock style %}
+    {% block style %}{% endblock style %}
 </head>
 <body>
 
 <div class="top">
 	<div class="container">
 		<ul class="loginbar pull-right">
-			{% if isAllowed('small-user-auth','index') %}
+            {% if isAllowed('small-user-auth','index') %}
 				<li><a href="{{ url('small-user-auth',{'action':'register'}) }}">{{ translate('Register') }}</a></li>
 				<li><span class="strich">|</span></li>
 				<li><a href="{{ url('small-user-auth') }}">{{ translate('Login') }}</a></li>
-			{% endif %}
-			{% if isAllowed('small-user-auth','logout') %}
+            {% endif %}
+            {% if isAllowed('small-user-auth','logout') %}
 				<li><a href="{{ url('small-user-auth',{'action':'logout'}) }}">{{ translate('Logout') }}</a></li>
-			{% endif %}
+            {% endif %}
 		</ul>
 		<div class="clearfix"></div>
 	</div>
@@ -37,17 +37,9 @@
 
 <div class="header">
 	<div class="container">
-		<nav class="navbar navbar-default" role="navigation">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-					<span class="sr-only">{{  translate('Toggle navigation') }}</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="{{ url( 'PServerCore' ) }}"></a>
-			</div>
-			<div class="collapse navbar-collapse" id="navbar">
+		<nav class="nav" role="navigation">
+			<a class="navbar-brand" style="height: 53px;" href="{{ url( 'PServerCore' ) }}"></a>
+			<div>
                 {{ navigationWidgetPServerCore().menu('default').setPartial('p-server-core/navigation')|raw }}
 			</div>
 		</nav>
@@ -61,7 +53,7 @@
 	<div class="breadcrumbs margin-bottom-30">
 		<div class="container">
 			<h1>
-				{{ block('title') }}
+                {{ block('title') }}
 				<small class="pull-right">{{ navigationWidgetPServerCore().breadcrumbs('Zend\\Navigation\\Default').setMinDepth(0).setRenderInvisible(true).setSeparator(' / ')|raw }}</small>
 				<span class="clearfix"></span>
 			</h1>
@@ -74,10 +66,10 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-9">
-			{% block content %}{{ content|raw }}{% endblock content %}
+            {% block content %}{{ content|raw }}{% endblock content %}
 		</div>
 		<div class="col-sm-3">
-			{{ sidebarWidget() }}
+            {{ sidebarWidget() }}
 		</div>
 	</div>
 	<div class="clearfix"></div>
@@ -97,9 +89,9 @@
 <!--[if lt IE 9]><script type="text/javascript" src="{{ basePath() }}/assets/js/html5shiv.js"></script><![endif]-->
 <script type="text/javascript" src="{{ basePath() }}/js/function.js"></script>
 <script type="text/javascript">
-	var ServerTime = new Date( {{ "now"|date("Y, n, j, G, i, s") }} );
-	var iTimeStamp = {{ "now"|date("U") }} - Math.round( + new Date() / 1000 );
-	startClockTimer('#idTimerClock');
+    var ServerTime = new Date( {{ "now"|date("Y, n, j, G, i, s") }} );
+    var iTimeStamp = {{ "now"|date("U") }} - Math.round( + new Date() / 1000 );
+    startClockTimer('#idTimerClock');
 </script>
 
 {% block script %}{% endblock script %}
