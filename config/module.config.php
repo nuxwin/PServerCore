@@ -734,14 +734,14 @@ return [
                         'label' => 'AccountPanel',
                         'route' => 'PServerCore/user',
                         'resource' => 'PServerCore/user',
-                        'icon' => 'glyphicon glyphicon-user',
+                        'icon' => 'fas fa-user',
                         'order' => -30,
                     ],
                     'ticket_system' => [
                         'label' => 'TicketSystem',
                         'route' => 'zfc-ticketsystem',
                         'resource' => 'zfc-ticketsystem',
-                        'icon' => 'fa fa-graduation-cap',
+                        'icon' => 'fas fa-graduation-cap',
                         'order' => -20,
                         'pages' => [
                             'details' => [
@@ -762,14 +762,14 @@ return [
                         'label' => 'Donate',
                         'route' => 'PServerCore/panel_donate',
                         'resource' => 'PServerCore/panel_donate',
-                        'icon' => 'fa fa-usd',
+                        'icon' => 'fas fa-dollar-sign',
                         'order' => -10,
                     ],
                     'admin_panel' => [
                         'label' => 'AdminPanel',
                         'route' => 'PServerAdmin/home',
                         'resource' => 'PServerAdmin/home',
-                        'icon' => 'fa fa-graduation-cap',
+                        'icon' => 'fas fa-graduation-cap',
                         'order' => 100,
                     ],
                 ],
