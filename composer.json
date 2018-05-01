@@ -55,7 +55,7 @@
     "kokspflanze/payment-api": "^1.5.0",
     "kokspflanze/zfc-bbcode": "^2.1.1",
     "san/san-captcha": "^0.0.4",
-    "kokspflanze/small-user": "^1.1.0",
+    "kokspflanze/small-user": "^2.0.0",
     "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
     "kokspflanze/zfc-ticket-system": "~0.3",
     "kokspflanze/zfc-twig": "^2.1"
