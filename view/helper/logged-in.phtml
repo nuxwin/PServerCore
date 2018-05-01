@@ -5,7 +5,7 @@
         <?= $this->coinsInfoWidgetPServerCore() ?>
     </ul>
     <?php if ($this->isAllowed('PServerCore/coins')) : ?>
-        <i class="fa-refresh fa coins-widget-reload" data-url="<?= $this->url('PServerCore/coins', ['action' => 'reload-widget']); ?>"></i>
+        <i class="fa-sync fas coins-widget-reload" data-url="<?= $this->url('PServerCore/coins', ['action' => 'reload-widget']); ?>"></i>
     <?php endif; ?>
     <hr/>
     <div class="sidebar-nav">

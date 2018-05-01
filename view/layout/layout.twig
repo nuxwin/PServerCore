@@ -21,7 +21,7 @@
 
 <div class="top">
 	<div class="container">
-		<ul class="loginbar pull-right">
+		<ul class="loginbar float-right">
             {% if isAllowed('small-user-auth','index') %}
 				<li><a href="{{ url('small-user-auth',{'action':'register'}) }}">{{ translate('Register') }}</a></li>
 				<li><span class="strich">|</span></li>
@@ -57,7 +57,7 @@
 		<div class="container">
 			<h1>
                 {{ block('title') }}
-				<small class="pull-right">{{ navigationWidgetPServerCore().breadcrumbs('Zend\\Navigation\\Default').setMinDepth(0).setRenderInvisible(true).setSeparator(' / ')|raw }}</small>
+				<small class="float-right">{{ navigationWidgetPServerCore().breadcrumbs('Zend\\Navigation\\Default').setMinDepth(0).setRenderInvisible(true).setSeparator(' / ')|raw }}</small>
 				<span class="clearfix"></span>
 			</h1>
 		</div><!--/container-->
